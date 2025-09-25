@@ -35,12 +35,13 @@
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2rem;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             transition: all 0.3s ease;
+            min-height: 80px;
         }
 
         .nav-container {
@@ -55,28 +56,65 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.3;
+            padding: 2px 0;
+        }
+
+        .logo-english {
             font-size: 1.8rem;
             font-weight: bold;
-            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 200% 200%;
+            animation: royalGradient 3s ease-in-out infinite;
+        }
+
+        .logo-hindi {
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 4px;
+            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+            padding: 2px 0;
+            overflow: visible;
+        }
+
+        @keyframes royalGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .logo-img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 215, 0, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             padding: 5px;
             transition: all 0.3s ease;
+            animation: logoRotate 8s linear infinite;
+        }
+
+        @keyframes logoRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .logo-img:hover {
-            transform: rotate(360deg);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            border-color: rgba(255, 215, 0, 0.6);
         }
 
         .nav-menu {
@@ -129,7 +167,7 @@
 
         /* Main Content */
         .main-content {
-            margin-top: 100px;
+            margin-top: 120px;
             padding: 2rem;
         }
 
@@ -432,7 +470,7 @@
             }
 
             .main-content {
-                margin-top: 160px;
+                margin-top: 180px;
             }
 
             .course-section {
@@ -455,8 +493,11 @@
     <header class="header">
         <div class="nav-container">
             <div class="logo">
-                <img src="logo.png" alt="Tattva Yantrika Logo" class="logo-img">
-                <span>Tattva Yantrika</span>
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
             </div>
             <nav>
                 <ul class="nav-menu">
@@ -476,7 +517,7 @@
             <section class="course-section" id="ansys">
                 <div class="course-content">
                     <div class="course-header">
-                        <img src="ansys-logo.png" alt="ANSYS Logo" class="course-logo">
+                        <img src="2021-09-ansys-og-removebg-preview.png" alt="ANSYS Logo" class="course-logo">
                         <h2 class="course-title">ANSYS Mastery</h2>
                     </div>
                     <p class="course-description">
@@ -500,7 +541,7 @@
             <section class="course-section" id="solidworks">
                 <div class="course-content">
                     <div class="course-header">
-                        <img src="solidworks-logo.png" alt="SolidWorks Logo" class="course-logo">
+                        <img src="imgbin_3f4d753b4f1f3eb87212e638d0f5652c.png" alt="SolidWorks Logo" class="course-logo">
                         <h2 class="course-title">SolidWorks Excellence</h2>
                     </div>
                     <p class="course-description">
