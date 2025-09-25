@@ -1,9 +1,19 @@
-<!DOCTYPE html>
+.course-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .course-logo {
+                width: 50px;
+                height: 50px;
+            }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tattva Yantrika - Master ANSYS & SolidWorks</title>
+            <title>Tattva Yantrika - Master ANSYS & SolidWorks</title>
+        <link rel="icon" type="image/png" href="icon.png">
     <style>
         * {
             margin: 0;
@@ -42,12 +52,31 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             font-size: 1.8rem;
             font-weight: bold;
             background: linear-gradient(45deg, #00d4ff, #ff00ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: rotate(360deg);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
         }
 
         .nav-menu {
@@ -146,6 +175,30 @@
         .course-content {
             position: relative;
             z-index: 2;
+        }
+
+        .course-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .course-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .course-logo:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
         }
 
         .course-title {
@@ -401,7 +454,10 @@
     <!-- Header -->
     <header class="header">
         <div class="nav-container">
-            <div class="logo">Tattva Yantrika</div>
+            <div class="logo">
+                <img src="logo.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <span>Tattva Yantrika</span>
+            </div>
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#home" class="nav-button">Home</a></li>
@@ -419,7 +475,10 @@
             <!-- ANSYS Course Section -->
             <section class="course-section" id="ansys">
                 <div class="course-content">
-                    <h2 class="course-title">ANSYS Mastery</h2>
+                    <div class="course-header">
+                        <img src="ansys-logo.png" alt="ANSYS Logo" class="course-logo">
+                        <h2 class="course-title">ANSYS Mastery</h2>
+                    </div>
                     <p class="course-description">
                         Master the world's leading engineering simulation software with our comprehensive ANSYS course. 
                         From structural analysis to fluid dynamics, unlock the power of finite element analysis and 
@@ -440,7 +499,10 @@
             <!-- SolidWorks Course Section -->
             <section class="course-section" id="solidworks">
                 <div class="course-content">
-                    <h2 class="course-title">SolidWorks Excellence</h2>
+                    <div class="course-header">
+                        <img src="solidworks-logo.png" alt="SolidWorks Logo" class="course-logo">
+                        <h2 class="course-title">SolidWorks Excellence</h2>
+                    </div>
                     <p class="course-description">
                         Transform your design capabilities with our expert-led SolidWorks course. Learn 3D modeling, 
                         assembly design, and technical drawing creation while mastering the industry's most popular 
@@ -515,8 +577,8 @@
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: tattvayantrika@gmail.com</p>
-                <p>Phone: +91 8400259994</p>
+                <p>Email: info@tattvayantrika.com</p>
+                <p>Phone: +91 98765 43210</p>
                 <div class="social-links">
                     <a href="#" class="social-link">📘</a>
                     <a href="#" class="social-link">🐦</a>
