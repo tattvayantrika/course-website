@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tattva Yantrika - Master ANSYS & SolidWorks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            display: inline-block;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 0.95rem;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Course Sections */
+        .course-section {
+            margin: 4rem 0;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .course-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .course-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .course-section:hover::before {
+            opacity: 1;
+        }
+
+        .course-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .course-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .course-description {
+            font-size: 1.1rem;
+            color: #b8b8b8;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+            color: #e0e0e0;
+        }
+
+        .features-list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #00d4ff;
+            font-size: 1.2rem;
+        }
+
+        .learn-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .learn-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.5);
+            background: linear-gradient(45deg, #0099cc, #00d4ff);
+        }
+
+        .learn-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .learn-button:hover::before {
+            left: 100%;
+        }
+
+        /* Testimonial Section */
+        .testimonial-section {
+            margin: 4rem 0;
+            padding: 2rem 0;
+            overflow: hidden;
+        }
+
+        .testimonial-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ff00ff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .testimonial-container {
+            display: flex;
+            animation: scrollLeft 20s linear infinite;
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            min-width: 300px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .testimonial-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #ffffff;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #e0e0e0;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        @keyframes scrollLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #b8b8b8;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #00d4ff;
+            transition: color 0.3s ease;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #00d4ff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #808080;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem;
+            }
+
+            .nav-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .main-content {
+                margin-top: 160px;
+            }
+
+            .course-section {
+                padding: 2rem;
+                margin: 2rem 0;
+            }
+
+            .course-title {
+                font-size: 2rem;
+            }
+
+            .testimonial-card {
+                min-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Tattva Yantrika</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-button">Home</a></li>
+                    <li><a href="#courses" class="nav-button">Courses</a></li>
+                    <li><a href="#go-to-course" class="nav-button">Go to Course</a></li>
+                    <li><a href="#contact" class="nav-button">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- ANSYS Course Section -->
+            <section class="course-section" id="ansys">
+                <div class="course-content">
+                    <h2 class="course-title">ANSYS Mastery</h2>
+                    <p class="course-description">
+                        Master the world's leading engineering simulation software with our comprehensive ANSYS course. 
+                        From structural analysis to fluid dynamics, unlock the power of finite element analysis and 
+                        computational fluid dynamics to solve real-world engineering challenges.
+                    </p>
+                    <ul class="features-list">
+                        <li>Complete Finite Element Analysis (FEA) fundamentals</li>
+                        <li>Structural, thermal, and fluid dynamics simulations</li>
+                        <li>Advanced meshing techniques and optimization</li>
+                        <li>Industry-standard workflows and best practices</li>
+                        <li>Real project case studies and hands-on experience</li>
+                        <li>Certificate of completion recognized by industry</li>
+                    </ul>
+                    <a href="#" class="learn-button">Learn for Free</a>
+                </div>
+            </section>
+
+            <!-- SolidWorks Course Section -->
+            <section class="course-section" id="solidworks">
+                <div class="course-content">
+                    <h2 class="course-title">SolidWorks Excellence</h2>
+                    <p class="course-description">
+                        Transform your design capabilities with our expert-led SolidWorks course. Learn 3D modeling, 
+                        assembly design, and technical drawing creation while mastering the industry's most popular 
+                        CAD software used by millions of engineers worldwide.
+                    </p>
+                    <ul class="features-list">
+                        <li>3D parametric modeling from basics to advanced</li>
+                        <li>Assembly design and motion simulation</li>
+                        <li>Technical drawing and GD&T principles</li>
+                        <li>Surface modeling and advanced features</li>
+                        <li>Simulation and rendering capabilities</li>
+                        <li>Professional portfolio development</li>
+                    </ul>
+                    <a href="#" class="learn-button">Learn for Free</a>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="testimonial-section">
+                <h2 class="testimonial-title">What Our Students Say</h2>
+                <div class="testimonial-container">
+                    <div class="testimonial-card">
+                        <div class="testimonial-photo">AK</div>
+                        <p class="testimonial-text">"The ANSYS course completely transformed my engineering career. The hands-on approach and real-world projects made complex simulations easy to understand."</p>
+                        <p class="testimonial-author">- Amit Kumar, Mechanical Engineer</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-photo">PS</div>
+                        <p class="testimonial-text">"Exceptional SolidWorks training! The instructors are industry experts and the course structure is perfect for both beginners and advanced users."</p>
+                        <p class="testimonial-author">- Priya Sharma, Design Engineer</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-photo">RG</div>
+                        <p class="testimonial-text">"Best investment in my professional development. The simulation techniques I learned helped me solve critical design challenges at work."</p>
+                        <p class="testimonial-author">- Rajesh Gupta, Project Manager</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-photo">SK</div>
+                        <p class="testimonial-text">"The course content is comprehensive and up-to-date with industry standards. Highly recommend for anyone serious about CAD/CAE."</p>
+                        <p class="testimonial-author">- Sneha Kapoor, Design Consultant</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-photo">VT</div>
+                        <p class="testimonial-text">"Amazing learning experience! The practical approach and expert guidance made me confident in using these professional tools."</p>
+                        <p class="testimonial-author">- Vikram Tiwari, CAD Specialist</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Tattva Yantrika</h3>
+                <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#courses">All Courses</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About Us</a>
+                <a href="#careers">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#help">Help Center</a>
+                <a href="#contact">Contact Support</a>
+                <a href="#faq">FAQ</a>
+                <a href="#community">Community</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">📺</a>
+                    <a href="#" class="social-link">💼</a>
+                    <a href="#" class="social-link">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Add smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add parallax effect to background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.course-section');
+            
+            parallaxElements.forEach((el, index) => {
+                const speed = 0.5 + (index * 0.1);
+                const yPos = -(scrolled * speed);
+                el.style.backgroundPositionY = yPos + 'px';
+            });
+        });
+
+        // Duplicate testimonials for infinite scroll
+        const container = document.querySelector('.testimonial-container');
+        const cards = container.innerHTML;
+        container.innerHTML = cards + cards + cards;
+    </script>
+</body>
+</html>
