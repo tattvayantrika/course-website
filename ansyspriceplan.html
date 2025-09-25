@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSYS Courses - Tattva Yantrika</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Improved background gradient with more contrast */
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e3f 25%, #151f42 50%, #0d2f5a 75%, #4a2c7a 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            min-height: 80px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: default; 
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.3;
+            padding: 2px 0;
+        }
+
+        .logo-english {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: royalGradient 3s ease-in-out infinite;
+        }
+
+        .logo-hindi {
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 4px;
+            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+            padding: 2px 0;
+            overflow: visible;
+        }
+
+        @keyframes royalGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 5px;
+            transition: all 0.3s ease;
+            animation: logoRotate 8s linear infinite;
+        }
+
+        @keyframes logoRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-img:hover {
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            border-color: rgba(255, 215, 0, 0.6);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            display: inline-block;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .nav-button.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: royalGradient 3s ease-in-out infinite;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #b8b8b8;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Courses Grid - Used for Levels */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Advanced course highlight */
+        .course-card.advanced {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .course-card:hover::before {
+            opacity: 1;
+        }
+
+        .course-content {
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .level-tag {
+            display: inline-block;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            color: #000000;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .course-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            /* Using a single color gradient for course names for consistency */
+            background: linear-gradient(45deg, #FFD700, #FFA500); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .course-title.advanced {
+            font-size: 2.2rem;
+        }
+
+        .course-duration {
+            font-size: 1.1rem;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        /* PRICE STYLING */
+        .course-price {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .course-price-only {
+            color: #b8b8b8;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+        }
+
+        .course-price-original {
+            color: #888;
+            font-size: 1.2rem;
+            font-weight: 400;
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+
+        .current-price-group {
+            display: flex; /* To put the weekly price on the same line as the main price */
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .course-price-value {
+            font-size: 2.5rem; /* Larger font size for impact */
+            font-weight: 900;
+            letter-spacing: -1px;
+            display: inline-block;
+            background: linear-gradient(45deg, #FFD700, #FF8C00); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .course-price-rupee {
+            font-size: 1.2rem;
+            color: #FFD700;
+            font-weight: 700;
+            vertical-align: middle;
+        }
+
+        .course-price-weekly {
+            color: #00ff88; /* Highlight the weekly price */
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem; /* Align it slightly lower */
+        }
+        /* END PRICE STYLING */
+
+
+        .course-features {
+            list-style: none;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .course-features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+
+        .course-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        /* Highlight for the key feature of each level */
+        .course-features li.key-feature {
+            color: #FFD700;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            padding-top: 0.8rem;
+        }
+
+        .course-features li.key-feature::before {
+            content: '⭐';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .button-group {
+            margin-top: auto;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            padding-top: 1rem;
+        }
+        
+        .start-button, .detail-button {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000000;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
+            background: linear-gradient(45deg, #FFA500, #FFD700);
+        }
+        
+        .detail-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .detail-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #b8b8b8;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #00d4ff;
+            transition: color 0.3s ease;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #00d4ff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #808080;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            .main-content {
+                margin-top: 180px;
+            }
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .course-card {
+                padding: 2rem;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            .start-button, .detail-button {
+                width: 100%;
+            }
+            .course-price-value {
+                font-size: 2rem;
+            }
+            .course-price-original {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button active" aria-current="page">Courses</a></li>
+                    <li><a href="#go-to-course" class="nav-button">Go to Course</a></li>
+                    <li><a href="#contact" class="nav-button">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">ANSYS Mastery Programs</h1>
+            <p class="page-subtitle">
+                Select the course level that matches your career goals, from foundational Finite Element Analysis 
+                to advanced CFD simulations and project guidance.
+            </p>
+            
+            <div class="courses-grid">
+                
+                <section class="course-card" aria-labelledby="basic-ansys">
+                    <div class="course-content">
+                        <span class="level-tag">Foundation</span>
+                        <h2 id="basic-ansys" class="course-title">ANSYS Basic</h2>
+                        <p class="course-duration">6 Weeks</p>
+                        
+                        <div class="course-price">
+                            <span class="course-price-only">Limited Offer!</span>
+                            <div>
+                                <span class="course-price-original">₹5,999</span>
+                                <span class="course-price-rupee">₹</span>
+                                <span class="course-price-value">1,999</span>
+                            </div>
+                            <div class="current-price-group">
+                                <span class="course-price-weekly">(Only ₹333 per week)</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-features">
+                            <li>Recorded Tutorial Videos</li>
+                            <li>Self-Paced Learning Model</li>
+                            <li>Access to PDF Notes</li>
+                            <li class="key-feature">Quiz & Practice Models</li>
+                        </ul>
+                        
+                        <div class="button-group">
+                            <a href="#details-basic" class="detail-button" role="button">View Details</a>
+                            <a href="#enroll-basic" class="start-button" role="button">Enroll Now</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="course-card" aria-labelledby="intermediate-ansys">
+                    <div class="course-content">
+                        <span class="level-tag">Professional</span>
+                        <h2 id="intermediate-ansys" class="course-title">ANSYS Intermediate</h2>
+                        <p class="course-duration">6 Weeks</p>
+                        
+                        <div class="course-price">
+                            <span class="course-price-only">Limited Offer!</span>
+                            <div>
+                                <span class="course-price-original">₹9,999</span>
+                                <span class="course-price-rupee">₹</span>
+                                <span class="course-price-value">4,999</span>
+                            </div>
+                            <div class="current-price-group">
+                                <span class="course-price-weekly">(Only ₹833 per week)</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-features">
+                            <li>Recorded Tutorial Videos</li>
+                            <li>Self-Paced Learning Model</li>
+                            <li>Access to PDF Notes</li>
+                            <li>Quiz & Practice Assignments</li>
+                            <li class="key-feature">Doubt Solving Sessions (Weekly)</li>
+                        </ul>
+                        
+                        <div class="button-group">
+                            <a href="#details-intermediate" class="detail-button" role="button">View Details</a>
+                            <a href="#enroll-intermediate" class="start-button" role="button">Enroll Now</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="course-card advanced" aria-labelledby="advanced-ansys">
+                    <div class="course-content">
+                        <span class="level-tag">Expert</span>
+                        <h2 id="advanced-ansys" class="course-title advanced">ANSYS Advanced</h2>
+                        <p class="course-duration">8 Weeks</p>
+                        
+                        <div class="course-price">
+                            <span class="course-price-only">Limited Offer!</span>
+                            <div>
+                                <span class="course-price-original">₹19,999</span>
+                                <span class="course-price-rupee">₹</span>
+                                <span class="course-price-value">9,999</span>
+                            </div>
+                            <div class="current-price-group">
+                                <span class="course-price-weekly">(Only ₹1,250 per week)</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-features">
+                            <li>Recorded Tutorial Videos</li>
+                            <li>Access to PDF Notes / ANSYS Updates</li>
+                            <li>Quiz & Assignments with On-Demand Review</li>
+                            <li>Doubt Sessions (Weekly)</li>
+                            <li class="key-feature">Project / Simulation Guidance (Live)</li>
+                            <li class="key-feature">Placement Guidance / Support (Mentorship)</li>
+                        </ul>
+                        
+                        <div class="button-group">
+                            <a href="#details-advanced" class="detail-button" role="button">View Details</a>
+                            <a href="#enroll-advanced" class="start-button" role="button">Enroll Now</a>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Tattva Yantrika</h3>
+                <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="courses.html">All Courses</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About Us</a>
+                <a href="#careers">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#help">Help Center</a>
+                <a href="#contact">Contact Support</a>
+                <a href="#faq">FAQ</a>
+                <a href="#community">Community</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Email: info@tattvayantrika.com</p>
+                <p>Phone: +91 98765 43210</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                    <a href="#" class="social-link" aria-label="YouTube">📺</a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
+                    <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Add smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add hover effects for course cards
+        const courseCards = document.querySelectorAll('.course-card');
+        courseCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
