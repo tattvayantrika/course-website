@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Tattva Yantrika</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e3f 25%, #151f42 50%, #0d2f5a 75%, #4a2c7a 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            min-height: 80px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: default; 
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.3;
+            padding: 2px 0;
+        }
+
+        .logo-english {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: royalGradient 3s ease-in-out infinite;
+        }
+
+        .logo-hindi {
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 4px;
+            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+            padding: 2px 0;
+            overflow: visible;
+        }
+
+        @keyframes royalGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 5px;
+            transition: all 0.3s ease;
+            animation: logoRotate 8s linear infinite;
+        }
+
+        @keyframes logoRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-img:hover {
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            border-color: rgba(255, 215, 0, 0.6);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            display: inline-block;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .nav-button.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #b8b8b8;
+            margin-bottom: 2rem;
+        }
+
+        /* Form Group & Inputs */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+        
+        .form-group input:not([type="radio"]):not([type="checkbox"]),
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #FFD700;
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        .form-group select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M10%204H2l4%204z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 10px;
+            padding-right: 2.5rem;
+        }
+        
+        .form-group select option {
+            background-color: #1a1a2e;
+            color: #ffffff;
+        }
+        
+        /* Verification Button Styles */
+        .email-verify-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .email-verify-group input {
+            flex-grow: 1;
+        }
+        #verifyEmailButton {
+            padding: 0.8rem 1.2rem;
+            white-space: nowrap;
+            border-radius: 10px;
+            font-weight: bold;
+            background-color: #00d4ff;
+            color: #0a0a0a;
+            border: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            position: relative; /* For spinner */
+        }
+        #verifyEmailButton:hover:not(:disabled) {
+            background-color: #00a4cc;
+        }
+        #verifyEmailButton:disabled {
+            background-color: #4a4a5a;
+            color: #b8b8b8;
+            cursor: not-allowed;
+        }
+        
+        .verification-message {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #00ff88;
+        }
+        .message-error {
+            color: #ff5555;
+        }
+        
+        /* LOADING SPINNER CSS */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            width: 1.2rem;
+            height: 1.2rem;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Hide text when spinning */
+        .loading-text {
+            visibility: hidden;
+        }
+        /* /LOADING SPINNER CSS */
+
+        /* Radio & Checkbox Styling */
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .radio-group label, .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: 400;
+            cursor: pointer;
+            color: #c0c0c0;
+        }
+        .radio-group input[type="radio"],
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+            width: auto;
+            accent-color: #FFD700;
+        }
+        
+        /* Conditional Fields Styling */
+        #conditional-form-part {
+            opacity: 0.4;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #conditional-form-part.unlocked {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #student-fields, #working-pro-fields {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Submit Button */
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 1rem 2.5rem;
+            margin-top: 2rem;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 50px;
+            color: #000000;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .submit-button:disabled {
+            background: rgba(255, 215, 0, 0.1);
+            color: #888;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .submit-button:not(:disabled):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
+            background: linear-gradient(45deg, #FFA500, #FFD700);
+        }
+
+        /* Footer Styles */
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #b8b8b8;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #00d4ff;
+            transition: color 0.3s ease;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #00d4ff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #808080;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            .main-content {
+                margin-top: 180px;
+                align-items: center;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+            .form-card {
+                padding: 1.5rem;
+            }
+            .email-verify-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button">Courses</a></li>
+                    <li><a href="signup.html" class="nav-button active" aria-current="page">Sign Up</a></li>
+                    <li><a href="#contact" class="nav-button">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="form-card">
+            <h1 class="page-title">Register for Training</h1>
+            <p class="page-subtitle">Complete initial email verification to unlock the full application form.</p>
+            
+            <form id="signupForm">
+                
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-Mail ID</label>
+                    <div class="email-verify-group">
+                        <input type="email" id="email" name="email" required>
+                        <button type="button" id="verifyEmailButton" disabled>
+                            <span class="button-text">Verify Email & Proceed</span>
+                        </button>
+                    </div>
+                    <p class="verification-message" id="verificationMessage" aria-live="polite"></p>
+                </div>
+                
+                <input type="password" id="password" name="password" style="display: none;" value="TattvaPass123" required>
+
+
+                <div id="conditional-form-part">
+                    
+                    <h2 style="color: #FFD700; font-size: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255, 215, 0, 0.1); padding-bottom: 0.5rem;">Application Details</h2>
+
+                    <div class="form-group">
+                        <label for="phone">Phone No. (WhatsApp Enabled Only)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>You are a:</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="userType" value="student" id="radioStudent"> Student
+                            </label>
+                            <label>
+                                <input type="radio" name="userType" value="workingPro" id="radioWorkingPro"> Working Professional
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="student-fields" style="display: none;">
+                        
+                        <div class="form-group">
+                            <label>Program Level:</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="programLevel" value="btech"> B.Tech
+                                </label>
+                                <label>
+                                    <input type="radio" name="programLevel" value="mtech"> M.Tech
+                                </label>
+                                <label>
+                                    <input type="radio" name="programLevel" value="phd"> PhD
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="btech-branch-group" style="display: none;">
+                            <label for="btechBranch">Branch:</label>
+                            <select id="btechBranch" name="btechBranch">
+                                <option value="" selected>-- Select Your Branch --</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Civil">Civil</option>
+                                <option value="Chemical">Chemical</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="other-branch-group" style="display: none;">
+                            <label for="otherBranch">Specify Other Branch:</label>
+                            <input type="text" id="otherBranch" name="otherBranch">
+                        </div>
+
+                        <div class="form-group" id="mtech-specialization-group" style="display: none;">
+                            <label for="mtechSpecialization">M.Tech Specialization:</label>
+                            <input type="text" id="mtechSpecialization" name="mtechSpecialization">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="collegeName">College / University Name</label>
+                            <input type="text" id="collegeName" name="collegeName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="graduationYear">Year of Graduation</label>
+                            <input type="number" id="graduationYear" name="graduationYear" min="2024" max="2030" placeholder="e.g., 2026">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rollNumber">Roll Number</label>
+                            <input type="text" id="rollNumber" name="rollNumber">
+                        </div>
+
+                    </div>
+
+                    <div id="working-pro-fields" style="display: none;">
+                        
+                        <div class="form-group">
+                            <label for="orgName">Organization Name</label>
+                            <input type="text" id="orgName" name="orgName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="designation">Designation</label>
+                            <input type="text" id="designation" name="designation">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="howDidYouKnow">How did you know about us?</label>
+                        <select id="howDidYouKnow" name="howDidYouKnow">
+                            <option value="" selected disabled>-- Select an option --</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="Word of Mouth">Word of Mouth</option>
+                            <option value="Seminar">Seminar</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Social Media">Social Media</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label for="termsCheckbox">
+                            <input type="checkbox" id="termsCheckbox" name="terms">
+                            I have read and agree to the <a href="#terms" style="color: #FFD700; text-decoration: none;">Terms & Conditions</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="paymentButton" class="submit-button" disabled>
+                        <span class="button-text">Submit Application & Proceed to Payment</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Tattva Yantrika</h3>
+                <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="courses.html">All Courses</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About Us</a>
+                <a href="#careers">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#help">Help Center</a>
+                <a href="#contact">Contact Support</a>
+                <a href="#faq">FAQ</a>
+                <a href="#community">Community</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Email: info@tattvayantrika.com</p>
+                <p>Phone: +91 98765 43210</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                    <a href="#" class="social-link" aria-label="YouTube">📺</a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
+                    <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // 2. IMPORTANT: REPLACE WITH YOUR ACTUAL FIREBASE CONFIGURATION
+        const firebaseConfig = {
+            apiKey: "AIzaSyDv4uGTCMi0G1V75T850Uok7oDgjpgbS6g", // Your Key
+            authDomain: "course-website-authentication.firebaseapp.com", // Your Domain
+            projectId: "course-website-authentication", // Your Project ID
+            storageBucket: "course-website-authentication.firebasestorage.app",
+            messagingSenderId: "713645432109",
+            appId: "1:713645432109:web:811bb84eb35beb7111c7a4",
+            measurementId: "G-VF1BBTRK6C"
+        };
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        // --- END FIREBASE SETUP ---
+        
+        // 3. GOOGLE APPS SCRIPT URL
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbw1U98G06-ymydobsit2856e_LvTbs23hw40wtIjmgzmzXN7e2O_NZw_kNeox47cX4b7g/exec';
+
+        const form = document.getElementById('signupForm');
+        const paymentButton = document.getElementById('paymentButton');
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        const verifyEmailButton = document.getElementById('verifyEmailButton');
+        const verificationMessage = document.getElementById('verificationMessage');
+        const conditionalFormPart = document.getElementById('conditional-form-part');
+        const termsCheckbox = document.getElementById('termsCheckbox');
+
+        let isEmailVerified = false; 
+        let intervalId = null; 
+        
+        // Form field groups for conditional logic (rest of the fields)
+        const userTypeRadios = form.querySelectorAll('input[name="userType"]');
+        const studentFields = document.getElementById('student-fields');
+        const workingProFields = document.getElementById('working-pro-fields');
+        const programLevelRadios = form.querySelectorAll('input[name="programLevel"]');
+        const btechBranchSelect = document.getElementById('btechBranch');
+        const otherBranchGroup = document.getElementById('other-branch-group');
+        const btechBranchGroup = document.getElementById('btech-branch-group');
+        const mtechSpecializationGroup = document.getElementById('mtech-specialization-group');
+        
+        // Helper function to manage loading state (spinner)
+        function setLoading(button, isLoading, text) {
+            const span = button.querySelector('.button-text') || button;
+            span.textContent = text || span.textContent;
+            if (isLoading) {
+                span.innerHTML = `<span class="loading-text">${text}</span><span class="spinner"></span>`;
+                button.disabled = true;
+            } else {
+                span.textContent = text || span.textContent;
+                button.disabled = false;
+            }
+        }
+
+        // Programmatically set or remove the 'required' and 'disabled' attributes
+        function toggleConditionalFieldsAccess(isVerified) {
+            const inputs = conditionalFormPart.querySelectorAll('input, select');
+            
+            inputs.forEach(input => {
+                // Exclude sub-conditional fields from general required toggling
+                if (!['otherBranch', 'mtechSpecialization'].includes(input.id)) { 
+                    input.required = isVerified;
+                }
+                input.disabled = !isVerified;
+            });
+            termsCheckbox.required = isVerified;
+            termsCheckbox.disabled = !isVerified;
+            
+            if (isVerified) {
+                conditionalFormPart.classList.add('unlocked');
+                conditionalFormPart.style.display = 'block'; // Make sure the container is visible
+            } else {
+                conditionalFormPart.classList.remove('unlocked');
+                conditionalFormPart.style.display = 'none'; // Keep the container hidden initially
+            }
+            toggleUserTypeFields();
+        }
+
+        // FIX: Check validity of input fields
+        function updateVerifyEmailButtonState() {
+            // Button enables only if Full Name and Email are valid and email is NOT yet verified
+            const isNameValid = fullNameInput.checkValidity();
+            const isEmailValid = emailInput.checkValidity();
+            
+            if (isNameValid && isEmailValid && !isEmailVerified) {
+                verifyEmailButton.disabled = false;
+            } else {
+                verifyEmailButton.disabled = true;
+            }
+        }
+        
+        function updatePaymentButtonState() {
+            const isTermsChecked = termsCheckbox.checked;
+
+            if (form.checkValidity() && isTermsChecked && isEmailVerified) {
+                paymentButton.disabled = false;
+            } else {
+                paymentButton.disabled = true;
+            }
+        }
+
+        // --- FIREBASE VERIFICATION HANDLER ---
+        verifyEmailButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            // Generate a strong, unique password for Firebase authentication (min 6 chars)
+            const password = 'TattvaPass_' + Math.random().toString(36).substring(2, 12); 
+
+            if (!emailInput.checkValidity() || !fullNameInput.checkValidity()) {
+                 verificationMessage.textContent = 'Please fill in a valid Name and Email address.';
+                 verificationMessage.classList.add('message-error');
+                 return;
+            }
+
+            setLoading(verifyEmailButton, true, 'Verifying...');
+
+            try {
+                // 1. Attempt to create the user
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // 2. Send email verification link
+                await user.sendEmailVerification();
+                
+                verificationMessage.textContent = 'Verification link sent! Check your spam.';
+                verificationMessage.classList.remove('message-error');
+                
+                // Lock initial fields
+                verifyEmailButton.style.display = 'none';
+                emailInput.disabled = true;
+                fullNameInput.disabled = true;
+
+                // 3. Start monitoring email verification status (polling)
+                if (intervalId) clearInterval(intervalId);
+                intervalId = setInterval(async () => {
+                    await user.reload();
+                    if (user.emailVerified) {
+                        clearInterval(intervalId);
+                        
+                        // 4. VERIFICATION SUCCESS: UNLOCK FORM
+                        isEmailVerified = true;
+                        verificationMessage.textContent = 'Email Verified! Application form unlocked.';
+                        
+                        toggleConditionalFieldsAccess(true); 
+                        updatePaymentButtonState();
+                        
+                    } else {
+                        verificationMessage.textContent = 'Waiting for email verification...Check spam.. Click the link in your email to continue.';
+                    }
+                }, 3000); 
+
+            } catch (error) {
+                setLoading(verifyEmailButton, false, 'Verify Email & Proceed');
+                console.error("Firebase Error:", error.code, error.message);
+                
+                let errorMessage = 'An internal Firebase error occurred.';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'Email is already registered. Please log in or use a different email.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email format.';
+                } else if (error.code === 'auth/unauthorized-domain') {
+                    errorMessage = 'Authentication Error: Your domain is not authorized in Firebase settings.';
+                }
+                
+                alert(`Error Code: ${error.code}\nMessage: ${errorMessage}`); // Use alert for critical errors
+                verificationMessage.textContent = errorMessage;
+                verificationMessage.classList.add('message-error');
+            }
+        });
+        
+        // --- GOOGLE SHEET SUBMISSION HANDLER ---
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (paymentButton.disabled) return;
+
+            setLoading(paymentButton, true, 'Submitting Data...');
+
+            // The fix: Explicitly retrieve the values of the disabled fields
+            const fullNameValue = fullNameInput.value;
+            const emailValue = emailInput.value;
+            
+            const formData = new FormData(form);
+            
+            // Map the collected data to the exact column headers required by the Google Sheet
+            const data = {
+                // FIXED: Manually use values from inputs that were disabled
+                'Full Name': fullNameValue, 
+                'Email': emailValue,
+                'Phone': formData.get('phone') || '',
+                'User Type': formData.get('userType') || '',
+                'Program Level': formData.get('programLevel') || '',
+                'B.Tech Branch': formData.get('btechBranch') || '',
+                'Other Branch': formData.get('otherBranch') || '',
+                'M.Tech Specialization': formData.get('mtechSpecialization') || '',
+                'College/University': formData.get('collegeName') || '',
+                'Graduation Year': formData.get('graduationYear') || '',
+                'Roll Number': formData.get('rollNumber') || '',
+                'Organization Name': formData.get('orgName') || '',
+                'Designation': formData.get('designation') || '',
+                'How Did You Know': formData.get('howDidYouKnow') || '',
+                'Terms Accepted': termsCheckbox.checked ? 'Yes' : 'No'
+            };
+
+            try {
+                // Send data to Google Apps Script
+                await fetch(GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                setLoading(paymentButton, false, 'Payment Redirecting...');
+                alert('Success! Your application data has been recorded. Proceeding to Payment Gateway.');
+
+            } catch (error) {
+                setLoading(paymentButton, false, 'Error Submitting!');
+                console.error('GAS Submission Error:', error);
+                alert('Error submitting application data. Please try again.');
+            }
+        });
+        
+        // --- Conditional Form Logic ---
+
+        form.addEventListener('input', () => {
+            updateVerifyEmailButtonState();
+            updatePaymentButtonState(); 
+        });
+        termsCheckbox.addEventListener('change', updatePaymentButtonState);
+
+        // Conditional field logic (Student/Working Pro)
+        function toggleUserTypeFields() {
+            const userType = document.querySelector('input[name="userType"]:checked')?.value;
+            const isStudent = userType === 'student';
+
+            studentFields.style.display = isStudent ? 'block' : 'none';
+            workingProFields.style.display = isStudent ? 'none' : 'block';
+            
+            workingProFields.querySelectorAll('input').forEach(input => input.required = !isStudent);
+            
+            if (isStudent) {
+                toggleProgramLevelFields(true);
+            } else {
+                toggleProgramLevelFields(false);
+            }
+        }
+
+        function toggleProgramLevelFields(enable = true) {
+            const programLevel = enable ? document.querySelector('input[name="programLevel"]:checked')?.value : null;
+            const isBTech = programLevel === 'btech';
+            const isMTech = programLevel === 'mtech';
+            const studentInputs = studentFields.querySelectorAll('input, select');
+            
+            if (!enable || !programLevel) {
+                 studentInputs.forEach(input => {
+                      if (!['otherBranch', 'mtechSpecialization'].includes(input.id)) input.required = false;
+                 });
+            } else {
+                 studentInputs.forEach(input => {
+                     if (!['btechBranch', 'mtechSpecialization', 'otherBranch'].includes(input.id)) {
+                          input.required = true;
+                     }
+                 });
+            }
+
+            btechBranchGroup.style.display = isBTech ? 'block' : 'none';
+            mtechSpecializationGroup.style.display = isMTech ? 'block' : 'none';
+            otherBranchGroup.style.display = 'none';
+
+            btechBranchGroup.querySelector('select').required = isBTech;
+            mtechSpecializationGroup.querySelector('input').required = isMTech;
+
+            if (isBTech && btechBranchSelect.value === 'Others') {
+                otherBranchGroup.style.display = 'block';
+            }
+        }
+
+        function toggleOtherBranchField() {
+            otherBranchGroup.style.display = (btechBranchSelect.value === 'Others') ? 'block' : 'none';
+        }
+
+        // Event listeners for conditional logic
+        userTypeRadios.forEach(radio => radio.addEventListener('change', toggleUserTypeFields));
+        programLevelRadios.forEach(radio => radio.addEventListener('change', toggleProgramLevelFields));
+        btechBranchSelect.addEventListener('change', toggleOtherBranchField);
+        
+        // Initial state on page load
+        toggleConditionalFieldsAccess(false); 
+        updateVerifyEmailButtonState();
+        
+    </script>
+</body>
+</html>
