@@ -21,7 +21,7 @@
             overflow-x: hidden;
         }
 
-        /* Header Styles (Unchanged) */
+        /* Header Styles */
         .header {
             position: fixed;
             top: 0;
@@ -231,11 +231,68 @@
             color: #ffffff;
             font-size: 1rem;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            
-            /* The key to styling select inputs: removing default OS appearance */
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
+        }
+        
+        /* OTP specific styling (input group) */
+        .otp-input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .otp-input-group input {
+            flex-grow: 1;
+        }
+        
+        /* Send and Verify OTP buttons */
+        .otp-button {
+            padding: 0.8rem 1.2rem;
+            white-space: nowrap;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #sendOtpButton {
+            background-color: #00d4ff;
+            color: #0a0a0a;
+            border: none;
+        }
+        #sendOtpButton:hover:not(:disabled) {
+            background-color: #00a4cc;
+        }
+        #sendOtpButton:disabled {
+            background-color: #4a4a5a;
+            color: #b8b8b8;
+            cursor: not-allowed;
+        }
+        
+        #verifyOtpButton {
+            background-color: #00ff88;
+            color: #0a0a0a;
+            border: none;
+        }
+        #verifyOtpButton:hover:not(:disabled) {
+            background-color: #00cc66;
+        }
+        #verifyOtpButton:disabled {
+            background-color: #4a4a5a;
+            color: #b8b8b8;
+            cursor: not-allowed;
+        }
+        
+        .verification-message {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .message-error {
+            color: #ff5555;
+        }
+        .message-success {
+            color: #00ff88;
         }
 
         .form-group input:focus,
@@ -245,20 +302,17 @@
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
         }
         
-        /* NEW SELECT STYLING FOR CONSISTENCY */
         .form-group select {
             cursor: pointer;
-            /* Add custom arrow for styled look */
             background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M10%204H2l4%204z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 10px;
-            padding-right: 2.5rem; /* Make space for the custom arrow */
+            padding-right: 2.5rem;
         }
         
-        /* Style the options within the select dropdown to match the dark theme */
         .form-group select option {
-            background-color: #1a1a2e; /* Darker background for options */
+            background-color: #1a1a2e;
             color: #ffffff;
         }
 
@@ -325,7 +379,7 @@
             background: linear-gradient(45deg, #FFA500, #FFD700);
         }
 
-        /* Footer Styles (Unchanged) */
+        /* Footer Styles */
         .footer {
             margin-top: 4rem;
             padding: 3rem 2rem 2rem;
@@ -409,6 +463,9 @@
             .form-card {
                 padding: 1.5rem;
             }
+            .otp-input-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -450,6 +507,19 @@
                     <input type="email" id="email" name="email" required>
                 </div>
 
+                <div class="form-group" id="otp-send-group">
+                    <button type="button" id="sendOtpButton" class="otp-button" disabled>Send Verification OTP</button>
+                    <p class="verification-message message-error" id="emailStatusMessage"></p>
+                </div>
+
+                <div class="form-group" id="otp-verify-group" style="display: none;">
+                    <label for="otpInput">Enter OTP sent to your Email</label>
+                    <div class="otp-input-group">
+                        <input type="text" id="otpInput" name="otpInput" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="6-digit code">
+                        <button type="button" id="verifyOtpButton" class="otp-button" disabled>Verify</button>
+                    </div>
+                    <p class="verification-message" id="otpStatusMessage"></p>
+                </div>
                 <div class="form-group">
                     <label for="phone">Phone No. (WhatsApp Enabled Only)</label>
                     <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" required>
@@ -609,47 +679,109 @@
         const otherBranchGroup = document.getElementById('other-branch-group');
         const btechBranchSelect = document.getElementById('btechBranch');
         const termsCheckbox = document.getElementById('termsCheckbox');
+        
+        // OTP Elements
+        const emailInput = document.getElementById('email');
+        const sendOtpButton = document.getElementById('sendOtpButton');
+        const otpVerifyGroup = document.getElementById('otp-verify-group');
+        const otpInput = document.getElementById('otpInput');
+        const verifyOtpButton = document.getElementById('verifyOtpButton');
+        const emailStatusMessage = document.getElementById('emailStatusMessage');
+        const otpStatusMessage = document.getElementById('otpStatusMessage');
+        const SIMULATED_OTP = '123456'; // HARDCODED OTP for front-end simulation
+        let isOtpVerified = false; // New state variable
 
         // Function to update the disabled state of the payment button
         function updatePaymentButtonState() {
+            // payment is enabled ONLY IF:
+            // 1. All form data (required fields) is valid AND
+            // 2. Terms are checked AND
+            // 3. OTP is successfully verified (isOtpVerified = true)
             const isFormValid = form.checkValidity();
             const isTermsChecked = termsCheckbox.checked;
 
-            if (isFormValid && isTermsChecked) {
+            if (isFormValid && isTermsChecked && isOtpVerified) {
                 paymentButton.disabled = false;
             } else {
                 paymentButton.disabled = true;
             }
         }
         
-        // Listen for changes on all form elements to update the button state
-        form.addEventListener('input', updatePaymentButtonState);
+        // Function to control the Send OTP button state
+        function updateSendOtpButtonState() {
+            if (emailInput.checkValidity() && emailInput.value && !isOtpVerified) {
+                sendOtpButton.disabled = false;
+            } else {
+                sendOtpButton.disabled = true;
+            }
+        }
+
+        // --- OTP Logic Handlers ---
+
+        sendOtpButton.addEventListener('click', () => {
+            emailStatusMessage.textContent = 'OTP sent! Check your email (or use 123456 for demo).';
+            emailStatusMessage.classList.remove('message-error');
+            emailStatusMessage.classList.add('message-success');
+            
+            sendOtpButton.disabled = true;
+            otpVerifyGroup.style.display = 'block';
+            otpInput.required = true;
+            verifyOtpButton.disabled = true;
+        });
+
+        otpInput.addEventListener('input', () => {
+            verifyOtpButton.disabled = !(otpInput.value.length === 6);
+            otpStatusMessage.textContent = '';
+        });
+
+        verifyOtpButton.addEventListener('click', () => {
+            if (otpInput.value === SIMULATED_OTP) {
+                isOtpVerified = true;
+                otpStatusMessage.textContent = 'Verification Successful! 🎉';
+                otpStatusMessage.classList.remove('message-error');
+                otpStatusMessage.classList.add('message-success');
+                verifyOtpButton.disabled = true;
+                otpInput.disabled = true;
+                
+                // Final check to enable payment
+                updatePaymentButtonState(); 
+            } else {
+                otpStatusMessage.textContent = 'Invalid OTP. Please try again.';
+                otpStatusMessage.classList.add('message-error');
+                otpStatusMessage.classList.remove('message-success');
+                isOtpVerified = false;
+                
+                // Keep payment disabled
+                updatePaymentButtonState(); 
+            }
+        });
+        
+        // --- General Form Logic ---
+
+        // Listen for changes on relevant fields to update button states
+        form.addEventListener('input', () => {
+            updatePaymentButtonState();
+            updateSendOtpButtonState();
+        });
         termsCheckbox.addEventListener('change', updatePaymentButtonState);
 
-        // Function to show/hide the main user-type specific fields
+
+        // Conditional field logic (Student/Working Pro)
         function toggleUserTypeFields() {
             const userType = document.querySelector('input[name="userType"]:checked')?.value;
             studentFields.style.display = userType === 'student' ? 'block' : 'none';
             workingProFields.style.display = userType === 'workingPro' ? 'block' : 'none';
-            
-            // Re-check button state when major field groups change visibility
             updatePaymentButtonState();
         }
-
-        // Function to show/hide B.Tech/M.Tech/PhD specific fields
         function toggleProgramLevelFields() {
             const programLevel = document.querySelector('input[name="programLevel"]:checked')?.value;
             btechBranchGroup.style.display = programLevel === 'btech' ? 'block' : 'none';
             mtechSpecializationGroup.style.display = programLevel === 'mtech' ? 'block' : 'none';
-            otherBranchGroup.style.display = 'none'; // Hide others initially
-            
-            // If B.Tech is selected and 'Others' was already chosen, show the specify field
+            otherBranchGroup.style.display = 'none';
             if (programLevel === 'btech' && btechBranchSelect.value === 'Others') {
                 otherBranchGroup.style.display = 'block';
             }
         }
-
-        // Function to show/hide the 'Others (specify)' text field
         function toggleOtherBranchField() {
             otherBranchGroup.style.display = (btechBranchSelect.value === 'Others') ? 'block' : 'none';
         }
@@ -661,16 +793,57 @@
         
         // Initial state on page load
         toggleUserTypeFields();
-        toggleProgramLevelFields();
         updatePaymentButtonState();
+        updateSendOtpButtonState();
         
         // Prevent default submission for demo purposes
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             if (!paymentButton.disabled) {
-                 alert('Redirecting to Payment Gateway...');
+                 alert('Email Verified! Redirecting to Payment Gateway...');
             }
         });
     </script>
+
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script>
+  let generatedOTP;
+
+  // Send OTP using SMTP.js
+  sendOtpButton.addEventListener('click', () => {
+      generatedOTP = Math.floor(100000 + Math.random() * 900000); // 6 digit OTP
+
+      Email.send({
+          SecureToken: "fcd22e4b-c534-456b-a100-26c7d5939260 ", // replace later
+          To: emailInput.value,
+          From: "tattvayantrika@gmail.com", // replace later
+          Subject: "Your OTP Code",
+          Body: "Your OTP for Tattva Yantrika signup is: " + generatedOTP
+      }).then(
+          message => {
+              emailStatusMessage.textContent = "OTP sent! Check your email.";
+              emailStatusMessage.classList.add('message-success');
+              otpVerifyGroup.style.display = 'block';
+              otpInput.required = true;
+          }
+      );
+  });
+
+  // Verify OTP
+  verifyOtpButton.addEventListener('click', () => {
+      if (otpInput.value == generatedOTP) {
+          isOtpVerified = true;
+          otpStatusMessage.textContent = 'Verification Successful! 🎉';
+          otpStatusMessage.classList.add('message-success');
+          updatePaymentButtonState();
+      } else {
+          isOtpVerified = false;
+          otpStatusMessage.textContent = 'Invalid OTP ❌';
+          otpStatusMessage.classList.add('message-error');
+          updatePaymentButtonState();
+      }
+  });
+</script>
 </body>
+
 </html>
