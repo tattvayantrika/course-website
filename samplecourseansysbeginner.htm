@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSYS Basics Course - Tattva Yantrika</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    
+    <style>
+        :root {
+            --color-gold: #FFD700;
+            --color-passed: #00ff88;
+            --color-failed: #ff5555;
+            --color-incomplete: #00d4ff;
+            --color-bg-dark: #1a1a2e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e3f 25%, #151f42 50%, #0d2f5a 75%, #4a2c7a 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation Styles (Consistent) */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1000;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: default; 
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.3;
+            padding: 2px 0;
+        }
+        .logo-english {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--color-gold), #FFA500, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+        }
+        .logo-hindi {
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 5px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.4);
+            color: var(--color-gold);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Ensures content starts at the top */
+        }
+        .content-container {
+            width: 100%;
+            max-width: 900px; /* Wider container for course content */
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--color-gold), #FFA500, #FF8C00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #b8b8b8;
+            margin-bottom: 3rem;
+        }
+
+        /* Access Gate Styling */
+        #access-gate {
+            background: rgba(255, 215, 0, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
+            margin: 4rem auto 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        #access-gate h2 {
+            color: var(--color-gold);
+            margin-bottom: 1rem;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+            margin-top: 0.3rem;
+        }
+        .access-button {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: #00d4ff;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.3s;
+        }
+        .access-status {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #ff5555;
+        }
+
+        /* Highlighted Text */
+        .highlight {
+            font-weight: bold;
+            color: var(--color-gold);
+        }
+        
+        /* --- COURSE CONTENT STYLING --- */
+        #course-content-gated {
+            margin-top: 3rem;
+            padding: 0 1rem;
+            /* CRITICAL FIX: Ensure content is hidden by default */
+            display: none; 
+        }
+
+        .module {
+            margin-bottom: 1.2rem;
+        }
+
+        .module details {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .module details[open] {
+            border-color: rgba(255, 215, 0, 0.4);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .module summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            background: rgba(255, 215, 0, 0.1);
+            transition: all 0.3s;
+            color: #ffffff;
+            border-radius: 12px;
+        }
+        
+        .module summary:hover {
+            background: rgba(255, 215, 0, 0.15);
+        }
+
+        .module details[open] summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--color-gold);
+        }
+
+        .module summary .status-badge {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        /* Quiz Status Colors */
+        .status-incomplete {
+            background-color: rgba(0, 212, 255, 0.2);
+            color: var(--color-incomplete);
+        }
+        .status-passed {
+            background-color: rgba(0, 255, 136, 0.2);
+            color: var(--color-passed);
+        }
+        .status-failed {
+            background-color: rgba(255, 85, 85, 0.2);
+            color: var(--color-failed);
+        }
+        
+        /* Module Content */
+        .module-content {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .content-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Space out text and button */
+            padding: 0.6rem 0;
+            font-size: 1rem;
+            color: #c0c0c0;
+        }
+
+        .content-text-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .content-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #00d4ff;
+        }
+        .content-item.quiz-trigger .content-icon {
+            color: var(--color-gold);
+            font-weight: bold;
+        }
+
+        /* Quiz Start/Submit Buttons */
+        .quiz-start-btn {
+            /* Fix: Added margin to separate from text */
+            margin-left: 1.5rem; 
+            background-color: var(--color-incomplete); 
+            color: #0a0a0a;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .quiz-start-btn:hover {
+            background-color: #00a4cc;
+        }
+        
+        .quiz-form {
+            display: none; 
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-form h4 {
+            color: var(--color-passed);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .quiz-form label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: #e0e0e0;
+        }
+        .quiz-form input[type="radio"] {
+            margin-right: 8px;
+            accent-color: var(--color-gold);
+        }
+
+        .quiz-submit-btn {
+            background-color: var(--color-gold);
+            color: #0a0a0a;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+        }
+        .quiz-submit-btn:hover {
+            background-color: #FFA500;
+        }
+
+        /* Certificate Section */
+        #certificate-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            border: 2px solid var(--color-gold);
+            border-radius: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            text-align: center;
+        }
+
+        #final-evaluation {
+            margin-top: 2rem;
+        }
+
+        #cert-status-box {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .cert-pass {
+            background-color: rgba(0, 255, 136, 0.4);
+            color: var(--color-passed);
+        }
+
+        .cert-fail {
+            background-color: rgba(255, 85, 85, 0.4);
+            color: var(--color-failed);
+        }
+
+        .request-cert-btn {
+            background: linear-gradient(45deg, var(--color-gold), #FFA500);
+            color: #0a0a0a;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            border: none;
+            font-weight: bold;
+            transition: transform 0.2s;
+            margin-top: 2rem;
+        }
+
+        /* Joyful Certificate Download Button */
+        #downloadCertButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #FFD700, #FF8C00, #FFA500);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        #downloadCertButton:hover {
+             transform: scale(1.05);
+             box-shadow: 0 15px 40px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Footer Styles (Consistent) */
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            .main-content {
+                margin-top: 180px;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button active" aria-current="page">Courses</a></li>
+                    <li><a href="signup.html" class="nav-button">Sign Up</a></li>
+                    <li><a href="#contact" class="nav-button">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="content-container">
+            <h1 class="page-title">ANSYS Basics Course: Curriculum</h1>
+            <p class="page-subtitle">Master simulation fundamentals across 6 detailed weeks of video lectures, articles, and mandatory quizzes.</p>
+            
+            <div id="access-gate">
+                <h2>Course Access Required</h2>
+                <p style="color: #ccc; margin-bottom: 1.5rem;">
+                    Enter your registered email and the Passkey (sent after payment) to begin.
+                    <br><strong>DEMO PASSKEY: <span class="highlight">ANSYS101</span></strong>
+                </p>
+                <div class="input-group">
+                    <input type="email" id="accessEmail" placeholder="Registered Email ID" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="accessPasskey" placeholder="Passkey" required>
+                </div>
+                <button type="button" id="unlockButton" class="access-button">Unlock Course</button>
+                <p class="access-status" id="accessStatus"></p>
+            </div>
+
+            <div id="course-content-gated">
+                
+                <div class="module" id="module-1">
+                    <details>
+                        <summary>
+                            WEEK 1: Introduction to Simulation
+                            <span class="status-badge" id="quiz-status-1">INCOMPLETE</span>
+                        </summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Importance of Simulation/ANSYS</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Pre-Requisites for simulation</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">📄</span> Article: Basics of FEA/CFD.</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Why ANSYS? And Installation</span></div>
+                            
+                            <div class="content-item quiz-trigger">
+                                <span class="content-text-group">
+                                    <span class="content-icon">📝</span> Quiz: Fundamentals Check 
+                                </span>
+                                <button class="quiz-start-btn" onclick="toggleQuizForm(1)">Take Quiz</button>
+                            </div>
+                            
+                            <form class="quiz-form" onsubmit="event.preventDefault(); submitQuiz(1);">
+                                <h4>Quiz 1: Fundamentals of Simulation</h4>
+                                <div class="question">
+                                    <p>1. What does FEA primarily analyze?</p>
+                                    <label><input type="radio" name="q1_1" value="a" required> a) Fluid flow</label>
+                                    <label><input type="radio" name="q1_1" value="b"> b) Structural stress and strain</label>
+                                    <label><input type="radio" name="q1_1" value="c"> c) Electrical circuits</label>
+                                </div>
+                                <div class="question">
+                                    <p>2. CFD stands for:</p>
+                                    <label><input type="radio" name="q1_2" value="a" required> a) Computational Fluid Dynamics</label>
+                                    <label><input type="radio" name="q1_2" value="b"> b) Creative Flow Design</label>
+                                    <label><input type="radio" name="q1_2" value="c"> c) Core Filtration Data</label>
+                                </div>
+                                <div class="question">
+                                    <p>3. Simulation helps in:</p>
+                                    <label><input type="radio" name="q1_3" value="a" required> a) Reducing testing costs</label>
+                                    <label><input type="radio" name="q1_3" value="b"> b) Optimizing design iterations</label>
+                                    <label><input type="radio" name="q1_3" value="c"> c) Both a and b</label>
+                                </div>
+                                <button type="submit" class="quiz-submit-btn">Submit Quiz 1</button>
+                            </form>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="module" id="module-2">
+                    <details>
+                        <summary>
+                            WEEK 2: Core Tools of ANSYS Workbench
+                            <span class="status-badge" id="quiz-status-2">INCOMPLETE</span>
+                        </summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Workbench Layout</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Tool Explanation with Example</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">📄</span> Article: Synopsis of all tools</span></div>
+                            
+                            <div class="content-item quiz-trigger">
+                                <span class="content-text-group">
+                                    <span class="content-icon">📝</span> Quiz: Workbench Proficiency
+                                </span>
+                                <button class="quiz-start-btn" onclick="toggleQuizForm(2)">Take Quiz</button>
+                            </div>
+                            
+                            <form class="quiz-form" onsubmit="event.preventDefault(); submitQuiz(2);">
+                                <h4>Quiz 2: Tools & Workflow</h4>
+                                <div class="question">
+                                    <p>1. The primary ANSYS environment is called:</p>
+                                    <label><input type="radio" name="q2_1" value="a" required> a) Solver Window</label>
+                                    <label><input type="radio" name="q2_1" value="b"> b) Workbench</label>
+                                    <label><input type="radio" name="q2_1" value="c"> c) CAD Interface</label>
+                                </div>
+                                <div class="question">
+                                    <p>2. Which module is responsible for mesh generation?</p>
+                                    <label><input type="radio" name="q2_2" value="a" required> a) Mechanical</label>
+                                    <label><input type="radio" name="q2_2" value="b"> b) Fluent</label>
+                                    <label><input type="radio" name="q2_2" value="c"> c) Meshing</label>
+                                </div>
+                                <div class="question">
+                                    <p>3. What connects different analysis systems in Workbench?</p>
+                                    <label><input type="radio" name="q2_3" value="a" required> a) Cells</label>
+                                    <label><input type="radio" name="q2_3" value="b"> b) Parameters</label>
+                                    <label><input type="radio" name="q2_3" value="c"> c) Nodes</label>
+                                </div>
+                                <button type="submit" class="quiz-submit-btn">Submit Quiz 2</button>
+                            </form>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="module" id="module-3">
+                    <details>
+                        <summary>
+                            WEEK 3: Static Structural Analysis
+                            <span class="status-badge" id="quiz-status-3">INCOMPLETE</span>
+                        </summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Steps required for Static Structural Analysis </span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Connecting Shaft Analysis</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">📄</span> Article: Practice PDF</span></div>
+                            
+                            <div class="content-item quiz-trigger">
+                                <span class="content-text-group">
+                                    <span class="content-icon">📝</span> Quiz: Structural Analysis Concepts
+                                </span>
+                                <button class="quiz-start-btn" onclick="toggleQuizForm(3)">Take Quiz</button>
+                            </div>
+                            
+                            <form class="quiz-form" onsubmit="event.preventDefault(); submitQuiz(3);">
+                                <h4>Quiz 3: Static Structural Concepts</h4>
+                                <div class="question">
+                                    <p>1. Static analysis calculates structural response to loads that are:</p>
+                                    <label><input type="radio" name="q3_1" value="a" required> a) Constant and slow</label>
+                                    <label><input type="radio" name="q3_1" value="b"> b) Time-dependent</label>
+                                    <label><input type="radio" name="q3_1" value="c"> c) High-speed impacts</label>
+                                </div>
+                                <div class="question">
+                                    <p>2. The primary output of a static structural simulation is usually:</p>
+                                    <label><input type="radio" name="q3_2" value="a" required> a) Fluid pressure</label>
+                                    <label><input type="radio" name="q3_2" value="b"> b) Temperature gradient</label>
+                                    <label><input type="radio" name="q3_2" value="c"> c) Stress and displacement</label>
+                                </div>
+                                <div class="question">
+                                    <p>3. A fixed support is an example of a:</p>
+                                    <label><input type="radio" name="q3_3" value="a" required> a) Material property</label>
+                                    <label><input type="radio" name="q3_3" value="b"> b) Boundary condition</label>
+                                    <label><input type="radio" name="q3_3" value="c"> c) Mesh refinement</label>
+                                </div>
+                                <button type="submit" class="quiz-submit-btn">Submit Quiz 3</button>
+                            </form>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="module" id="module-4">
+                    <details>
+                        <summary>
+                            WEEK 4: Explicit Dynamics
+                            <span class="status-badge" id="quiz-status-4">INCOMPLETE</span>
+                        </summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Basics of Explicit and its Industrial Usage </span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Planing Tool Simulation</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">📄</span> Article: Practice PDF</span></div>
+                            
+                            <div class="content-item quiz-trigger">
+                                <span class="content-text-group">
+                                    <span class="content-icon">📝</span> Quiz: Explicit Dynamics Fundamentals
+                                </span>
+                                <button class="quiz-start-btn" onclick="toggleQuizForm(4)">Take Quiz</button>
+                            </div>
+                            
+                            <form class="quiz-form" onsubmit="event.preventDefault(); submitQuiz(4);">
+                                <h4>Quiz 4: Explicit Dynamics Concepts</h4>
+                                <div class="question">
+                                    <p>1. Explicit Dynamics is best suited for analyzing:</p>
+                                    <label><input type="radio" name="q4_1" value="a" required> a) Very slow steady-state problems</label>
+                                    <label><input type="radio" name="q4_1" value="b"> b) High-speed, short-duration events</label>
+                                    <label><input type="radio" name="q4_1" value="c"> c) Thermal equilibrium</label>
+                                </div>
+                                <div class="question">
+                                    <p>2. Which phenomenon often requires Explicit Dynamics?</p>
+                                    <label><input type="radio" name="q4_2" value="a" required> a) Creep</label>
+                                    <label><input type="radio" name="q4_2" value="b"> b) Drop Test Simulation</label>
+                                    <label><input type="radio" name="q4_2" value="c"> c) Buckling analysis</label>
+                                </div>
+                                <div class="question">
+                                    <p>3. Explicit solvers typically use a large number of:</p>
+                                    <label><input type="radio" name="q4_3" value="a" required> a) Load steps</label>
+                                    <label><input type="radio" name="q4_3" value="b"> b) Very small time increments</label>
+                                    <label><input type="radio" name="q4_3" value="c"> c) Material libraries</label>
+                                </div>
+                                <button type="submit" class="quiz-submit-btn">Submit Quiz 4</button>
+                            </form>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="module" id="module-5">
+                    <details>
+                        <summary>
+                            WEEK 5: Steady State Thermal Analysis
+                            <span class="status-badge" id="quiz-status-5">INCOMPLETE</span>
+                        </summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Types of Thermal Analysis and its industrial implication </span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Conduction Convection Simulation</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Radiation Simulation</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">📄</span> Article: Practice PDF</span></div>
+                            
+                            <div class="content-item quiz-trigger">
+                                <span class="content-text-group">
+                                    <span class="content-icon">📝</span> Quiz: Thermal Concepts & Applications
+                                </span>
+                                <button class="quiz-start-btn" onclick="toggleQuizForm(5)">Take Quiz</button>
+                            </div>
+                            
+                            <form class="quiz-form" onsubmit="event.preventDefault(); submitQuiz(5);">
+                                <h4>Quiz 5: Thermal Analysis Concepts</h4>
+                                <div class="question">
+                                    <p>1. Steady-state thermal analysis means:</p>
+                                    <label><input type="radio" name="q5_1" value="a" required> a) Temperature changes over time</label>
+                                    <label><input type="radio" name="q5_1" value="b"> b) Heat transfer is negligible</label>
+                                    <label><input type="radio" name="q5_1" value="c"> c) Temperature distribution does not change with time</label>
+                                </div>
+                                <div class="question">
+                                    <p>2. Heat transfer through a solid material is called:</p>
+                                    <label><input type="radio" name="q5_2" value="a" required> a) Convection</label>
+                                    <label><input type="radio" name="q5_2" value="b"> b) Conduction</label>
+                                    <label><input type="radio" name="q5_2" value="c"> c) Radiation</label>
+                                </div>
+                                <div class="question">
+                                    <p>3. Thermal analysis primarily solves for:</p>
+                                    <label><input type="radio" name="q5_3" value="a" required> a) Final stress</label>
+                                    <label><input type="radio" name="q5_3" value="b"> b) Temperature field</label>
+                                    <label><input type="radio" name="q5_3" value="c"> c) Fluid velocity</label>
+                                </div>
+                                <button type="submit" class="quiz-submit-btn">Submit Quiz 5</button>
+                            </form>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="module" id="module-6">
+                    <details>
+                        <summary>
+                            WEEK 6: Computational Fluid Dynamics (CFD)
+                            <span class="status-badge" id="quiz-status-6">INCOMPLETE</span>
+                        </summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Pre-Requisites and Basic Concepts for CFD </span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: Venturimeter CFD Analysis</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">🎥</span> Video: External Flow Simulation of Ball</span></div>
+                            <div class="content-item"><span class="content-text-group"><span class="content-icon">📄</span> Article: Practice PDF</span></div>
+                            
+                            <div class="content-item quiz-trigger">
+                                <span class="content-text-group">
+                                    <span class="content-icon">📝</span> Quiz: Introduction to Fluid Dynamics
+                                </span>
+                                <button class="quiz-start-btn" onclick="toggleQuizForm(6)">Take Quiz</button>
+                            </div>
+                            
+                            <form class="quiz-form" onsubmit="event.preventDefault(); submitQuiz(6);">
+                                <h4>Quiz 6: CFD Principles</h4>
+                                <div class="question">
+                                    <p>1. CFD involves solving which fundamental equations?</p>
+                                    <label><input type="radio" name="q6_1" value="a" required> a) Navier-Stokes equations</label>
+                                    <label><input type="radio" name="q6_1" value="b"> b) Ohm's Law</label>
+                                    <label><input type="radio" name="q6_1" value="c"> c) Hooke's Law</label>
+                                </div>
+                                <div class="question">
+                                    <p>2. A Venturimeter is used to measure:</p>
+                                    <label><input type="radio" name="q6_2" value="a" required> a) Structural deformation</label>
+                                    <label><input type="radio" name="q6_2" value="b"> b) Fluid velocity and flow rate</label>
+                                    <label><input type="radio" name="q6_2" value="c"> c) Electromagnetic radiation</label>
+                                </div>
+                                <div class="question">
+                                    <p>3. What is the process of dividing the fluid domain into small cells?</p>
+                                    <label><input type="radio" name="q6_3" value="a" required> a) Skewness</label>
+                                    <label><input type="radio" name="q6_3" value="b"> b) Meshing</label>
+                                    <label><input type="radio" name="q6_3" value="c"> c) Convergence</label>
+                                </div>
+                                <button type="submit" class="quiz-submit-btn">Submit Quiz 6</button>
+                            </form>
+                        </div>
+                    </details>
+                </div>
+
+                <div id="certificate-section">
+                    <h2>Course Completion Status</h2>
+                    <p id="completion-summary">Complete all 6 quizzes to request your certificate.</p>
+                    
+                    <button id="requestCertButton" class="request-cert-btn" disabled onclick="evaluateCertificate()">
+                        Request Certificate
+                    </button>
+                    
+                    <div id="final-evaluation" style="display: none;">
+                        <div id="cert-status-box"></div>
+                        <p style="margin-top: 1rem;">Average Score Required: <span class="highlight">75%</span></p>
+                        <button id="downloadCertButton" class="action-button" style="display: none; margin-top: 1rem;">
+                            <span style="font-size: 1.5em; margin-right: 10px;">🎉</span> Download Official Certificate <span style="font-size: 1.5em; margin-left: 10px;">🎉</span>
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Tattva Yantrika</h3>
+                <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="courses.html">All Courses</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About Us</a>
+                <a href="#careers">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="#help">Help Center</a>
+                <a href="#contact">Contact Support</a>
+                <a href="#faq">FAQ</a>
+                <a href="#community">Community</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Email: info@tattvayantrika.com</p>
+                <p>Phone: +91 98765 43210</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                    <a href="#" class="social-link" aria-label="YouTube">📺</a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
+                    <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const ACCESS_KEY = "ANSYS101"; 
+        const MIN_PASS_SCORE = 75; // 75% average score required for certificate
+        const QUIZ_ANSWERS = {
+            1: {q1_1: 'b', q1_2: 'a', q1_3: 'c'},
+            2: {q2_1: 'b', q2_2: 'c', q2_3: 'b'},
+            3: {q3_1: 'a', q3_2: 'c', q3_3: 'b'},
+            4: {q4_1: 'b', q4_2: 'b', q4_3: 'b'},
+            5: {q5_1: 'c', q5_2: 'b', q5_3: 'b'},
+            6: {q6_1: 'a', q6_2: 'b', q6_3: 'b'}
+        };
+
+        // --- ACCESS GATE LOGIC ---
+        
+        function grantAccess() {
+            const hasAccess = localStorage.getItem('ansys_basics_access') === 'true';
+            
+            // CRITICAL FIX: Only check access status after the page has fully loaded, and ensure content is hidden
+            document.getElementById('course-content-gated').style.display = 'none';
+
+            if (hasAccess) {
+                // If they have access, hide the gate immediately and show the content
+                document.getElementById('access-gate').style.display = 'none';
+                document.getElementById('course-content-gated').style.display = 'block';
+                updateModuleStatuses();
+            } else {
+                // If they DON'T have access, show the gate.
+                document.getElementById('access-gate').style.display = 'block';
+            }
+        }
+
+        document.getElementById('unlockButton').addEventListener('click', () => {
+            const email = document.getElementById('accessEmail').value.trim();
+            const passkey = document.getElementById('accessPasskey').value.trim();
+            const statusBox = document.getElementById('accessStatus');
+
+            if (!email.includes('@') || !email.includes('.') || passkey !== ACCESS_KEY) {
+                statusBox.textContent = "Invalid Email or Passkey.";
+                statusBox.style.color = '#ff5555';
+                return;
+            }
+
+            statusBox.textContent = "Access Granted! Loading course content...";
+            statusBox.style.color = '#00ff88';
+
+            localStorage.setItem('ansys_basics_access', 'true');
+            
+            // Hide gate and show content with a slight delay
+            setTimeout(() => {
+                document.getElementById('access-gate').style.opacity = 0;
+                document.getElementById('access-gate').style.height = 0;
+                document.getElementById('access-gate').style.padding = 0;
+                document.getElementById('access-gate').style.border = 'none';
+                document.getElementById('course-content-gated').style.display = 'block';
+                updateModuleStatuses();
+            }, 500);
+        });
+        
+        // --- QUIZ FORM VISIBILITY ---
+
+        function toggleQuizForm(week) {
+            const form = document.querySelector(`#module-${week} .quiz-form`);
+            const button = document.querySelector(`#module-${week} .quiz-start-btn`);
+            
+            if (form.style.display === 'block') {
+                form.style.display = 'none';
+                button.textContent = 'Take Quiz';
+            } else {
+                form.style.display = 'block';
+                button.textContent = 'Hide Quiz';
+            }
+        }
+
+        // --- QUIZ AND STATUS LOGIC ---
+
+        function submitQuiz(week) {
+            const form = document.querySelector(`#module-${week} .quiz-form`);
+            if (!form.checkValidity()) {
+                alert("Please answer all questions before submitting.");
+                return;
+            }
+
+            const totalQuestions = Object.keys(QUIZ_ANSWERS[week]).length;
+            let correctCount = 0;
+            
+            for (const [key, answer] of Object.entries(QUIZ_ANSWERS[week])) {
+                const selected = form.querySelector(`input[name="${key}"]:checked`);
+                // Check if the name exists in the form and the selected value matches the correct answer
+                if (selected && selected.value === QUIZ_ANSWERS[week][key]) {
+                    correctCount++;
+                }
+            }
+
+            const score = Math.round((correctCount / totalQuestions) * 100);
+            const status = score >= MIN_PASS_SCORE ? 'Passed' : 'Failed';
+
+            // Save results to local storage
+            localStorage.setItem(`ansys_quiz_${week}_score`, score);
+            localStorage.setItem(`ansys_quiz_${week}_status`, status);
+
+            alert(`Quiz ${week} Submitted! Score: ${score}%. Status: ${status}.`);
+            
+            // Close the form and the details panel
+            toggleQuizForm(week);
+            document.querySelector(`#module-${week} details`).open = false;
+
+            updateModuleStatuses();
+        }
+
+        function updateModuleStatuses() {
+            let completedCount = 0;
+            const totalQuizzes = 6;
+
+            for (let i = 1; i <= totalQuizzes; i++) {
+                const status = localStorage.getItem(`ansys_quiz_${i}_status`);
+                const score = localStorage.getItem(`ansys_quiz_${i}_score`);
+                const badge = document.getElementById(`quiz-status-${i}`);
+                
+                if (!badge) continue;
+
+                if (status) {
+                    completedCount++;
+                    badge.innerHTML = `<span class="highlight">${status.toUpperCase()}</span> (${score}%)`;
+                    badge.className = 'status-badge'; // Reset classes
+                    badge.classList.add(status === 'Passed' ? 'status-passed' : 'status-failed');
+                } else {
+                    badge.innerHTML = `<span class="highlight">INCOMPLETE</span>`;
+                    badge.className = 'status-badge status-incomplete';
+                }
+            }
+            
+            // Update final certificate button state
+            const requestButton = document.getElementById('requestCertButton');
+            if (completedCount === totalQuizzes) {
+                requestButton.disabled = false;
+                document.getElementById('completion-summary').innerHTML = 'Congratulations! All quizzes complete. Click below to evaluate your final eligibility.';
+            } else {
+                requestButton.disabled = true;
+                document.getElementById('completion-summary').innerHTML = `Progress: ${completedCount}/${totalQuizzes} quizzes completed.`;
+            }
+        }
+        
+        // --- CERTIFICATE EVALUATION LOGIC ---
+        
+        function evaluateCertificate() {
+            let totalScore = 0;
+            const totalQuizzes = 6;
+
+            // Safety check
+            if (document.getElementById('requestCertButton').disabled) {
+                alert("Error: You must complete all quizzes before requesting the certificate.");
+                return;
+            }
+
+            for (let i = 1; i <= totalQuizzes; i++) {
+                const score = localStorage.getItem(`ansys_quiz_${i}_score`);
+                totalScore += parseInt(score);
+            }
+
+            const averageScore = totalScore / totalQuizzes;
+            const statusBox = document.getElementById('cert-status-box');
+            const downloadButton = document.getElementById('downloadCertButton');
+            const evaluationSection = document.getElementById('final-evaluation');
+
+            evaluationSection.style.display = 'block';
+            statusBox.innerHTML = `Your **Average Course Score is: <span class="highlight">${averageScore.toFixed(1)}%</span>**.`;
+
+            if (averageScore >= MIN_PASS_SCORE) {
+                statusBox.innerHTML += `<p style="margin-top: 10px;">Eligibility Met! You exceeded the <span class="highlight">${MIN_PASS_SCORE}%</span> minimum requirement. You are a Certified Tattva Yantrika Engineer!</p>`;
+                statusBox.className = 'cert-pass';
+                downloadButton.style.display = 'flex'; // Use flex for the joyful button
+                document.getElementById('requestCertButton').disabled = true; // Disable request button once evaluation is done
+            } else {
+                statusBox.innerHTML += `<p style="margin-top: 10px;">CERTIFICATE DENIED. Your average score is below the <span class="highlight">${MIN_PASS_SCORE}%</span> minimum requirement. Please review and retake the quizzes you <span class="highlight">Failed</span>.</p>`;
+                statusBox.className = 'cert-fail';
+                downloadButton.style.display = 'none';
+            }
+        }
+        
+        // --- Initialization ---
+        window.onload = function() {
+            // Check if content should be initialized (to fix the fast flash)
+            if (localStorage.getItem('ansys_basics_access') === 'true') {
+                 grantAccess();
+            } else {
+                 document.getElementById('access-gate').style.display = 'block';
+            }
+            
+            // Initialize local storage fields if they don't exist
+            for (let i = 1; i <= 6; i++) {
+                if (localStorage.getItem(`ansys_quiz_${i}_score`) === null) {
+                    localStorage.setItem(`ansys_quiz_${i}_score`, '');
+                    localStorage.setItem(`ansys_quiz_${i}_status`, '');
+                }
+            }
+        };
+    </script>
+</body>
+</html>
