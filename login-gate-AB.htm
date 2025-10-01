@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Tattva Yantrika</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e3f 25%, #151f42 50%, #0d2f5a 75%, #4a2c7a 100%);
+            background-attachment: fixed; color: #ffffff; line-height: 1.6; overflow-x: hidden;
+        }
+        .header {
+            position: fixed; top: 0; width: 100%; padding: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); z-index: 1000;
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .logo { display: flex; align-items: center; gap: 0.8rem; cursor: default; }
+        .logo-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.3; }
+        .logo-english { font-size: 1.8rem; font-weight: bold; background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-hindi { font-size: 1.1rem; font-weight: 600; background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 4px; }
+        .logo-img { width: 40px; height: 40px; border-radius: 50%; }
+        .nav-menu { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+        .nav-button {
+            display: inline-block; padding: 0.8rem 1.5rem; background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px;
+            color: #ffffff; text-decoration: none; transition: all 0.3s ease;
+        }
+        .nav-button.active { background: rgba(255, 215, 0, 0.2); border-color: rgba(255, 215, 0, 0.4); color: #FFD700; }
+        .main-content { margin-top: 120px; padding: 2rem; display: flex; justify-content: center; align-items: center; }
+        .form-card {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 2.5rem; width: 100%; max-width: 500px;
+        }
+        .page-title { text-align: center; font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem; background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .page-subtitle { text-align: center; font-size: 1.1rem; color: #b8b8b8; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input {
+            width: 100%; padding: 0.8rem 1rem; border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px; background: rgba(0, 0, 0, 0.3); color: #ffffff; font-size: 1rem;
+        }
+        .submit-button {
+            display: flex; /* Changed to flex to center the spinner */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            width: 100%; padding: 1rem 2.5rem; margin-top: 2rem;
+            background: linear-gradient(45deg, #FFD700, #FFA500); border: none; border-radius: 50px;
+            color: #000000; font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .submit-button:disabled {
+            background: linear-gradient(45deg, #a98e00, #a06800);
+            cursor: not-allowed;
+        }
+        .message-error { color: #ff5555; text-align: center; margin-top: 1rem; font-weight: 500; }
+        .footer { margin-top: 4rem; padding: 3rem 2rem 2rem; background: rgba(0, 0, 0, 0.3); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #808080; }
+        
+        /* Styles for the new button spinner */
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.3);
+            border-top-color: #000;
+            border-radius: 50%;
+            width: 1.2rem;
+            height: 1.2rem;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button">Courses</a></li>
+                    <li><a href="signup.html" class="nav-button">Sign Up</a></li>
+                    <li><a href="login.html" class="nav-button active">Sign In</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="form-card">
+            <h1 class="page-title">Sign In to Your Account</h1>
+            <p class="page-subtitle">Enter your credentials to access the course content.</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">E-Mail ID</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" id="signInButton" class="submit-button">
+                    <span id="buttonText">Sign In</span>
+                </button>
+                <p id="errorMessage" class="message-error"></p>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- CONFIGURATION ---
+        // 1. PASTE THE URL YOU GOT FROM DEPLOYING YOUR APPS SCRIPT
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbzb_0OgKh3deTG-vuu7GVtFhdVThJUs_gZUvF5BIy5YS_W3VQgdmZXDD-e0W0qOGiqGpg/exec';
+
+        // --- ELEMENT SELECTORS ---
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const signInButton = document.getElementById('signInButton');
+        const buttonText = document.getElementById('buttonText');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // --- EVENT LISTENER FOR FORM SUBMISSION ---
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Stop the form from reloading the page
+            errorMessage.textContent = ''; // Clear old errors
+            
+            // --- NEW --- Show the spinner on the button
+            buttonText.innerHTML = '<div class="spinner"></div>';
+            signInButton.disabled = true;
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            
+            const url = `${GAS_URL}?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // If login is successful
+                        buttonText.textContent = 'Success!';
+                        alert('Sign in successful! Redirecting to the course page...');
+                        window.location.href = "Enter your ANSYS Course Page Link Here";
+                    } else {
+                        // If login fails, show error and reset the button
+                        errorMessage.textContent = data.message;
+                        buttonText.textContent = 'Sign In';
+                        signInButton.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    // Handle network errors and reset the button
+                    console.error('Error:', error);
+                    errorMessage.textContent = 'An error occurred. Please check your connection and try again.';
+                    buttonText.textContent = 'Sign In';
+                    signInButton.disabled = false;
+                });
+        });
+    </script>
+</body>
+</html>
