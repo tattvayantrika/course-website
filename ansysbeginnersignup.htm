@@ -525,7 +525,7 @@
                     <p class="verification-message" id="verificationMessage" aria-live="polite"></p>
                 </div>
                 
-                <input type="password" id="password" name="password" style="display: none;" value="TattvaPass123" required>
+                <input type="password" id="password" name="password" style="display: none;">
 
 
                 <div id="conditional-form-part">
@@ -700,7 +700,7 @@
         const auth = firebase.auth();
         // --- END FIREBASE SETUP ---
         
-        // 3. GOOGLE APPS SCRIPT URL
+        // 3. GOOGLE APPS SCRIPT URL - YOU WILL GET THIS IN THE FINAL STEP
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbzb_0OgKh3deTG-vuu7GVtFhdVThJUs_gZUvF5BIy5YS_W3VQgdmZXDD-e0W0qOGiqGpg/exec';
 
         const form = document.getElementById('signupForm');
@@ -757,7 +757,6 @@
                 conditionalFormPart.style.display = 'block'; // Make sure the container is visible
             } else {
                 conditionalFormPart.classList.remove('unlocked');
-                conditionalFormPart.style.display = 'none'; // Keep the container hidden initially
             }
             toggleUserTypeFields();
         }
@@ -861,7 +860,10 @@
 
             setLoading(paymentButton, true, 'Submitting Data...');
 
-            // The fix: Explicitly retrieve the values of the disabled fields
+            // Generate a random password for the Google Sheet
+            const randomPassword = 'TY' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('password').value = randomPassword; // Set it in the hidden input
+
             const fullNameValue = fullNameInput.value;
             const emailValue = emailInput.value;
             
@@ -869,9 +871,9 @@
             
             // Map the collected data to the exact column headers required by the Google Sheet
             const data = {
-                // FIXED: Manually use values from inputs that were disabled
                 'Full Name': fullNameValue, 
                 'Email': emailValue,
+                'Password': randomPassword,
                 'Phone': formData.get('phone') || '',
                 'User Type': formData.get('userType') || '',
                 'Program Level': formData.get('programLevel') || '',
@@ -898,7 +900,8 @@
                 });
                 
                 setLoading(paymentButton, false, 'Payment Redirecting...');
-                alert('Success! Your application data has been recorded. Proceeding to Payment Gateway.');
+                alert('Success! Your application data has been recorded. Click OK to proceed to Payment Gateway.');
+                 window.location.href = 'https://www.your-payment-link.com'; // <-- PASTE YOUR PAYMENT PAGE URL HERE
 
             } catch (error) {
                 setLoading(paymentButton, false, 'Error Submitting!');
@@ -940,13 +943,13 @@
             
             if (!enable || !programLevel) {
                  studentInputs.forEach(input => {
-                      if (!['otherBranch', 'mtechSpecialization'].includes(input.id)) input.required = false;
+                     if (!['otherBranch', 'mtechSpecialization'].includes(input.id)) input.required = false;
                  });
             } else {
                  studentInputs.forEach(input => {
-                     if (!['btechBranch', 'mtechSpecialization', 'otherBranch'].includes(input.id)) {
-                          input.required = true;
-                     }
+                      if (!['btechBranch', 'mtechSpecialization', 'otherBranch'].includes(input.id)) {
+                           input.required = true;
+                      }
                  });
             }
 
@@ -963,12 +966,22 @@
         }
 
         function toggleOtherBranchField() {
-            otherBranchGroup.style.display = (btechBranchSelect.value === 'Others') ? 'block' : 'none';
+            const otherBranchInput = otherBranchGroup.querySelector('input');
+            if (btechBranchSelect.value === 'Others') {
+                otherBranchGroup.style.display = 'block';
+                otherBranchInput.required = true;
+            } else {
+                otherBranchGroup.style.display = 'none';
+                otherBranchInput.required = false;
+            }
         }
 
         // Event listeners for conditional logic
         userTypeRadios.forEach(radio => radio.addEventListener('change', toggleUserTypeFields));
-        programLevelRadios.forEach(radio => radio.addEventListener('change', toggleProgramLevelFields));
+        programLevelRadios.forEach(radio => radio.addEventListener('change', () => {
+            toggleProgramLevelFields();
+            toggleOtherBranchField(); // Re-evaluate other branch visibility
+        }));
         btechBranchSelect.addEventListener('change', toggleOtherBranchField);
         
         // Initial state on page load
@@ -977,5 +990,4 @@
         
     </script>
 </body>
-
 </html>
