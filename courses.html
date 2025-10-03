@@ -16,6 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Courses - Tattva Yantrika</title>
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -234,13 +235,13 @@
         }
 
         .certification-text::before {
-            content: '🏆';
+            content: '';
             margin-right: 0.5rem;
             font-size: 1.2em;
         }
 
         .certification-text::after {
-            content: '🏆';
+            content: '';
             margin-left: 0.5rem;
             font-size: 1.2em;
         }
@@ -440,29 +441,34 @@
         }
 
         .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: center;
+}
 
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
 
-        .social-link:hover {
-            background: #00d4ff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-        }
+.social-link i {
+    font-size: 26px;
+    color: #b8b8b8; 
+    transition: all 0.3s ease;
+}
+
+.social-link:hover i {
+    transform: translateY(-4px) scale(1.1);
+}
+
+.social-link:hover.linkedin i { color: #0077B5; }
+.social-link:hover.instagram i { color: #E4405F; }
+.social-link:hover.telegram i { color: #229ED9; }
+.social-link:hover.whatsapp i { color: #25D366; }
 
         .footer-bottom {
             text-align: center;
@@ -543,8 +549,8 @@
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-button">Home</a></li>
                     <li><a href="courses.html" class="nav-button active">Courses</a></li>
-                    <li><a href="#go-to-course" class="nav-button">Go to Course</a></li>
-                    <li><a href="#contact" class="nav-button">Contact Us</a></li>
+                    <li><a href="login-navigator.htm" class="nav-button">Go to Course</a></li>
+                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -626,7 +632,7 @@
                             <li>Control Systems Design</li>
                             <li>MATLAB Certified Specialist</li>
                         </ul>
-                        <a href="#" class="start-button">Start Now</a>
+                        <a href="coming-soon.htm" class="start-button">Start Now</a>
                     </div>
                 </div>
 
@@ -647,7 +653,7 @@
                             <li>Assembly & Kinematics</li>
                             <li>CATIA V5 Professional Certification</li>
                         </ul>
-                        <a href="#" class="start-button">Start Now</a>
+                        <a href="coming-soon.htm" class="start-button">Start Now</a>
                     </div>
                 </div>
             </div>
@@ -663,8 +669,8 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <a href="#courses">All Courses</a>
-                <a href="#pricing">Pricing</a>
+                <a href="courses.html">All Courses</a>
+                <a href="courses.html">Pricing</a>
                 <a href="#about">About Us</a>
                 <a href="#careers">Careers</a>
             </div>
@@ -677,19 +683,26 @@
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: info@tattvayantrika.com</p>
-                <p>Phone: +91 98765 43210</p>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994, 9997279515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link">📘</a>
-                    <a href="#" class="social-link">🐦</a>
-                    <a href="#" class="social-link">📺</a>
-                    <a href="#" class="social-link">💼</a>
-                    <a href="#" class="social-link">📷</a>
-                </div>
+    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="#" class="social-link instagram" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+    <a href="#" class="social-link telegram" aria-label="Telegram">
+        <i class="fab fa-telegram"></i>
+    </a>
+    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="privacy-policy.htm">Privacy Policy</a>  | <a href="terms-of-service">Terms of Service</a></p>
         </div>
     </footer>
 
@@ -723,5 +736,4 @@
 </body>
 
 </html>
-
 
