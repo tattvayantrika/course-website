@@ -1,19 +1,11 @@
-.course-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-
-            .course-logo {
-                width: 50px;
-                height: 50px;
-            }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Tattva Yantrika - Master ANSYS & SolidWorks</title>
-        <link rel="icon" type="image/png" href="icon.png">
+    <title>Tattva Yantrika - Master ANSYS & SolidWorks</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -165,6 +157,45 @@
             left: 100%;
         }
 
+        /* ADDED: Style for the new motivation banner */
+        .motivation-banner {
+            text-align: center;
+            padding: 1.2rem;
+            margin: 2.5rem 0;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .motivation-banner:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 25px rgba(0, 212, 255, 0.25);
+            border-color: rgba(0, 212, 255, 0.4);
+        }
+
+        .motivation-banner p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .motivation-banner .highlight {
+            font-weight: 700;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .motivation-banner i {
+            color: #00d4ff;
+            margin: 0 4px;
+        }
+
         /* Main Content */
         .main-content {
             margin-top: 120px;
@@ -223,20 +254,16 @@
             flex-wrap: wrap;
         }
 
+        /* course-logo style to make it look less like a button */
         .course-logo {
             width: 160px;
-            height: 84px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px;
+            height: auto;
+            object-fit: contain;
             transition: all 0.3s ease;
         }
 
         .course-logo:hover {
             transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
         }
 
         .course-title {
@@ -262,10 +289,35 @@
             margin-bottom: 1.5rem;
             line-height: 1.8;
         }
+        
+        /* New styles for course details layout */
+        .course-details {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .course-image {
+            flex-shrink: 0;
+            width: 380px; /* Modified width for a more rectangular look */
+            height: 240px; /* Modified height for a more rectangular look */
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .course-image:hover {
+             transform: scale(1.05) rotate(-1deg);
+             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
 
         .features-list {
             list-style: none;
             margin-bottom: 2rem;
+            flex-grow: 1;
         }
 
         .features-list li {
@@ -281,6 +333,14 @@
             left: 0;
             color: #00d4ff;
             font-size: 1.2rem;
+        }
+
+        /* Container for buttons */
+        .button-container {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
         }
 
         .learn-button {
@@ -318,6 +378,28 @@
 
         .learn-button:hover::before {
             left: 100%;
+        }
+
+        /* Style for the new certification button */
+        .cert-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid #FFD700;
+            border-radius: 50px;
+            color: #FFD700;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .cert-button:hover {
+            background: #FFD700;
+            color: #1a1a2e;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
         }
 
         /* Testimonial Section */
@@ -422,26 +504,33 @@
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
+            /* Center the icons vertically if they wrap */
+            align-items: center;
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
             text-decoration: none;
             transition: all 0.3s ease;
         }
 
-        .social-link:hover {
-            background: #00d4ff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        .social-link i {
+            font-size: 26px;
+            color: #b8b8b8; /* Match other footer text for a subtle look */
+            transition: all 0.3s ease;
         }
+        
+        /* On hover, change the icon color and lift it slightly */
+        .social-link:hover i {
+            transform: translateY(-4px) scale(1.1);
+        }
+        
+        .social-link:hover.linkedin i { color: #0077B5; }
+        .social-link:hover.instagram i { color: #E4405F; }
+        .social-link:hover.telegram i { color: #229ED9; }
+        .social-link:hover.whatsapp i { color: #25D366; }
 
         .footer-bottom {
             text-align: center;
@@ -451,6 +540,19 @@
         }
 
         /* Mobile Responsive */
+        @media (max-width: 992px) {
+            /* Stack course details on smaller screens */
+            .course-details {
+                flex-direction: column-reverse;
+                gap: 2rem;
+            }
+            .course-image {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+            }
+        }
+        
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
@@ -470,12 +572,18 @@
             }
 
             .main-content {
-                margin-top: 180px;
+                margin-top: 180px; /* Adjust if header height changes */
             }
 
             .course-section {
                 padding: 2rem;
                 margin: 2rem 0;
+            }
+            
+            .course-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
             }
 
             .course-title {
@@ -489,11 +597,10 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="nav-container">
             <div class="logo">
-                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/ffd700?text=TY';">
                 <div class="logo-text">
                     <span class="logo-english">Tattva Yantrika</span>
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
@@ -510,14 +617,19 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- ANSYS Course Section -->
+            
+            <div class="motivation-banner">
+                <p>
+                    Learn from the comfort of your home <i class="fas fa-home"></i>, with certified courses <span class="highlight">90% cheaper</span> than market rates!
+                </p>
+            </div>
+
             <section class="course-section" id="ansys">
                 <div class="course-content">
                     <div class="course-header">
-                        <img src="2021-09-ansys-og-removebg-preview.png" alt="ANSYS Logo" class="course-logo">
+                        <img src="2021-09-ansys-og-removebg-preview.png" alt="ANSYS Logo" class="course-logo" onerror="this.onerror=null;this.src='https://placehold.co/160x84/ffffff/000000?text=ANSYS';">
                         <h2 class="course-title">ANSYS Mastery</h2>
                     </div>
                     <p class="course-description">
@@ -525,23 +637,28 @@
                         From structural analysis to fluid dynamics, unlock the power of finite element analysis and 
                         computational fluid dynamics to solve real-world engineering challenges.
                     </p>
-                    <ul class="features-list">
-                        <li>Complete Finite Element Analysis (FEA) fundamentals</li>
-                        <li>Structural, thermal, and fluid dynamics simulations</li>
-                        <li>Advanced meshing techniques and optimization</li>
-                        <li>Industry-standard workflows and best practices</li>
-                        <li>Real project case studies and hands-on experience</li>
-                        <li>Certificate of completion recognized by industry</li>
-                    </ul>
-                    <a href="#" class="learn-button">Learn for Free</a>
+                    <div class="course-details">
+                        <ul class="features-list">
+                            <li>Complete Finite Element Analysis (FEA) fundamentals</li>
+                            <li>Structural, thermal, and fluid dynamics simulations</li>
+                            <li>Advanced meshing techniques and optimization</li>
+                            <li>Industry-standard workflows and best practices</li>
+                            <li>Real project case studies and hands-on experience</li>
+                            <li>Certificate of completion recognized by industry</li>
+                        </ul>
+                        <img src="ANSYS-Laptop-Image.png" alt="Person learning ANSYS simulations on a laptop" class="course-image" onerror="this.onerror=null;this.src='https://placehold.co/380x240/16213e/ffffff?text=ANSYS+Simulation';">
+                    </div>
+                    <div class="button-container">
+                        <a href="http://www.youtube.com/@TattvaYantrika" class="learn-button">Learn for Free</a>
+                        <a href="courses.html" class="cert-button">Get Certified</a>
+                    </div>
                 </div>
             </section>
 
-            <!-- SolidWorks Course Section -->
             <section class="course-section" id="solidworks">
                 <div class="course-content">
                     <div class="course-header">
-                        <img src="SolidWorks_logo_PNG3.png" alt="SolidWorks Logo" class="course-logo">
+                        <img src="SolidWorks_logo_PNG3.png" alt="SolidWorks Logo" class="course-logo" onerror="this.onerror=null;this.src='https://placehold.co/160x84/ffffff/000000?text=SolidWorks';">
                         <h2 class="course-title">SolidWorks Excellence</h2>
                     </div>
                     <p class="course-description">
@@ -549,53 +666,57 @@
                         assembly design, and technical drawing creation while mastering the industry's most popular 
                         CAD software used by millions of engineers worldwide.
                     </p>
-                    <ul class="features-list">
-                        <li>3D parametric modeling from basics to advanced</li>
-                        <li>Assembly design and motion simulation</li>
-                        <li>Technical drawing and GD&T principles</li>
-                        <li>Surface modeling and advanced features</li>
-                        <li>Simulation and rendering capabilities</li>
-                        <li>Professional portfolio development</li>
-                    </ul>
-                    <a href="#" class="learn-button">Learn for Free</a>
+                    <div class="course-details">
+                        <ul class="features-list">
+                            <li>3D parametric modeling from basics to advanced</li>
+                            <li>Assembly design and motion simulation</li>
+                            <li>Technical drawing and GD&T principles</li>
+                            <li>Surface modeling and advanced features</li>
+                            <li>Simulation and rendering capabilities</li>
+                            <li>Professional portfolio development</li>
+                        </ul>
+                        <img src="SW-Laptop-Image.png" alt="Person learning SolidWorks designs on a laptop" class="course-image" onerror="this.onerror=null;this.src='https://placehold.co/380x240/16213e/ffffff?text=SolidWorks+Design';">
+                    </div>
+                    <div class="button-container">
+                        <a href="https://youtube.com/playlist?list=PLZ89EolIqVE0ehq204lY6V3tKk3uNrFzk&si=jb-YHctWmNsQmjbQ" class="learn-button">Learn for Free</a>
+                        <a href="courses.html" class="cert-button">Get Certified</a>
+                    </div>
                 </div>
             </section>
 
-            <!-- Testimonials Section -->
             <section class="testimonial-section">
-                <h2 class="testimonial-title">What Our Students Say</h2>
+                <h2 class="testimonial-title">What Our Learners Say</h2>
                 <div class="testimonial-container">
                     <div class="testimonial-card">
-                        <div class="testimonial-photo">AK</div>
-                        <p class="testimonial-text">"The ANSYS course completely transformed my engineering career. The hands-on approach and real-world projects made complex simulations easy to understand."</p>
-                        <p class="testimonial-author">- Amit Kumar, Mechanical Engineer</p>
+                        <div class="testimonial-photo">NS</div>
+                        <p class="testimonial-text">"The course provided me all the information that is required for SolidWorks and ANSYS from very basic.Tattva Yantrika provided the opportunity to enhance my skills "</p>
+                        <p class="testimonial-author">- Neha Singh, Mechanical Engineer</p>
                     </div>
                     <div class="testimonial-card">
-                        <div class="testimonial-photo">PS</div>
-                        <p class="testimonial-text">"Exceptional SolidWorks training! The instructors are industry experts and the course structure is perfect for both beginners and advanced users."</p>
-                        <p class="testimonial-author">- Priya Sharma, Design Engineer</p>
+                        <div class="testimonial-photo">SS</div>
+                        <p class="testimonial-text">"I liked the clear explanation of concepts with practical ansys demonstrations. It was a great learning experience that improved my ANSYS skill and confidence.  "</p>
+                        <p class="testimonial-author">- Shruti Sahani, Mechanical Engineer</p>
                     </div>
                     <div class="testimonial-card">
-                        <div class="testimonial-photo">RG</div>
-                        <p class="testimonial-text">"Best investment in my professional development. The simulation techniques I learned helped me solve critical design challenges at work."</p>
-                        <p class="testimonial-author">- Rajesh Gupta, Project Manager</p>
+                        <div class="testimonial-photo">S</div>
+                        <p class="testimonial-text">"All the things taught in this course are very important because SolidWorks improved my design skills and ANSYS enhanced my simulation skills.Thank you tattva yantrika Team."</p>
+                        <p class="testimonial-author">- Shyamu, Aspiring Design Engineer</p>
                     </div>
                     <div class="testimonial-card">
-                        <div class="testimonial-photo">SK</div>
-                        <p class="testimonial-text">"The course content is comprehensive and up-to-date with industry standards. Highly recommend for anyone serious about CAD/CAE."</p>
-                        <p class="testimonial-author">- Sneha Kapoor, Design Consultant</p>
+                        <div class="testimonial-photo">OA</div>
+                        <p class="testimonial-text">"The overall ANSYS training is best part of course.Incredible! Unbelievable! Excellent!"</p>
+                        <p class="testimonial-author">- Osho Ayush, Aspiring FEA Specialist</p>
                     </div>
                     <div class="testimonial-card">
-                        <div class="testimonial-photo">VT</div>
-                        <p class="testimonial-text">"Amazing learning experience! The practical approach and expert guidance made me confident in using these professional tools."</p>
-                        <p class="testimonial-author">- Vikram Tiwari, CAD Specialist</p>
+                        <div class="testimonial-photo">SS</div>
+                        <p class="testimonial-text">"I appreciate how the course combined clear explanation with real-world applications in a simple, exciting way. This course was very much interactive and encouraged active participation.This platform gave me a smooth and positive experience and I'd definitely recommend it to others."</p>
+                        <p class="testimonial-author">- Simran Singh, CAD Specialist</p>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -604,28 +725,33 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <a href="#courses">All Courses</a>
-                <a href="#pricing">Pricing</a>
+                <a href="courses.html">ANSYS Course</a>
+                <a href="courses.html">SolidWorks Course</a>
                 <a href="#about">About Us</a>
-                <a href="#careers">Careers</a>
             </div>
             <div class="footer-section">
                 <h3>Support</h3>
                 <a href="#help">Help Center</a>
-                <a href="#contact">Contact Support</a>
+                <a href="contactus.htm">Contact Support</a>
                 <a href="#faq">FAQ</a>
-                <a href="#community">Community</a>
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: info@tattvayantrika.com</p>
-                <p>Phone: +91 98765 43210</p>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994,9997279515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link">📘</a>
-                    <a href="#" class="social-link">🐦</a>
-                    <a href="#" class="social-link">📺</a>
-                    <a href="#" class="social-link">💼</a>
-                    <a href="#" class="social-link">📷</a>
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -668,9 +794,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
