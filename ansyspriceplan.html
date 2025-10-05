@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANSYS Courses - Tattva Yantrika</title>
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -89,15 +90,9 @@
         }
 
         .logo-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 215, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 5px;
-            transition: all 0.3s ease;
-            animation: logoRotate 8s linear infinite;
+            width: 60px;
+            height: 60px;
+            
         }
 
         @keyframes logoRotate {
@@ -476,29 +471,36 @@
         }
 
         .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: center;
+}
 
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
 
-        .social-link:hover {
-            background: #00d4ff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+.social-link i {
+    font-size: 26px;
+    color: #b8b8b8; 
+    transition: all 0.3s ease;
+}
+
+.social-link:hover i {
+    transform: translateY(-4px) scale(1.1);
+}
+
+.social-link:hover.linkedin i { color: #0077B5; }
+.social-link:hover.instagram i { color: #E4405F; }
+.social-link:hover.telegram i { color: #229ED9; }
+.social-link:hover.whatsapp i { color: #25D366; }
         }
+                
 
         .footer-bottom {
             text-align: center;
@@ -557,8 +559,8 @@
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-button">Home</a></li>
                     <li><a href="courses.html" class="nav-button active" aria-current="page">Courses</a></li>
-                    <li><a href="#go-to-course" class="nav-button">Go to Course</a></li>
-                    <li><a href="#contact" class="nav-button">Contact Us</a></li>
+                    <li><a href="login-navigator.htm" class="nav-button">Go to Course</a></li>
+                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -686,28 +688,34 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="courses.html">All Courses</a>
-                <a href="#pricing">Pricing</a>
+                <a href="courses.html">Pricing</a>
                 <a href="#about">About Us</a>
                 <a href="#careers">Careers</a>
             </div>
             <div class="footer-section">
                 <h3>Support</h3>
-                <a href="#help">Help Center</a>
-                <a href="#contact">Contact Support</a>
-                <a href="#faq">FAQ</a>
-                <a href="#community">Community</a>
+                <a href="contactus.htm">Help Center</a>
+                <a href="contactus.htm">Contact Support</a>
+                
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: info@tattvayantrika.com</p>
-                <p>Phone: +91 98765 43210</p>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994,9997279515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link" aria-label="Facebook">📘</a>
-                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
-                    <a href="#" class="social-link" aria-label="YouTube">📺</a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
-                    <a href="#" class="social-link" aria-label="Instagram">📷</a>
-                </div>
+    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+    <a href="#" class="social-link instagram" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+    <a href="#" class="social-link telegram" aria-label="Telegram">
+        <i class="fab fa-telegram"></i>
+    </a>
+    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
             </div>
         </div>
         <div class="footer-bottom">
@@ -745,4 +753,5 @@
 </body>
 
 </html>
+
 
