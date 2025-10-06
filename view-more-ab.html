@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSYS Basic Course Details - Tattva Yantrika</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/1a1a2e/FFD700?text=TY">
+    
+    <style>
+        /* Root variables for consistent theming */
+        :root {
+            --color-gold: #FFD700;
+            --color-primary-accent: #ffbb55; 
+            --color-secondary-accent: #00d4ff;
+            --color-text-light: #ffffff;
+            --color-text-medium: #c0c0c0;
+            --color-text-dark: #1a1a2e;
+            --font-main: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* General body and reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e3f 25%, #151f42 50%, #0d2f5a 75%, #4a2c7a 100%);
+            background-attachment: fixed;
+            color: var(--color-text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .logo-text-group {
+            line-height: 1.3;
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-english {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--color-gold), #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo-hindi {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-gold);
+        }
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: var(--color-text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .nav-button:hover, .nav-button.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.4);
+            color: var(--color-gold);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content Wrapper */
+        .main-content {
+            padding: 120px 2rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        /* Course Details Card */
+        .course-card {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(10, 10, 30, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .tag-foundation {
+            display: inline-block;
+            background: linear-gradient(90deg, #00BFFF, #FF00FF);
+            color: var(--color-text-light);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .course-duration {
+            font-size: 1.5rem;
+            color: var(--color-text-medium);
+            margin-bottom: 1.5rem;
+        }
+        
+        .course-description {
+            font-size: 1.1rem;
+            color: var(--color-text-medium);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .price-current {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--color-text-light);
+        }
+        .price-original {
+            font-size: 1.8rem;
+            text-decoration: line-through;
+            color: var(--color-text-medium);
+            opacity: 0.6;
+        }
+        .price-per-week {
+            font-size: 1.2rem;
+            color: var(--color-secondary-accent);
+            font-weight: 500;
+        }
+        .limited-offer {
+            font-size: 1rem;
+            background-color: rgba(255, 215, 0, 0.15);
+            color: var(--color-gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        .feature-icon {
+            font-size: 1.8rem;
+            color: var(--color-secondary-accent);
+        }
+        .feature-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 2rem 0;
+            border: none;
+        }
+
+        /* Curriculum Section */
+        .curriculum-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--color-gold), var(--color-primary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .module {
+            margin-bottom: 1rem;
+        }
+        .module details {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .module details[open] {
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.1);
+        }
+        .module summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.3s;
+            color: var(--color-text-light);
+            border-radius: 12px;
+            position: relative; /* Needed for the pseudo-element */
+        }
+        .module summary::after {
+            content: '+';
+            position: absolute;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            color: var(--color-secondary-accent);
+        }
+        .module details[open] summary::after {
+            transform: rotate(45deg);
+            content: '+';
+        }
+        .module summary:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+        .module details[open] summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--color-secondary-accent);
+        }
+        .module-content {
+            padding: 0.5rem 1.5rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .content-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0.5rem;
+            font-size: 1.05rem; /* Slightly increased font size */
+            color: var(--color-text-light); /* Brighter text */
+            font-weight: 500; /* Bolder text */
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .content-item:hover {
+            background-color: rgba(0, 212, 255, 0.07);
+            transform: translateX(5px);
+        }
+        .content-icon {
+            margin-right: 12px;
+            font-size: 1.2rem;
+            color: var(--color-secondary-accent);
+        }
+        
+        /* Call to Action Section */
+        .cta-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .btn-enroll {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--color-gold), #FFA500);
+            color: var(--color-text-dark);
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-decoration: none;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+        }
+        .btn-enroll:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        /* Certification Section */
+        .certification-section {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: rgba(255, 215, 0, 0.05); /* Gold tinted background */
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            text-align: center;
+        }
+        .certification-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--color-gold);
+        }
+        .certification-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .cert-icon {
+            font-size: 4rem;
+            line-height: 1;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+        .certification-content p {
+            font-size: 1.1rem;
+            color: var(--color-text-medium);
+            line-height: 1.8;
+        }
+        .certification-content strong {
+            color: var(--color-text-light);
+            font-weight: 600;
+        }
+        
+        .certificate-sample-img {
+            max-width: 250px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .certificate-sample-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        /* Modal (Lightbox) Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            padding-top: 50px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 900px;
+            animation-name: zoom;
+            animation-duration: 0.5s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+        }
+
+        /* Footer (Reused from reference) */
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .footer p {
+            color: var(--color-text-medium);
+        }
+        .footer a {
+            color: var(--color-gold);
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+            .nav-menu {
+                gap: 0.8rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-button {
+                padding: 0.6rem 1rem;
+            }
+            .main-content {
+                padding-top: 200px;
+            }
+            .course-card {
+                padding: 1.5rem;
+            }
+            .course-title {
+                font-size: 2.2rem;
+            }
+            .pricing-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .price-current { font-size: 3rem; }
+            .price-original { font-size: 1.5rem; }
+            .curriculum-title { font-size: 2rem; }
+            .module summary { font-size: 1.1rem; }
+            .certification-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Consistent Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <div class="logo-text-group">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button active" aria-current="page">Courses</a></li>
+                    <li><a href="courses.html" class="nav-button">Sign Up Now</a></li>
+                    <li><a href="contactus.htm" class="nav-button">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="course-card">
+            <!-- Course Header -->
+            <div class="tag-foundation">Foundation</div>
+            <h1 class="course-title">ANSYS Basic</h1>
+            <p class="course-duration">A 6-Week Comprehensive Learning Program</p>
+            <p class="course-description">
+                Unlock the power of engineering simulation. This foundational course provides the essential skills to master ANSYS for structural, thermal, and fluid dynamics analysis through hands-on projects and expert-led video tutorials.
+            </p>
+
+            <!-- Pricing Section -->
+            <div class="pricing-section">
+                <span class="price-current">₹1,999</span>
+                <span class="price-original">₹5,999</span>
+                <span class="limited-offer">Limited Time Offer!</span>
+                <span class="price-per-week">(Only ₹333 per week)</span>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span class="feature-text">Recorded Tutorial Videos</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span class="feature-text">Self-Paced Learning Model</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span class="feature-text">Access to PDF Notes</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⭐</span>
+                    <span class="feature-text">Quiz & Practice Models</span>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="cta-section" style="margin-bottom: 3rem;">
+                <a href="#enroll-bottom" class="btn-enroll" id="enroll-top">Enroll Now</a>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Curriculum Section -->
+            <div class="curriculum-section">
+                <h2 class="curriculum-title">Week-by-Week Curriculum</h2>
+                <!-- Week 1 -->
+                <div class="module">
+                    <details>
+                        <summary>Week 1: Introduction to Simulation</summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Importance of Simulation/ANSYS</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Pre-Requisites for simulation</div>
+                            <div class="content-item"><span class="content-icon">📄</span> Article: Basics of FEA/CFD.</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Why ANSYS? And Installation</div>
+                            <div class="content-item"><span class="content-icon">📝</span> Quiz: Fundamentals Check</div>
+                        </div>
+                    </details>
+                </div>
+                <!-- Week 2 -->
+                <div class="module">
+                    <details>
+                        <summary>Week 2: Core Tools of ANSYS Workbench</summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Workbench Layout</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Tool Explanation with Example</div>
+                            <div class="content-item"><span class="content-icon">📄</span> Article: Synopsis of all tools</div>
+                            <div class="content-item"><span class="content-icon">📝</span> Quiz: Workbench Proficiency</div>
+                        </div>
+                    </details>
+                </div>
+                <!-- Week 3 -->
+                <div class="module">
+                    <details>
+                        <summary>Week 3: Static Structural Analysis</summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Steps required for Static Structural Analysis</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Connecting Shaft Analysis</div>
+                            <div class="content-item"><span class="content-icon">📄</span> Article: Practice PDF</div>
+                            <div class="content-item"><span class="content-icon">📝</span> Quiz: Structural Analysis Concepts</div>
+                        </div>
+                    </details>
+                </div>
+                <!-- Week 4 -->
+                <div class="module">
+                    <details>
+                        <summary>Week 4: Explicit Dynamics</summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Basics of Explicit and its Industrial Usage</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Planing Tool Simulation</div>
+                            <div class="content-item"><span class="content-icon">📄</span> Article: Practice PDF</div>
+                            <div class="content-item"><span class="content-icon">📝</span> Quiz: Explicit Dynamics Fundamentals</div>
+                        </div>
+                    </details>
+                </div>
+                <!-- Week 5 -->
+                <div class="module">
+                    <details>
+                        <summary>Week 5: Steady State Thermal Analysis</summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Types of Thermal Analysis and its industrial implication</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Conduction Convection Simulation</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Radiation Simulation</div>
+                            <div class="content-item"><span class="content-icon">📄</span> Article: Practice PDF</div>
+                            <div class="content-item"><span class="content-icon">📝</span> Quiz: Thermal Concepts & Applications</div>
+                        </div>
+                    </details>
+                </div>
+                <!-- Week 6 -->
+                <div class="module">
+                    <details>
+                        <summary>Week 6: Computational Fluid Dynamics (CFD)</summary>
+                        <div class="module-content">
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Pre-Requisites and Basic Concepts for CFD</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: Venturimeter CFD Analysis</div>
+                            <div class="content-item"><span class="content-icon">🎥</span> Video: External Flow Simulation of Ball</div>
+                            <div class="content-item"><span class="content-icon">📄</span> Article: Practice PDF</div>
+                            <div class="content-item"><span class="content-icon">📝</span> Quiz: Introduction to Fluid Dynamics</div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Certification Path Section -->
+            <div class="certification-section">
+                <h2 class="certification-title">Your Path to Certification</h2>
+                <div class="certification-content">
+                    <div class="cert-icon">🏆</div>
+                    <p>Demonstrate your new skills and earn your official certificate! To become certified, achieve an average score of <strong>75% or higher</strong> across all course quizzes.</p>
+                    <p>We believe in second chances! If you don't reach the goal on your first try, you'll have a <strong>final opportunity</strong> to retake the quizzes and showcase your mastery.</p>
+                    <img src="Sample-Certificate.png" alt="Sample Course Certificate" class="certificate-sample-img" id="certImg">
+                </div>
+            </div>
+
+             <!-- Final Call to Action -->
+             <div class="cta-section">
+                <!-- FIX: The href is now a placeholder for your actual link, javascript will handle the scroll. -->
+                <a href="ansysbeginnersignup.htm" class="btn-enroll" id="enroll-bottom">Enroll Now and Start Learning</a>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="privacy-policy.htm">Privacy Policy</a> | <a href="terms-of-service.htm">Terms of Service</a></p>
+    </footer>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- FIX: ROBUST SMOOTH SCROLL SCRIPT ---
+            const enrollTopButton = document.getElementById('enroll-top');
+            const enrollBottomButton = document.getElementById('enroll-bottom');
+
+            if (enrollTopButton && enrollBottomButton) {
+                enrollTopButton.addEventListener('click', function(event) {
+                    // 1. Prevent the default jumpy anchor link behavior
+                    event.preventDefault(); 
+                    
+                    // 2. Smoothly scroll the bottom button into view
+                    enrollBottomButton.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'center' // Tries to center the button on the screen
+                    });
+                });
+            }
+
+            // --- Existing Modal functionality for the certificate image ---
+            var modal = document.getElementById("myModal");
+            var img = document.getElementById("certImg");
+            var modalImg = document.getElementById("img01");
+            
+            if(img) {
+                img.onclick = function(){
+                  modal.style.display = "block";
+                  modalImg.src = this.src.replace('400x275', '800x550'); 
+                }
+            }
+
+            var span = document.getElementsByClassName("close-modal")[0];
+
+            if(span) {
+                span.onclick = function() { 
+                  modal.style.display = "none";
+                }
+            }
+
+            if(modal) {
+                modal.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
