@@ -20,6 +20,7 @@
             color: #ffffff;
             line-height: 1.6;
             overflow-x: hidden;
+            padding-bottom: 50px;
         }
 
         /* Header Styles */
@@ -27,20 +28,21 @@
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.2rem 2rem;
+            /* Reduced padding to save vertical space */
+            padding: 0.8rem 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             transition: all 0.3s ease;
-            min-height: 80px;
+            min-height: 70px;
         }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1300px; /* Increased max-width slightly for more room */
             margin: 0 auto;
         }
 
@@ -48,6 +50,7 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            flex-shrink: 0; /* Prevent logo from shrinking */
         }
 
         .logo-text {
@@ -59,7 +62,7 @@
         }
 
         .logo-english {
-            font-size: 1.8rem;
+            font-size: 1.6rem; /* Slightly smaller logo text */
             font-weight: bold;
             background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
             -webkit-background-clip: text;
@@ -70,13 +73,13 @@
         }
 
         .logo-hindi {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-top: 4px;
+            margin-top: 2px;
             font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
             padding: 2px 0;
             overflow: visible;
@@ -88,8 +91,8 @@
         }
 
         .logo-img {
-            width: 65px;
-            height: 65px;
+            width: 55px; /* Slightly smaller logo image */
+            height: 55px;
             border-radius: 50%;
         }
 
@@ -106,7 +109,8 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            /* Reduced gap significantly to fix congestion */
+            gap: 0.8rem; 
             align-items: center;
         }
 
@@ -114,9 +118,11 @@
             display: inline-block;
         }
 
+        /* --- UPDATED BASE NAV BUTTON STYLE --- */
         .nav-button {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
+            /* Reduced padding significantly */
+            padding: 0.6rem 1rem; 
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -127,15 +133,15 @@
             position: relative;
             overflow: hidden;
             white-space: nowrap;
-            font-size: 0.95rem;
+            /* Reduced font size for better fit */
+            font-size: 0.9rem; 
+            animation: pulse-cyan 3s infinite;
         }
-
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        
+        .nav-button i {
+            margin-right: 6px; /* Reduced spacing */
         }
-
+        
         .nav-button::before {
             content: '';
             position: absolute;
@@ -151,7 +157,47 @@
             left: 100%;
         }
 
-        /* ADDED: Style for the new motivation banner */
+        .nav-button:not(.project-btn):not(.join-btn):hover {
+            background: rgba(0, 212, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            border-color: rgba(0, 212, 255, 0.8);
+        }
+
+        /* --- KEYFRAMES FOR PULSING BUTTONS --- */
+        
+        @keyframes pulse-cyan {
+            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.3); border-color: rgba(0, 212, 255, 0.3); }
+            70% { box-shadow: 0 0 0 6px rgba(0, 212, 255, 0); border-color: rgba(0, 212, 255, 0.6); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); border-color: rgba(0, 212, 255, 0.3); }
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 65, 108, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
+        }
+
+        @keyframes pulse-blue {
+            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+        }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        /* --- END ANIMATIONS --- */
+
         .motivation-banner {
             text-align: center;
             padding: 1.2rem;
@@ -192,7 +238,7 @@
 
         /* Main Content */
         .main-content {
-            margin-top: 120px;
+            margin-top: 100px; /* Adjusted due to smaller header */
             padding: 2rem;
         }
 
@@ -248,7 +294,6 @@
             flex-wrap: wrap;
         }
 
-        /* course-logo style to make it look less like a button */
         .course-logo {
             width: 160px;
             height: auto;
@@ -284,7 +329,6 @@
             line-height: 1.8;
         }
         
-        /* New styles for course details layout */
         .course-details {
             display: flex;
             gap: 2.5rem;
@@ -294,8 +338,8 @@
 
         .course-image {
             flex-shrink: 0;
-            width: 380px; /* Modified width for a more rectangular look */
-            height: 240px; /* Modified height for a more rectangular look */
+            width: 380px;
+            height: 240px;
             object-fit: cover;
             border-radius: 20px;
             box-shadow: 0 15px 30px rgba(0,0,0,0.4);
@@ -337,6 +381,8 @@
             margin-top: 1rem;
         }
 
+        /* --- UPDATED BUTTONS WITH GLOW/PULSE --- */
+
         .learn-button {
             display: inline-block;
             padding: 1rem 2rem;
@@ -350,50 +396,33 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+            animation: pulse-blue 2s infinite;
         }
 
         .learn-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.5);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.8);
             background: linear-gradient(45deg, #0099cc, #00d4ff);
         }
 
-        .learn-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .learn-button:hover::before {
-            left: 100%;
-        }
-
-        /* Style for the new certification button */
         .cert-button {
             display: inline-block;
             padding: 1rem 2rem;
-            background: transparent;
-            border: 2px solid #FFD700;
+            background: linear-gradient(45deg, #FFD700, #DAA520);
+            border: none;
             border-radius: 50px;
-            color: #FFD700;
+            color: #1a1a2e;
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
+            animation: pulse-gold 2s infinite;
         }
 
         .cert-button:hover {
-            background: #FFD700;
-            color: #1a1a2e;
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+            background: linear-gradient(45deg, #DAA520, #FFD700);
         }
 
         /* Testimonial Section */
@@ -498,7 +527,6 @@
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
-            /* Center the icons vertically if they wrap */
             align-items: center;
         }
 
@@ -512,11 +540,10 @@
 
         .social-link i {
             font-size: 26px;
-            color: #b8b8b8; /* Match other footer text for a subtle look */
+            color: #b8b8b8;
             transition: all 0.3s ease;
         }
         
-        /* On hover, change the icon color and lift it slightly */
         .social-link:hover i {
             transform: translateY(-4px) scale(1.1);
         }
@@ -533,9 +560,130 @@
             color: #808080;
         }
 
+        /* --- UPDATED HERO & NAV BUTTON STYLES --- */
+        
+        .nav-button.project-btn {
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            border: none;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 65, 108, 0.5);
+            animation: pulse-red 2s infinite;
+        }
+
+        .nav-button.project-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 65, 108, 0.8);
+        }
+
+        .nav-button.join-btn {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            border: none;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+            animation: pulse-green 2s infinite;
+        }
+        
+        .nav-button.join-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(46, 204, 113, 0.8);
+        }
+
+        /* Hero Problem/Solution Banner */
+        .project-help-hero {
+            background: linear-gradient(135deg, rgba(255, 65, 108, 0.1), rgba(255, 75, 43, 0.05));
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 65, 108, 0.3);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-help-hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #ffffff, #ffcccb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-help-hero p {
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+        }
+
+        /* Hero Action Button (Solve My Issue) - Red */
+        .hero-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            animation: pulse-red 2s infinite;
+        }
+
+        .hero-action-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 75, 43, 0.6);
+        }
+
+        .hero-icon {
+            font-size: 1.4rem;
+        }
+
+        .hiring-ticker-wrap {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.95);
+            border-top: 1px solid #00d4ff;
+            z-index: 2000;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hiring-ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: tickerSlide 25s linear infinite;
+        }
+
+        .hiring-ticker span {
+            display: inline-block;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .hiring-ticker .highlight {
+            color: #ffd700;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+
+        @keyframes tickerSlide {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
         /* Mobile Responsive */
         @media (max-width: 992px) {
-            /* Stack course details on smaller screens */
             .course-details {
                 flex-direction: column-reverse;
                 gap: 2rem;
@@ -566,7 +714,7 @@
             }
 
             .main-content {
-                margin-top: 180px; /* Adjust if header height changes */
+                margin-top: 180px; 
             }
 
             .course-section {
@@ -587,6 +735,14 @@
             .testimonial-card {
                 min-width: 280px;
             }
+
+            .project-help-hero {
+                padding: 2rem 1rem;
+            }
+            
+            .project-help-hero h2 {
+                font-size: 1.6rem;
+            }
         }
     </style>
 </head>
@@ -602,10 +758,14 @@
             </div>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-button">Home</a></li>
-                    <li><a href="courses.html" class="nav-button">Courses</a></li>
-                    <li><a href="login-navigator.htm" class="nav-button">Login to Course</a></li>
-                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
+                    <!-- Adjusted buttons for better fit -->
+                    <li><a href="index.html" class="nav-button"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="courses.html" class="nav-button"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+                    <!-- Shortened text from "Login to Course" to "Login" -->
+                    <li><a href="login-navigator.htm" class="nav-button"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="join-us.htm" class="nav-button join-btn"><i class="fas fa-users"></i> Join Us</a></li>
+                    <li><a href="project-registration.htm" class="nav-button project-btn"><i class="fas fa-tools"></i> Fix My Project</a></li>
+                    <li><a href="contactus.htm" class="nav-button"><i class="fas fa-envelope"></i> Contact Us</a></li>
                 </ul>
             </nav>
         </div>
@@ -613,6 +773,14 @@
 
     <main class="main-content">
         <div class="container">
+            
+            <div class="project-help-hero">
+                <h2>Stuck with Project Errors?</h2>
+                <p>Don't let software bugs or simulation errors stop your progress. Our experts are here to troubleshoot your ANSYS & SolidWorks projects instantly.</p>
+                <a href="project-registration.htm" class="hero-action-btn">
+                    <i class="fas fa-bug hero-icon"></i> Solve My Issue Now
+                </a>
+            </div>
             
             <div class="motivation-banner">
                 <p>
@@ -754,6 +922,13 @@
         </div>
     </footer>
 
+    <!-- Hiring Ticker Bar (Fixed Bottom) -->
+    <div class="hiring-ticker-wrap">
+        <div class="hiring-ticker">
+            <span> We are <span class="highlight">EXPANDING OUR TEAM!</span> Join Tattva Yantrika today and shape the future of engineering education. Apply now! </span>
+        </div>
+    </div>
+
     <script>
         // Add smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -788,6 +963,3 @@
     </script>
 </body>
 </html>
-
-
-
