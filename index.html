@@ -5,286 +5,385 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tattva Yantrika - Master ANSYS & SolidWorks</title>
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --accent:         #3a7bd5;
+            --accent-soft:    rgba(58,123,213,0.15);
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --red:            #c94040;
+            --red-soft:       rgba(201,64,64,0.12);
+            --green:          #3a8a5c;
+            --green-soft:     rgba(58,138,92,0.12);
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-card:    0 8px 40px rgba(0,0,0,0.4);
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
-            background-attachment: fixed;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
             overflow-x: hidden;
             padding-bottom: 50px;
         }
 
-        /* Header Styles */
+        /* ─── Subtle background texture ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            /* Reduced padding to save vertical space */
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            transition: all 0.3s ease;
-            min-height: 70px;
+            transition: box-shadow 0.3s;
+        }
+
+        .header.scrolled {
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
         }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1300px; /* Increased max-width slightly for more room */
+            max-width: 1280px;
             margin: 0 auto;
+            padding: 0.75rem 2rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            flex-shrink: 0; /* Prevent logo from shrinking */
+            gap: 0.9rem;
+            flex-shrink: 0;
         }
+
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-muted);
+            transition: border-color 0.3s;
+        }
+        .logo-img:hover { border-color: var(--gold); }
 
         .logo-text {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            line-height: 1.3;
-            padding: 2px 0;
+            line-height: 1.2;
         }
 
         .logo-english {
-            font-size: 1.6rem; /* Slightly smaller logo text */
-            font-weight: bold;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: royalGradient 3s ease-in-out infinite;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.02em;
         }
 
         .logo-hindi {
-            font-size: 1rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 2px;
-            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
-            padding: 2px 0;
-            overflow: visible;
+            font-size: 0.82rem;
+            color: var(--gold-muted);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
         }
 
-        @keyframes royalGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .logo-img {
-            width: 55px; /* Slightly smaller logo image */
-            height: 55px;
-            border-radius: 50%;
-        }
-
-        @keyframes logoRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .logo-img:hover {
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
-            border-color: rgba(255, 215, 0, 0.6);
+        /* ─── NAV ACTIONS & LAYOUT ─── */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
-            /* Reduced gap significantly to fix congestion */
-            gap: 0.8rem; 
+            gap: 0.5rem;
             align-items: center;
         }
 
-        .nav-menu li {
-            display: inline-block;
+        .login-wrapper {
+            border-left: 1px solid var(--border);
+            padding-left: 1.5rem;
+            display: flex;
+            align-items: center;
         }
 
-        /* --- UPDATED BASE NAV BUTTON STYLE --- */
         .nav-button {
-            display: inline-block;
-            /* Reduced padding significantly */
-            padding: 0.6rem 1rem; 
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            white-space: nowrap;
+        }
+
+        .nav-button:not(.project-btn):not(.join-btn):not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
+        }
+
+        /* Glowing Courses Button */
+        @keyframes coursePulseGlow {
+            0% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+            50% { box-shadow: 0 0 15px rgba(200,162,74,0.6); border-color: rgba(200,162,74,0.8); }
+            100% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+        }
+        
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            animation: coursePulseGlow 2.5s infinite;
+            font-weight: 600;
+        }
+        .nav-button.courses-btn:hover {
+            background: rgba(200,162,74,0.2);
+            color: #fff;
+            animation-play-state: paused;
+        }
+
+        .nav-button.login-btn {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            font-weight: 600;
+        }
+        .nav-button.login-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        .nav-button.join-btn {
+            background: var(--green-soft);
+            color: #62c98e;
+            border-color: rgba(58,138,92,0.3);
+            font-weight: 600;
+        }
+        .nav-button.join-btn:hover {
+            background: rgba(58,138,92,0.2);
+            border-color: rgba(58,138,92,0.6);
+        }
+
+        .nav-button.project-btn {
+            background: var(--red-soft);
+            color: #e07070;
+            border-color: rgba(201,64,64,0.3);
+            font-weight: 600;
+        }
+        .nav-button.project-btn:hover {
+            background: rgba(201,64,64,0.2);
+            border-color: rgba(201,64,64,0.6);
+        }
+
+        .nav-button.login-btn {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            font-weight: 600;
+        }
+        .nav-button.login-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--gold);
+            color: var(--gold-light);
+        }
+
+        /* ─── MAIN ─── */
+        .main-content {
+            margin-top: 75px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        /* ─── HERO BANNER (Fix My Project) ─── */
+        .project-help-hero {
+            background: linear-gradient(135deg, rgba(201,64,64,0.08) 0%, rgba(13,15,26,0) 70%);
+            border: 1px solid rgba(201,64,64,0.2);
+            border-radius: var(--radius-lg);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
             position: relative;
             overflow: hidden;
-            white-space: nowrap;
-            /* Reduced font size for better fit */
-            font-size: 0.9rem; 
-            animation: pulse-cyan 3s infinite;
         }
-        
-        .nav-button i {
-            margin-right: 6px; /* Reduced spacing */
-        }
-        
-        .nav-button::before {
+
+        .project-help-hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            top: -40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 180%;
+            background: radial-gradient(ellipse, rgba(201,64,64,0.06) 0%, transparent 70%);
+            pointer-events: none;
         }
 
-        .nav-button:hover::before {
-            left: 100%;
+        .project-help-hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
         }
 
-        .nav-button:not(.project-btn):not(.join-btn):hover {
-            background: rgba(0, 212, 255, 0.15);
+        .project-help-hero p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.85rem 2.2rem;
+            background: var(--red);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 10px;
+            transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 4px 20px rgba(201,64,64,0.3);
+        }
+
+        .hero-action-btn:hover {
+            background: #d94a4a;
             transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
-            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 0 8px 28px rgba(201,64,64,0.45);
         }
 
-        /* --- KEYFRAMES FOR PULSING BUTTONS --- */
-        
-        @keyframes pulse-cyan {
-            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.3); border-color: rgba(0, 212, 255, 0.3); }
-            70% { box-shadow: 0 0 0 6px rgba(0, 212, 255, 0); border-color: rgba(0, 212, 255, 0.6); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); border-color: rgba(0, 212, 255, 0.3); }
-        }
-
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 65, 108, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); }
-        }
-
-        @keyframes pulse-blue {
-            0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
-        }
-
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
-        }
-
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-        }
-
-        /* --- END ANIMATIONS --- */
-
+        /* ─── MOTIVATION BANNER ─── */
         .motivation-banner {
             text-align: center;
-            padding: 1.2rem;
-            margin: 2.5rem 0;
-            background: rgba(0, 212, 255, 0.05);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
-            transition: all 0.3s ease;
+            padding: 1rem 1.5rem;
+            margin-bottom: 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: border-color 0.3s;
         }
-
-        .motivation-banner:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 25px rgba(0, 212, 255, 0.25);
-            border-color: rgba(0, 212, 255, 0.4);
-        }
+        .motivation-banner:hover { border-color: var(--border-hover); }
 
         .motivation-banner p {
-            margin: 0;
-            font-size: 1.1rem;
-            color: #e0e0e0;
-            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text-secondary);
         }
 
         .motivation-banner .highlight {
             font-weight: 700;
-            background: linear-gradient(45deg, #00d4ff, #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .motivation-banner i {
-            color: #00d4ff;
-            margin: 0 4px;
+            color: var(--gold);
         }
 
-        /* Main Content */
-        .main-content {
-            margin-top: 100px; /* Adjusted due to smaller header */
-            padding: 2rem;
+        .motivation-banner i { color: var(--gold); margin: 0 4px; }
+
+        /* ─── SECTION DIVIDER ─── */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 3rem 0 2rem;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .section-divider span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Course Sections */
+        /* ─── COURSE SECTION ─── */
         .course-section {
-            margin: 4rem 0;
-            padding: 3rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            padding: 2.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
         }
 
         .course-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-3px);
         }
 
-        .course-section::before {
+        /* Left gold accent line */
+        .course-section::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            border-radius: 3px 0 0 3px;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s;
         }
+        .course-section:hover::after { opacity: 1; }
 
-        .course-section:hover::before {
-            opacity: 1;
-        }
-
-        .course-content {
-            position: relative;
-            z-index: 2;
-        }
+        .course-content { position: relative; z-index: 2; }
 
         .course-header {
             display: flex;
@@ -295,362 +394,298 @@
         }
 
         .course-logo {
-            width: 160px;
+            width: 140px;
             height: auto;
             object-fit: contain;
-            transition: all 0.3s ease;
+            filter: brightness(0.9);
+            transition: filter 0.3s;
         }
-
-        .course-logo:hover {
-            transform: scale(1.1);
-        }
+        .course-logo:hover { filter: brightness(1.1); }
 
         .course-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00d4ff, #ff00ff, #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: gradientShift 3s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            font-family: 'Playfair Display', serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
         }
 
         .course-description {
-            font-size: 1.1rem;
-            color: #b8b8b8;
+            font-size: 1rem;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
             line-height: 1.8;
+            max-width: 700px;
         }
-        
+
         .course-details {
             display: flex;
             gap: 2.5rem;
-            align-items: center;
-            margin: 2rem 0;
+            align-items: flex-start;
+            margin: 1.5rem 0;
         }
 
         .course-image {
             flex-shrink: 0;
-            width: 380px;
-            height: 240px;
+            width: 340px;
+            height: 215px;
             object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s;
         }
-        
         .course-image:hover {
-             transform: scale(1.05) rotate(-1deg);
-             box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            transform: scale(1.03);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+            border-color: var(--border-hover);
         }
 
         .features-list {
             list-style: none;
-            margin-bottom: 2rem;
             flex-grow: 1;
         }
 
         .features-list li {
-            padding: 0.5rem 0;
+            padding: 0.45rem 0;
+            padding-left: 1.4rem;
             position: relative;
-            padding-left: 1.5rem;
-            color: #e0e0e0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
         }
+        .features-list li:last-child { border-bottom: none; }
 
         .features-list li::before {
-            content: '✦';
+            content: '';
             position: absolute;
             left: 0;
-            color: #00d4ff;
-            font-size: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
         }
 
-        /* Container for buttons */
         .button-container {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             flex-wrap: wrap;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
-
-        /* --- UPDATED BUTTONS WITH GLOW/PULSE --- */
 
         .learn-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #00d4ff, #0099cc);
-            border: none;
-            border-radius: 50px;
-            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 1.8rem;
+            background: var(--accent-soft);
+            border: 1px solid rgba(58,123,213,0.35);
+            border-radius: 10px;
+            color: #6fa3e8;
             text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            animation: pulse-blue 2s infinite;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.25s, border-color 0.25s, transform 0.2s, box-shadow 0.25s;
         }
-
         .learn-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.8);
-            background: linear-gradient(45deg, #0099cc, #00d4ff);
+            background: rgba(58,123,213,0.22);
+            border-color: rgba(58,123,213,0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(58,123,213,0.2);
         }
 
         .cert-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #FFD700, #DAA520);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 1.8rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
             border: none;
-            border-radius: 50px;
-            color: #1a1a2e;
+            border-radius: 10px;
+            color: #1a1510;
             text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            animation: pulse-gold 2s infinite;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: filter 0.25s, transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 4px 16px rgba(200,162,74,0.25);
         }
-
         .cert-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
-            background: linear-gradient(45deg, #DAA520, #FFD700);
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(200,162,74,0.4);
         }
 
-        /* Testimonial Section */
+        /* ─── TESTIMONIALS ─── */
         .testimonial-section {
             margin: 4rem 0;
-            padding: 2rem 0;
             overflow: hidden;
         }
 
         .testimonial-title {
             text-align: center;
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 3rem;
-            background: linear-gradient(45deg, #ff00ff, #00d4ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2.5rem;
         }
 
-        .testimonial-container {
-            display: flex;
-            animation: scrollLeft 20s linear infinite;
-            gap: 2rem;
+        .testimonial-title span {
+            color: var(--gold);
         }
+
+        .testimonial-track {
+            display: flex;
+            animation: scrollLeft 28s linear infinite;
+            gap: 1.5rem;
+        }
+        .testimonial-track:hover { animation-play-state: paused; }
 
         .testimonial-card {
             min-width: 300px;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
+            padding: 1.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            text-align: left;
+            transition: border-color 0.3s, transform 0.3s;
+            flex-shrink: 0;
+        }
+        .testimonial-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
         }
 
-        .testimonial-photo {
-            width: 80px;
-            height: 80px;
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #00d4ff, #ff00ff);
-            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--gold-muted), var(--gold));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #1a1510;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
         }
 
         .testimonial-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
             font-style: italic;
-            color: #e0e0e0;
             margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--gold);
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
         }
 
         .testimonial-author {
-            font-weight: bold;
-            color: #00d4ff;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
         }
 
         @keyframes scrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
-        /* Footer */
+        /* ─── FOOTER ─── */
         .footer {
-            margin-top: 4rem;
+            margin-top: 5rem;
             padding: 3rem 2rem 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-mid);
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1180px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
         }
 
         .footer-section h3 {
-            color: #00d4ff;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--gold);
             margin-bottom: 1rem;
+            letter-spacing: 0.02em;
         }
 
-        .footer-section p, .footer-section a {
-            color: #b8b8b8;
+        .footer-section p,
+        .footer-section a {
+            color: var(--text-muted);
             text-decoration: none;
+            font-size: 0.9rem;
             margin-bottom: 0.5rem;
             display: block;
+            transition: color 0.2s;
         }
 
-        .footer-section a:hover {
-            color: #00d4ff;
-            transition: color 0.3s ease;
-        }
+        .footer-section a:hover { color: var(--text-secondary); }
 
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
-            align-items: center;
         }
 
         .social-link {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: transform 0.2s;
+            padding: 0.25rem;
         }
+        .social-link i { font-size: 20px; color: var(--text-muted); transition: color 0.2s; }
 
-        .social-link i {
-            font-size: 26px;
-            color: #b8b8b8;
-            transition: all 0.3s ease;
-        }
-        
-        .social-link:hover i {
-            transform: translateY(-4px) scale(1.1);
-        }
-        
+        .social-link:hover { transform: translateY(-3px); }
         .social-link:hover.linkedin i { color: #0077B5; }
         .social-link:hover.instagram i { color: #E4405F; }
         .social-link:hover.telegram i { color: #229ED9; }
         .social-link:hover.whatsapp i { color: #25D366; }
 
         .footer-bottom {
+            max-width: 1180px;
+            margin: 0 auto;
             text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #808080;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
+        .footer-bottom a { color: var(--text-muted); text-decoration: none; }
+        .footer-bottom a:hover { color: var(--text-secondary); }
 
-        /* --- UPDATED HERO & NAV BUTTON STYLES --- */
-        
-        .nav-button.project-btn {
-            background: linear-gradient(45deg, #FF416C, #FF4B2B);
-            border: none;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 65, 108, 0.5);
-            animation: pulse-red 2s infinite;
-        }
-
-        .nav-button.project-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(255, 65, 108, 0.8);
-        }
-
-        .nav-button.join-btn {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-            border: none;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
-            animation: pulse-green 2s infinite;
-        }
-        
-        .nav-button.join-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(46, 204, 113, 0.8);
-        }
-
-        /* Hero Problem/Solution Banner */
-        .project-help-hero {
-            background: linear-gradient(135deg, rgba(255, 65, 108, 0.1), rgba(255, 75, 43, 0.05));
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 65, 108, 0.3);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .project-help-hero h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #ffffff, #ffcccb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .project-help-hero p {
-            font-size: 1.2rem;
-            color: #e0e0e0;
-            max-width: 700px;
-            margin: 0 auto 2rem auto;
-        }
-
-        /* Hero Action Button (Solve My Issue) - Red */
-        .hero-action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(45deg, #FF416C, #FF4B2B);
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            animation: pulse-red 2s infinite;
-        }
-
-        .hero-action-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 75, 43, 0.6);
-        }
-
-        .hero-icon {
-            font-size: 1.4rem;
-        }
-
+        /* ─── TICKER ─── */
         .hiring-ticker-wrap {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 40px;
-            background: rgba(0, 0, 0, 0.95);
-            border-top: 1px solid #00d4ff;
+            height: 38px;
+            background: rgba(10,12,22,0.97);
+            border-top: 1px solid rgba(200,162,74,0.25);
             z-index: 2000;
             overflow: hidden;
             display: flex;
@@ -661,142 +696,120 @@
             display: inline-block;
             white-space: nowrap;
             padding-left: 100%;
-            animation: tickerSlide 25s linear infinite;
+            animation: tickerSlide 28s linear infinite;
         }
 
         .hiring-ticker span {
             display: inline-block;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
         }
 
         .hiring-ticker .highlight {
-            color: #ffd700;
-            font-weight: bold;
+            color: var(--gold);
+            font-weight: 600;
             margin: 0 5px;
         }
 
         @keyframes tickerSlide {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+            0%   { transform: translate3d(0,0,0); }
+            100% { transform: translate3d(-100%,0,0); }
         }
 
-        /* Mobile Responsive */
+        /* ─── RESPONSIVE ─── */
         @media (max-width: 992px) {
-            .course-details {
-                flex-direction: column-reverse;
-                gap: 2rem;
-            }
-            .course-image {
-                width: 100%;
-                max-width: 400px;
-                height: auto;
-            }
+            .course-details { flex-direction: column-reverse; gap: 1.5rem; }
+            .course-image { width: 100%; max-width: 420px; height: auto; }
         }
-        
+
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
-            }
-
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 0.8rem;
-            }
-
-            .nav-button {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-
-            .main-content {
-                margin-top: 180px; 
-            }
-
-            .course-section {
-                padding: 2rem;
-                margin: 2rem 0;
-            }
-            
-            .course-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-
-            .course-title {
-                font-size: 2rem;
-            }
-
-            .testimonial-card {
-                min-width: 280px;
-            }
-
-            .project-help-hero {
-                padding: 2rem 1rem;
-            }
-            
-            .project-help-hero h2 {
-                font-size: 1.6rem;
-            }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 0.75rem 1rem; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { margin-top: 0.5rem; display: flex; justify-content: center; width: 100%; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            .main-content { margin-top: 140px; padding: 1.5rem 1rem; }
+            .login-wrapper { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 0.75rem; width: 100%; justify-content: center; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            .main-content { margin-top: 170px; padding: 1.5rem 1rem; }
+            .course-section { padding: 1.75rem; }
+            .course-header { flex-direction: column; gap: 0.75rem; }
+            .course-title { font-size: 1.7rem; }
+            .project-help-hero { padding: 2rem 1.25rem; }
+            .project-help-hero h2 { font-size: 1.6rem; }
         }
+
+        /* ─── FADE-IN ON LOAD ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .project-help-hero { animation: fadeUp 0.6s ease both; }
+        .motivation-banner  { animation: fadeUp 0.6s 0.1s ease both; }
+        .course-section:nth-of-type(1) { animation: fadeUp 0.6s 0.2s ease both; }
+        .course-section:nth-of-type(2) { animation: fadeUp 0.6s 0.3s ease both; }
     </style>
 </head>
 <body>
-    <header class="header">
+
+    <header class="header" id="mainHeader">
         <div class="nav-container">
             <div class="logo">
-                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/ffd700?text=TY';">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
                 <div class="logo-text">
                     <span class="logo-english">Tattva Yantrika</span>
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
                 </div>
             </div>
-            <nav>
+            <nav style="flex-grow: 1; display: flex; justify-content: center;">
                 <ul class="nav-menu">
-                    <!-- Adjusted buttons for better fit -->
-                    <li><a href="index.html" class="nav-button"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="courses.html" class="nav-button"><i class="fas fa-graduation-cap"></i> Courses</a></li>
-                    <!-- Shortened text from "Login to Course" to "Login" -->
-                    <li><a href="login-navigator.htm" class="nav-button"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                    <li><a href="join-us.htm" class="nav-button join-btn"><i class="fas fa-users"></i> Join Us</a></li>
-                    <li><a href="project-registration.htm" class="nav-button project-btn"><i class="fas fa-tools"></i> Fix My Project</a></li>
-                    <li><a href="contactus.htm" class="nav-button"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    <li><a href="index.html"                 class="nav-button"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="courses.html"               class="nav-button courses-btn"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+                    <li><a href="join-us.htm"                class="nav-button join-btn"><i class="fas fa-users"></i> Join Us</a></li>
+                    <li><a href="project-registration.htm"   class="nav-button project-btn"><i class="fas fa-tools"></i> Fix My Project</a></li>
+                    <li><a href="contactus.htm"              class="nav-button"><i class="fas fa-envelope"></i> Contact Us</a></li>
                 </ul>
             </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
         </div>
     </header>
 
     <main class="main-content">
         <div class="container">
-            
+
+            <!-- Project Help Hero -->
             <div class="project-help-hero">
                 <h2>Stuck with Project Errors?</h2>
-                <p>Don't let software bugs or simulation errors stop your progress. Our experts are here to troubleshoot your ANSYS & SolidWorks projects instantly.</p>
+                <p>Don't let software bugs or simulation errors stop your progress. Our experts are here to troubleshoot your ANSYS &amp; SolidWorks projects instantly.</p>
                 <a href="project-registration.htm" class="hero-action-btn">
-                    <i class="fas fa-bug hero-icon"></i> Solve My Issue Now
+                    <i class="fas fa-bug"></i> Solve My Issue Now
                 </a>
             </div>
-            
+
+            <!-- Motivation Banner -->
             <div class="motivation-banner">
                 <p>
-                    Learn from the comfort of your home <i class="fas fa-home"></i>, with certified courses <span class="highlight">90% cheaper</span> than market rates!
+                    Learn from the comfort of your home <i class="fas fa-home"></i> &mdash; certified courses
+                    <span class="highlight">90% cheaper</span> than market rates.
                 </p>
             </div>
 
+            <div class="section-divider"><span>Our Courses</span></div>
+
+            <!-- ANSYS Course -->
             <section class="course-section" id="ansys">
                 <div class="course-content">
                     <div class="course-header">
-                        <img src="2021-09-ansys-og-removebg-preview.png" alt="ANSYS Logo" class="course-logo" onerror="this.onerror=null;this.src='https://placehold.co/160x84/ffffff/000000?text=ANSYS';">
+                        <img src="2021-09-ansys-og-removebg-preview.png" alt="ANSYS Logo" class="course-logo"
+                             onerror="this.onerror=null;this.src='https://placehold.co/160x84/ffffff/000000?text=ANSYS';">
                         <h2 class="course-title">ANSYS Mastery</h2>
                     </div>
                     <p class="course-description">
-                        Master the world's leading engineering simulation software with our comprehensive ANSYS course. 
-                        From structural analysis to fluid dynamics, unlock the power of finite element analysis and 
+                        Master the world's leading engineering simulation software with our comprehensive ANSYS course.
+                        From structural analysis to fluid dynamics, unlock the power of finite element analysis and
                         computational fluid dynamics to solve real-world engineering challenges.
                     </p>
                     <div class="course-details">
@@ -808,81 +821,109 @@
                             <li>Real project case studies and hands-on experience</li>
                             <li>Certificate of completion recognized by industry</li>
                         </ul>
-                        <img src="ANSYS-Laptop-Image.png" alt="Person learning ANSYS simulations on a laptop" class="course-image" onerror="this.onerror=null;this.src='https://placehold.co/380x240/16213e/ffffff?text=ANSYS+Simulation';">
+                        <img src="ANSYS-Laptop-Image.png" alt="Person learning ANSYS simulations on a laptop" class="course-image"
+                             onerror="this.onerror=null;this.src='https://placehold.co/380x240/16213e/ffffff?text=ANSYS+Simulation';">
                     </div>
                     <div class="button-container">
-                        <a href="http://www.youtube.com/@TattvaYantrika" class="learn-button">Learn for Free</a>
-                        <a href="courses.html" class="cert-button">Get Certified</a>
+                        <a href="http://www.youtube.com/@TattvaYantrika" class="learn-button">
+                            <i class="fab fa-youtube"></i> Learn for Free
+                        </a>
+                        <a href="courses.html" class="cert-button">
+                            <i class="fas fa-certificate"></i> Get Certified
+                        </a>
                     </div>
                 </div>
             </section>
 
+            <!-- SolidWorks Course -->
             <section class="course-section" id="solidworks">
                 <div class="course-content">
                     <div class="course-header">
-                        <img src="SolidWorks_logo_PNG3.png" alt="SolidWorks Logo" class="course-logo" onerror="this.onerror=null;this.src='https://placehold.co/160x84/ffffff/000000?text=SolidWorks';">
+                        <img src="SolidWorks_logo_PNG3.png" alt="SolidWorks Logo" class="course-logo"
+                             onerror="this.onerror=null;this.src='https://placehold.co/160x84/ffffff/000000?text=SolidWorks';">
                         <h2 class="course-title">SolidWorks Excellence</h2>
                     </div>
                     <p class="course-description">
-                        Transform your design capabilities with our expert-led SolidWorks course. Learn 3D modeling, 
-                        assembly design, and technical drawing creation while mastering the industry's most popular 
+                        Transform your design capabilities with our expert-led SolidWorks course. Learn 3D modeling,
+                        assembly design, and technical drawing creation while mastering the industry's most popular
                         CAD software used by millions of engineers worldwide.
                     </p>
                     <div class="course-details">
                         <ul class="features-list">
                             <li>3D parametric modeling from basics to advanced</li>
                             <li>Assembly design and motion simulation</li>
-                            <li>Technical drawing and GD&T principles</li>
+                            <li>Technical drawing and GD&amp;T principles</li>
                             <li>Surface modeling and advanced features</li>
                             <li>Simulation and rendering capabilities</li>
                             <li>Professional portfolio development</li>
                         </ul>
-                        <img src="SW-Laptop-Image.png" alt="Person learning SolidWorks designs on a laptop" class="course-image" onerror="this.onerror=null;this.src='https://placehold.co/380x240/16213e/ffffff?text=SolidWorks+Design';">
+                        <img src="SW-Laptop-Image.png" alt="Person learning SolidWorks designs on a laptop" class="course-image"
+                             onerror="this.onerror=null;this.src='https://placehold.co/380x240/16213e/ffffff?text=SolidWorks+Design';">
                     </div>
                     <div class="button-container">
-                        <a href="https://youtube.com/playlist?list=PLZ89EolIqVE0ehq204lY6V3tKk3uNrFzk&si=jb-YHctWmNsQmjbQ" class="learn-button">Learn for Free</a>
-                        <a href="courses.html" class="cert-button">Get Certified</a>
+                        <a href="https://youtube.com/playlist?list=PLZ89EolIqVE0ehq204lY6V3tKk3uNrFzk&si=jb-YHctWmNsQmjbQ" class="learn-button">
+                            <i class="fab fa-youtube"></i> Learn for Free
+                        </a>
+                        <a href="courses.html" class="cert-button">
+                            <i class="fas fa-certificate"></i> Get Certified
+                        </a>
                     </div>
                 </div>
             </section>
 
+            <div class="section-divider" style="margin-top:4rem;"><span>Learner Stories</span></div>
+
+            <!-- Testimonials -->
             <section class="testimonial-section">
-                <h2 class="testimonial-title">What Our Learners Say</h2>
-                <div class="testimonial-container">
-                    <div class="testimonial-card">
-                        <div class="testimonial-photo">NS</div>
-                        <p class="testimonial-text">"The course provided me all the information that is required for SolidWorks and ANSYS from very basic.Tattva Yantrika provided the opportunity to enhance my skills "</p>
-                        <p class="testimonial-author">- Neha Singh, Mechanical Engineer</p>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-photo">SS</div>
-                        <p class="testimonial-text">"I liked the clear explanation of concepts with practical ansys demonstrations. It was a great learning experience that improved my ANSYS skill and confidence.  "</p>
-                        <p class="testimonial-author">- Shruti Sahani, Mechanical Engineer</p>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-photo">S</div>
-                        <p class="testimonial-text">"All the things taught in this course are very important because SolidWorks improved my design skills and ANSYS enhanced my simulation skills.Thank you tattva yantrika Team."</p>
-                        <p class="testimonial-author">- Shyamu, Aspiring Design Engineer</p>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-photo">OA</div>
-                        <p class="testimonial-text">"The overall ANSYS training is best part of course.Incredible! Unbelievable! Excellent!"</p>
-                        <p class="testimonial-author">- Osho Ayush, Aspiring FEA Specialist</p>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-photo">SS</div>
-                        <p class="testimonial-text">"I appreciate how the course combined clear explanation with real-world applications in a simple, exciting way. This course was very much interactive and encouraged active participation.This platform gave me a smooth and positive experience and I'd definitely recommend it to others."</p>
-                        <p class="testimonial-author">- Simran Singh, CAD Specialist</p>
+                <h2 class="testimonial-title">What Our <span>Learners</span> Say</h2>
+                <div style="overflow:hidden;">
+                    <div class="testimonial-track" id="testTrack">
+                        <div class="testimonial-card">
+                            <div class="stars">★★★★★</div>
+                            <div class="testimonial-avatar">NS</div>
+                            <p class="testimonial-text">"The course provided all the information required for SolidWorks and ANSYS from the very basics. Tattva Yantrika gave me the opportunity to enhance my skills."</p>
+                            <p class="testimonial-author">Neha Singh</p>
+                            <p class="testimonial-role">Mechanical Engineer</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="stars">★★★★★</div>
+                            <div class="testimonial-avatar">SS</div>
+                            <p class="testimonial-text">"I liked the clear explanation of concepts with practical ANSYS demonstrations. A great learning experience that truly improved my skills and confidence."</p>
+                            <p class="testimonial-author">Shruti Sahani</p>
+                            <p class="testimonial-role">Mechanical Engineer</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="stars">★★★★★</div>
+                            <div class="testimonial-avatar">S</div>
+                            <p class="testimonial-text">"SolidWorks improved my design skills and ANSYS enhanced my simulation skills. Thank you Tattva Yantrika team for this invaluable course."</p>
+                            <p class="testimonial-author">Shyamu</p>
+                            <p class="testimonial-role">Aspiring Design Engineer</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="stars">★★★★★</div>
+                            <div class="testimonial-avatar">OA</div>
+                            <p class="testimonial-text">"The overall ANSYS training is the best part of the course. Incredible, unbelievable, and excellent — it exceeded all my expectations."</p>
+                            <p class="testimonial-author">Osho Ayush</p>
+                            <p class="testimonial-role">Aspiring FEA Specialist</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <div class="stars">★★★★★</div>
+                            <div class="testimonial-avatar">SS</div>
+                            <p class="testimonial-text">"The course combined clear explanations with real-world applications in a simple, engaging way. Very interactive — I'd recommend this platform to everyone."</p>
+                            <p class="testimonial-author">Simran Singh</p>
+                            <p class="testimonial-role">CAD Specialist</p>
+                        </div>
                     </div>
                 </div>
             </section>
+
         </div>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>About Tattva Yantrika</h3>
+                <h3>Tattva Yantrika</h3>
                 <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
             </div>
             <div class="footer-section">
@@ -899,67 +940,56 @@
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: tattvayantrika@gmail.com</p>
-                <p>Phone: +91 8400259994,9997279515</p>
+                <p>tattvayantrika@gmail.com</p>
+                <p>+91 8400259994 &nbsp;|&nbsp; 9997279515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link instagram" aria-label="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link telegram" aria-label="Telegram">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
+                    <a href="#" class="social-link linkedin"  aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link telegram"  aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link whatsapp"  aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Tattva Yantrika. All rights reserved. |<a href="privacy-policy.htm"> Privacy Policy</a> | <a href="terms-of-service.htm"> Terms of Service</a></p>
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. &nbsp;|&nbsp;
+               <a href="privacy-policy.htm">Privacy Policy</a> &nbsp;|&nbsp;
+               <a href="terms-of-service.htm">Terms of Service</a>
+            </p>
         </div>
     </footer>
 
-    <!-- Hiring Ticker Bar (Fixed Bottom) -->
+    <!-- Ticker -->
     <div class="hiring-ticker-wrap">
         <div class="hiring-ticker">
-            <span> We are <span class="highlight">EXPANDING OUR TEAM!</span> Join Tattva Yantrika today and shape the future of engineering education. Apply now! </span>
+            <span>
+                &nbsp;&nbsp;&nbsp;We are <span class="highlight">EXPANDING OUR TEAM!</span>
+                Join Tattva Yantrika today and shape the future of engineering education. Apply now!
+                &emsp;&emsp;&emsp;
+                We are <span class="highlight">EXPANDING OUR TEAM!</span>
+                Join Tattva Yantrika today and shape the future of engineering education. Apply now!
+            </span>
         </div>
     </div>
 
     <script>
-        // Add smooth scrolling for navigation links
+        // Header shadow on scroll
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 10);
+        });
+
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
 
-        // Add parallax effect to background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.course-section');
-            
-            parallaxElements.forEach((el, index) => {
-                const speed = 0.5 + (index * 0.1);
-                const yPos = -(scrolled * speed);
-                el.style.backgroundPositionY = yPos + 'px';
-            });
-        });
-
-        // Duplicate testimonials for infinite scroll
-        const container = document.querySelector('.testimonial-container');
-        const cards = container.innerHTML;
-        container.innerHTML = cards + cards + cards;
+        // Duplicate testimonials for seamless loop
+        const track = document.getElementById('testTrack');
+        track.innerHTML += track.innerHTML;
     </script>
 </body>
 </html>
