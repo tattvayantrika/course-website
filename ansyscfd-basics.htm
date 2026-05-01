@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSYS CFD Courses - Tattva Yantrika</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Smoother, professional deep blue/slate gradient (less robotic/neon) */
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f2027 100%);
+            background-attachment: fixed;
+            color: #f8fafc;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            min-height: 80px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: default; 
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.3;
+            padding: 2px 0;
+        }
+
+        .logo-english {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #FBBF24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-hindi {
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #DAA520, #B8860B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 4px;
+            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+            padding: 2px 0;
+            overflow: visible;
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            display: inline-block;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+            color: #FFD700;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Courses Grid - Elegant Professional Design */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .course-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Advanced course highlight - Clean Gold */
+        .course-card.advanced {
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.4) 100%);
+        }
+
+        .course-card.advanced::after {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #FFD700, #F59E0B);
+            color: #000;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .course-content {
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .level-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            align-self: flex-start;
+        }
+
+        .course-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .course-duration {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .course-duration i {
+            color: #FFD700;
+        }
+
+        /* PRICE STYLING - Retained format, refined aesthetics */
+        .course-price {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .course-price-only {
+            color: #F87171;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .course-price-original {
+            color: #64748b;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-decoration: line-through;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+
+        .current-price-group {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-top: 0.2rem;
+        }
+
+        .course-price-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #ffffff;
+        }
+
+        .course-price-rupee {
+            font-size: 1.4rem;
+            color: #ffffff;
+            font-weight: 600;
+            margin-right: 2px;
+        }
+
+        .course-price-weekly {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .course-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .course-features li {
+            padding: 0.6rem 0;
+            position: relative;
+            padding-left: 1.8rem;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .course-features li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 0.7rem;
+            color: #10B981;
+            font-size: 0.9rem;
+        }
+        
+        .course-features li.key-feature {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .course-features li.key-feature::before {
+            content: '\f058';
+            color: #FFD700;
+        }
+
+        .button-group {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .start-button, .detail-button {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .start-button {
+            background: #FFD700;
+            color: #0f172a;
+        }
+
+        .start-button:hover {
+            background: #F59E0B;
+            transform: translateY(-2px);
+        }
+        
+        .detail-button {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .detail-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+            background: #0f172a;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #f8fafc;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .footer-section a:hover {
+            color: #FFD700;
+            transition: color 0.3s ease;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            align-items: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link i {
+            font-size: 22px;
+            color: #94a3b8; 
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover i {
+            transform: translateY(-3px);
+        }
+
+        .social-link:hover.linkedin i { color: #0077B5; }
+        .social-link:hover.instagram i { color: #E4405F; }
+        .social-link:hover.telegram i { color: #229ED9; }
+        .social-link:hover.whatsapp i { color: #25D366; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .footer-bottom a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover {
+            color: #ffffff;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            .main-content {
+                margin-top: 180px;
+            }
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .courses-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .course-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </div>
+            <nav aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button active" aria-current="page">Courses</a></li>
+                    <li><a href="login-navigator.htm" class="nav-button">Login to Course</a></li>
+                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">ANSYS CFD Programs</h1>
+            <p class="page-subtitle">
+                Master Computational Fluid Dynamics. Choose your path from basic flow concepts to advanced multiphase and thermal physics simulations.
+            </p>
+            
+            <div class="courses-grid">
+                
+                <!-- Basics Level -->
+                <section class="course-card" aria-labelledby="cfd-basics">
+                    <div class="course-content">
+                        <span class="level-tag">Foundation</span>
+                        <h2 id="cfd-basics" class="course-title">CFD Basics</h2>
+                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 4 Weeks Program</p>
+                        
+                        <div class="course-price">
+                            <span class="course-price-only">Limited Offer</span>
+                            <div>
+                                <span class="course-price-original">₹6,999</span>
+                                <span class="course-price-rupee">₹</span>
+                                <span class="course-price-value">2,499</span>
+                            </div>
+                            <div class="current-price-group">
+                                <span class="course-price-weekly">Just ₹624 / week</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-features">
+                            <li>2 Videos & 1 PDF per week</li>
+                            <li>Intro to SpaceClaim & Geometry Basics</li>
+                            <li>Meshing Best Practices & Quality Checks</li>
+                            <li>Fluent UI Setup for Internal Flows</li>
+                            <li class="key-feature">Practice: Venturimeter Simulation</li>
+                        </ul>
+                        
+                        <div class="button-group">
+                            <a href="ansyscfdbeginnersignup.htm" class="start-button" role="button">Enroll Now</a>
+                            <a href="#details-basics" class="detail-button" role="button">View Syllabus</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Intermediate Level -->
+                <section class="course-card" aria-labelledby="cfd-intermediate">
+                    <div class="course-content">
+                        <span class="level-tag">Professional</span>
+                        <h2 id="cfd-intermediate" class="course-title">CFD Intermediate</h2>
+                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 4 Weeks Program</p>
+                        
+                        <div class="course-price">
+                            <span class="course-price-only">Most Popular Choice</span>
+                            <div>
+                                <span class="course-price-original">₹12,999</span>
+                                <span class="course-price-rupee">₹</span>
+                                <span class="course-price-value">5,999</span>
+                            </div>
+                            <div class="current-price-group">
+                                <span class="course-price-weekly">Just ₹1,499 / week</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-features">
+                            <li>2 Videos & 2 PDFs per week</li>
+                            <li><strong>1 Live Session</strong> Fortnightly</li>
+                            <li>Internal vs. External Flow Dynamics</li>
+                            <li>Advanced Meshing (Inflation Layers & Sizing)</li>
+                            <li>Transient Flow Setup & Post-Processing</li>
+                            <li class="key-feature">Practice: Flow Over a Bullet</li>
+                        </ul>
+                        
+                        <div class="button-group">
+                            <a href="signup.htm" class="start-button" role="button">Enroll Now</a>
+                            <a href="#details-intermediate" class="detail-button" role="button">View Syllabus</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Advanced Level -->
+                <section class="course-card advanced" aria-labelledby="cfd-advanced">
+                    <div class="course-content">
+                        <span class="level-tag">Expert</span>
+                        <h2 id="cfd-advanced" class="course-title">CFD Advanced</h2>
+                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 6 Weeks Program</p>
+                        
+                        <div class="course-price">
+                            <span class="course-price-only">Complete Mastery</span>
+                            <div>
+                                <span class="course-price-original">₹24,999</span>
+                                <span class="course-price-rupee">₹</span>
+                                <span class="course-price-value">11,999</span>
+                            </div>
+                            <div class="current-price-group">
+                                <span class="course-price-weekly">Just ₹1,999 / week</span>
+                            </div>
+                        </div>
+                        
+                        <ul class="course-features">
+                            <li>2 Videos & 2 PDFs per week</li>
+                            <li><strong>4 Live Sessions</strong> Total</li>
+                            <li>Complex Geometry & High-Fidelity Meshing</li>
+                            <li>Thermal Mixing & Heat Exchangers</li>
+                            <li>Multiphase Simulation & Intro to UDFs</li>
+                            <li class="key-feature">Fortnightly Practice Projects</li>
+                            <li class="key-feature">Data Validation & Professional Presentation</li>
+                        </ul>
+                        
+                        <div class="button-group">
+                            <a href="signup.htm" class="start-button" role="button">Enroll Now</a>
+                            <a href="#details-advanced" class="detail-button" role="button">View Syllabus</a>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Tattva Yantrika</h3>
+                <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="courses.html">All Courses</a>
+                <a href="courses.html">Pricing</a>
+                <a href="#about">About Us</a>
+                <a href="#careers">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="contactus.htm">Help Center</a>
+                <a href="contactus.htm">Contact Support</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994, 9997279515</p>
+                <div class="social-links">
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="privacy-policy.htm">Privacy Policy</a> | <a href="terms-of-service.htm">Terms of Service</a></p>
+        </div>
+    </footer>
+</body>
+</html>
