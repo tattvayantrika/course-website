@@ -123,11 +123,11 @@
             font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
         }
 
-        /* ─── NAV ACTIONS & LAYOUT ─── */
-        .nav-actions {
+        /* ─── NAVIGATION STRUCTURE ─── */
+        .main-nav {
+            flex-grow: 1;
             display: flex;
-            align-items: center;
-            gap: 1.5rem;
+            justify-content: center;
         }
 
         .nav-menu {
@@ -137,9 +137,7 @@
             align-items: center;
         }
 
-        .login-wrapper {
-            border-left: 1px solid var(--border);
-            padding-left: 1.5rem;
+        .nav-actions {
             display: flex;
             align-items: center;
         }
@@ -179,22 +177,11 @@
             animation: coursePulseGlow 2.5s infinite;
             font-weight: 600;
         }
+        
         .nav-button.courses-btn:hover {
             background: rgba(200,162,74,0.2);
             color: #fff;
             animation-play-state: paused;
-        }
-
-        .nav-button.login-btn {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            font-weight: 600;
-        }
-        .nav-button.login-btn:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--gold);
-            color: var(--gold-light);
         }
 
         .nav-button.join-btn {
@@ -219,6 +206,7 @@
             border-color: rgba(201,64,64,0.6);
         }
 
+        /* Right-Aligned Login Button */
         .nav-button.login-btn {
             background: var(--bg-card);
             color: var(--text-primary);
@@ -645,21 +633,27 @@
 
         .social-links {
             display: flex;
-            gap: 1rem;
+            gap: 1.2rem;
             margin-top: 1rem;
         }
 
+        /* Updated Free-Floating Social Links */
         .social-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease;
             padding: 0.25rem;
         }
-        .social-link i { font-size: 20px; color: var(--text-muted); transition: color 0.2s; }
+        
+        .social-link i { 
+            font-size: 22px; 
+            color: var(--text-muted); 
+            transition: color 0.3s ease, transform 0.3s ease; 
+        }
 
-        .social-link:hover { transform: translateY(-3px); }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
         .social-link:hover.linkedin i { color: #0077B5; }
         .social-link:hover.instagram i { color: #E4405F; }
         .social-link:hover.telegram i { color: #229ED9; }
@@ -724,11 +718,9 @@
 
         @media (max-width: 768px) {
             .nav-container { flex-direction: column; gap: 0.75rem; padding: 0.75rem 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
             .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
-            .nav-actions { margin-top: 0.5rem; display: flex; justify-content: center; width: 100%; }
-            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
-            .main-content { margin-top: 140px; padding: 1.5rem 1rem; }
-            .login-wrapper { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 0.75rem; width: 100%; justify-content: center; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
             .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
             .main-content { margin-top: 170px; padding: 1.5rem 1rem; }
             .course-section { padding: 1.75rem; }
@@ -762,7 +754,7 @@
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
                 </div>
             </div>
-            <nav style="flex-grow: 1; display: flex; justify-content: center;">
+            <nav class="main-nav">
                 <ul class="nav-menu">
                     <li><a href="index.html"                 class="nav-button"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="courses.html"               class="nav-button courses-btn"><i class="fas fa-graduation-cap"></i> Courses</a></li>
