@@ -200,6 +200,7 @@
             font-weight: 600;
         }
         .meta-tag i { color: var(--gold); }
+        .meta-tag.highlight { background: rgba(200,162,74,0.15); border-color: var(--gold); }
 
         .enroll-btn-hero {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -339,6 +340,17 @@
         .live-session-item .lesson-type {
             color: var(--gold-light);
         }
+
+        /* Styling for the Quiz item */
+        .quiz-item {
+            background: rgba(58,123,213,0.08);
+            border: 1px solid rgba(58,123,213,0.2);
+            padding: 0.8rem 1rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1.5rem;
+        }
+        .quiz-item .lesson-icon { background: rgba(58,123,213,0.2); color: #6fa3e8; }
+        .quiz-item .lesson-type { color: #6fa3e8; }
 
         .lesson-type {
             font-weight: 700;
@@ -590,6 +602,7 @@
                     <span class="meta-tag"><i class="fas fa-video"></i> 2 Videos per week</span>
                     <span class="meta-tag"><i class="fas fa-book-open"></i> 2 Theory Guides &amp; Hands-on Labs per week</span>
                     <span class="meta-tag"><i class="fas fa-chalkboard-teacher"></i> 1 Live Session Every Two Weeks</span>
+                    <span class="meta-tag highlight"><i class="fas fa-tasks"></i> Final Quiz &amp; Practice Project</span>
                     <span class="meta-tag"><i class="fas fa-language"></i> English &amp; Hindi</span>
                     <span class="meta-tag"><i class="fas fa-calendar-alt"></i> 4 Weeks</span>
                 </div>
@@ -716,6 +729,10 @@
                                 <div class="lesson-icon"><i class="fas fa-laptop-code"></i></div>
                                 <div><span class="lesson-type">Hands-on Lab:</span> Practice Project Prompt: Intermediate External Aerodynamics Analysis.</div>
                             </li>
+                            <li class="lesson-item quiz-item">
+                                <div class="lesson-icon"><i class="fas fa-question-circle"></i></div>
+                                <div><span class="lesson-type">Final Quiz:</span> Comprehensive End-of-Course Assessment to validate your intermediate skills.</div>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -728,7 +745,7 @@
                 <p class="certificate-subtitle">Upon successful completion of the course and final project, you will receive an industry-recognized certificate validating your intermediate skills in ANSYS CFD.</p>
                 
                 <div class="cert-thumb-container" onclick="openCertModal()">
-                    <img src=Sample-Certificate.png" alt="Sample Course Certificate" class="cert-thumb" id="certThumbImage">
+                    <img src="Sample-Certificate.png" alt="Sample Course Certificate" class="cert-thumb" id="certThumbImage" onerror="this.onerror=null;this.src='https://placehold.co/2000x1414/0d0f1a/c8a24a?text=Sample+Certificate';">
                     <div class="cert-overlay">
                         <i class="fas fa-search-plus"></i>
                         <span>View Sample Certificate</span>
