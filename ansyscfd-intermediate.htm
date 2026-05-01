@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus: ANSYS CFD Intermediate - Tattva Yantrika</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --accent:         #3a7bd5;
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* ─── Subtle background texture ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: box-shadow 0.3s;
+        }
+
+        .header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.75rem 2rem;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; text-decoration: none; }
+        
+        .logo-img {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 0; outline: none;
+            transition: filter 0.3s;
+        }
+        .logo-img:hover { filter: brightness(1.2); }
+
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-english {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; font-weight: 700; color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .logo-hindi {
+            font-size: 0.82rem; color: var(--gold-muted); font-weight: 400;
+            letter-spacing: 0.04em; font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+        }
+
+        .main-nav { flex-grow: 1; display: flex; justify-content: center; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; align-items: center; }
+
+        .nav-button {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            white-space: nowrap;
+        }
+
+        .nav-button:not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
+        }
+
+        @keyframes coursePulseGlow {
+            0% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+            50% { box-shadow: 0 0 15px rgba(200,162,74,0.6); border-color: rgba(200,162,74,0.8); }
+            100% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+        }
+        
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            animation: coursePulseGlow 2.5s infinite;
+            font-weight: 600;
+        }
+        .nav-button.courses-btn:hover { background: rgba(200,162,74,0.2); color: #fff; animation-play-state: paused; }
+
+        .nav-button.login-btn {
+            background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); font-weight: 600;
+        }
+        .nav-button.login-btn:hover { background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-light); }
+
+        /* ─── MAIN CONTENT ─── */
+        .main-content {
+            margin-top: 100px;
+            padding: 2.5rem 2rem;
+            min-height: calc(100vh - 120px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; } 
+
+        /* ─── SYLLABUS HERO ─── */
+        .syllabus-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, rgba(200,162,74,0.08) 0%, transparent 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .syllabus-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .syllabus-title span { color: var(--gold); }
+
+        .syllabus-goal {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.7;
+        }
+
+        /* ─── COURSE META INFO ─── */
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(200,162,74,0.3);
+            border-radius: 50px;
+            color: var(--gold-light);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .meta-tag i { color: var(--gold); }
+
+        .enroll-btn-hero {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
+            border-radius: 10px; color: #1a1510; text-decoration: none;
+            font-size: 1.1rem; font-weight: 700;
+            transition: filter 0.25s, transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 4px 16px rgba(200,162,74,0.25);
+        }
+        .enroll-btn-hero:hover {
+            filter: brightness(1.1); transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(200,162,74,0.4);
+        }
+
+        /* ─── TIMELINE / SYLLABUS STRUCTURE ─── */
+        .timeline {
+            position: relative;
+            margin: 4rem 0;
+            padding-left: 2rem;
+        }
+
+        /* The vertical line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gold), rgba(200,162,74,0.1));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5rem;
+        }
+
+        /* The dots on the line */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.45rem; 
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--bg-deep);
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 10px rgba(200,162,74,0.5);
+            z-index: 2;
+        }
+
+        .week-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+        .week-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+            transform: translateX(5px);
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .week-badge {
+            font-family: 'DM Sans', sans-serif;
+            background: rgba(200,162,74,0.15);
+            color: var(--gold-light);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .week-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .lesson-list {
+            list-style: none;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        .lesson-item:last-child { margin-bottom: 0; }
+
+        .lesson-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            color: var(--gold);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        /* Specific styling for Live Sessions to make them pop */
+        .live-session-item {
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.2);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1.2rem;
+        }
+        .live-session-item .lesson-icon {
+            background: rgba(200,162,74,0.2);
+            color: var(--gold-light);
+        }
+        .live-session-item .lesson-type {
+            color: var(--gold-light);
+        }
+
+        .lesson-type {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-right: 5px;
+        }
+
+        /* ─── CERTIFICATE SECTION ─── */
+        .certificate-section {
+            margin-top: 5rem;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+
+        .certificate-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .certificate-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .cert-thumb-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 12px;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(200,162,74,0.2), transparent);
+            border: 1px solid rgba(200,162,74,0.4);
+            transition: all 0.4s ease;
+        }
+        .cert-thumb-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(200,162,74,0.3);
+            border-color: var(--gold);
+        }
+
+        .cert-thumb {
+            display: block;
+            max-width: 100%;
+            width: 400px; 
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .cert-overlay {
+            position: absolute;
+            inset: 10px; 
+            border-radius: 8px;
+            background: rgba(13, 15, 26, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(3px);
+        }
+        .cert-thumb-container:hover .cert-overlay {
+            opacity: 1;
+        }
+        .cert-overlay i {
+            font-size: 2.5rem;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+        }
+        .cert-overlay span {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* ─── LIGHTBOX MODAL ─── */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(10, 12, 22, 0.95);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(200,162,74,0.3);
+            border: 2px solid var(--gold-muted);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: var(--text-secondary);
+            font-size: 45px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 10000;
+        }
+        .close:hover,
+        .close:focus {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            margin-top: 5rem; padding: 3rem 2rem 2rem;
+            background: var(--bg-mid); border-top: 1px solid var(--border);
+            position: relative; z-index: 1;
+        }
+        .footer-content {
+            max-width: 1180px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;
+        }
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold);
+            margin-bottom: 1rem; letter-spacing: 0.02em;
+        }
+        .footer-section p, .footer-section a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 0.5rem; display: block; transition: color 0.2s;
+        }
+        .footer-section a:hover { color: var(--text-secondary); }
+
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+        
+        .social-link {
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.3s ease; padding: 0.25rem;
+        }
+        .social-link i { font-size: 22px; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
+        .social-link:hover.linkedin i { color: #0077B5; }
+        .social-link:hover.instagram i { color: #E4405F; }
+        .social-link:hover.telegram i { color: #229ED9; }
+        .social-link:hover.whatsapp i { color: #25D366; }
+
+        .footer-bottom {
+            max-width: 1180px; margin: 0 auto; text-align: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        .footer-bottom a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-bottom a:hover { color: var(--text-secondary); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .header { position: relative; background: rgba(13,15,26,1); }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            
+            .main-content { margin-top: 0; padding: 2rem 1.25rem; }
+            .syllabus-title { font-size: 2.2rem; }
+            .course-meta { flex-direction: column; align-items: center; gap: 0.8rem; }
+            .timeline { padding-left: 1rem; }
+            .timeline::before { left: 0; }
+            .timeline-item::before { left: -0.45rem; width: 14px; height: 14px; }
+            .week-card { padding: 1.5rem; }
+            .week-title { font-size: 1.3rem; }
+            .cert-thumb { width: 100%; }
+        }
+
+        /* ─── FADE-IN ON LOAD ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .syllabus-hero { animation: fadeUp 0.6s ease both; }
+        .timeline-item:nth-child(1) { animation: fadeUp 0.6s 0.2s ease both; }
+        .timeline-item:nth-child(2) { animation: fadeUp 0.6s 0.3s ease both; }
+        .timeline-item:nth-child(3) { animation: fadeUp 0.6s 0.4s ease both; }
+        .timeline-item:nth-child(4) { animation: fadeUp 0.6s 0.5s ease both; }
+        .certificate-section { animation: fadeUp 0.6s 0.6s ease both; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header" id="mainHeader">
+        <div class="nav-container">
+            <a href="index.html" class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </a>
+            <nav class="main-nav" aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button courses-btn active" aria-current="page">Courses</a></li>
+                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login to Course</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Syllabus Hero -->
+            <div class="syllabus-hero">
+                <h1 class="syllabus-title">ANSYS CFD <span>Intermediate</span></h1>
+                <p class="syllabus-goal">
+                    Elevate your skills. Transition from basic flows to external aerodynamics, conquer advanced meshing techniques, and master detailed, professional post-processing.
+                </p>
+                
+                <div class="course-meta">
+                    <span class="meta-tag"><i class="fas fa-video"></i> 2 Videos per week</span>
+                    <span class="meta-tag"><i class="fas fa-book-open"></i> 2 Theory Guides &amp; Hands-on Labs per week</span>
+                    <span class="meta-tag"><i class="fas fa-chalkboard-teacher"></i> 1 Live Session Every Two Weeks</span>
+                    <span class="meta-tag"><i class="fas fa-language"></i> English &amp; Hindi</span>
+                    <span class="meta-tag"><i class="fas fa-calendar-alt"></i> 4 Weeks</span>
+                </div>
+
+                <a href="signup.htm" class="enroll-btn-hero">Enroll in Course</a>
+            </div>
+
+            <!-- Syllabus Timeline -->
+            <div class="timeline">
+                
+                <!-- Week 1 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 1</span>
+                            <h2 class="week-title">Deepening the Physics &amp; Meshing Details</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> Working Principle of CFD, Applications, and Overview of Governing Equations.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Meshing Details: Inflation Layers, Sizing, and Methods to Improve Mesh Quality.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-book-open"></i></div>
+                                <div><span class="lesson-type">Theory Guide:</span> Mathematical Models: Their Importance and Implications.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div><span class="lesson-type">Hands-on Lab:</span> Mesh Metrics and Their Relevance to Accuracy.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 2</span>
+                            <h2 class="week-title">Internal vs. External Flows</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item live-session-item">
+                                <div class="lesson-icon"><i class="fas fa-headset"></i></div>
+                                <div><span class="lesson-type">Live Session 1:</span> Interactive Q&amp;A and Workflow Review with the Instructor.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> Internal Flow Simulation Example &amp; How It Differs from External Flow.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Setting Up for External Flow Simulation in SpaceClaim (Enclosures/Booleans).</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-book-open"></i></div>
+                                <div><span class="lesson-type">Theory Guide:</span> Types of Fluid Flow: A Practical Reference.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div><span class="lesson-type">Hands-on Lab:</span> Boundary Condition Selection for Internal vs. External Flows.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 3</span>
+                            <h2 class="week-title">External Aerodynamics &amp; Transients</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> External Flow Simulation Basics &amp; Setup.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Step-by-Step Simulation: External Flow Over an Object.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-book-open"></i></div>
+                                <div><span class="lesson-type">Theory Guide:</span> External Flow Simulation Setup Parameters.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div><span class="lesson-type">Hands-on Lab:</span> Introduction to Transient Flow: What It Looks Like and Its Uses.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 4</span>
+                            <h2 class="week-title">Advanced Post-Processing &amp; Project</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item live-session-item">
+                                <div class="lesson-icon"><i class="fas fa-headset"></i></div>
+                                <div><span class="lesson-type">Live Session 2:</span> Practice Project Briefing &amp; Doubt Clearing.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> Post-Processing: Contour, Vector, Pathlines, Plane Selection, and Creation.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Analysis and Interpretation of Post-Processed Results.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-book-open"></i></div>
+                                <div><span class="lesson-type">Theory Guide:</span> Post-Processing Interpretation Guide.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div><span class="lesson-type">Hands-on Lab:</span> Practice Project Prompt: Intermediate External Aerodynamics Analysis.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Certificate Section -->
+            <div class="certificate-section">
+                <h2 class="certificate-title">Professional <span>Certification</span></h2>
+                <p class="certificate-subtitle">Upon successful completion of the course and final project, you will receive an industry-recognized certificate validating your intermediate skills in ANSYS CFD.</p>
+                
+                <div class="cert-thumb-container" onclick="openCertModal()">
+                    <img src=Sample-Certificate.png" alt="Sample Course Certificate" class="cert-thumb" id="certThumbImage">
+                    <div class="cert-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <span>View Sample Certificate</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Lightbox Modal for Certificate -->
+    <div id="certModal" class="modal">
+        <span class="close" onclick="closeCertModal()">&times;</span>
+        <img class="modal-content" id="fullCertImage" alt="Full Size Certificate">
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Tattva Yantrika</h3>
+                <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="courses.html">All Courses</a>
+                <a href="courses.html">Pricing</a>
+                <a href="#about">About Us</a>
+                <a href="careers.html">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="contactus.htm">Help Center</a>
+                <a href="contactus.htm">Contact Support</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994, 9997279515</p>
+                <div class="social-links">
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. &nbsp;|&nbsp; <a href="privacy-policy.htm">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-of-service.htm">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Header shadow on scroll (desktop only)
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth > 768) {
+                header.classList.toggle('scrolled', window.scrollY > 10);
+            }
+        });
+
+        // Certificate Lightbox Logic
+        const modal = document.getElementById('certModal');
+        const fullImg = document.getElementById('fullCertImage');
+        const thumbImg = document.getElementById('certThumbImage');
+
+        function openCertModal() {
+            fullImg.src = thumbImg.src; 
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeCertModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeCertModal();
+            }
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && modal.classList.contains('show')) {
+                closeCertModal();
+            }
+        });
+    </script>
+</body>
+</html>
