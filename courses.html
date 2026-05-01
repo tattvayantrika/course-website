@@ -5,558 +5,425 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Courses - Tattva Yantrika</title>
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        .course-features li:last-child {
-            color: #FFD700;
-            font-weight: bold;
-            margin-top: 0.5rem;
-            border-top: 1px solid rgba(255, 215, 0, 0.3);
-            padding-top: 0.8rem;
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --accent:         #3a7bd5;
+            --accent-soft:    rgba(58,123,213,0.15);
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-card:    0 8px 40px rgba(0,0,0,0.4);
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
         }
 
-        .course-features li:last-child::before {
-            content: '🏆';
-            color: #FFD700;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
-            background-attachment: fixed;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
             overflow-x: hidden;
+            padding-bottom: 50px;
         }
 
-        /* Header Styles */
+        /* ─── Subtle background texture ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.2rem 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            transition: all 0.3s ease;
-            min-height: 80px;
+            transition: box-shadow 0.3s;
         }
+
+        .header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
+            padding: 0.75rem 2rem;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            line-height: 1.3;
-            padding: 2px 0;
-        }
-
-        .logo-english {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: royalGradient 3s ease-in-out infinite;
-        }
-
-        .logo-hindi {
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 4px;
-            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
-            padding: 2px 0;
-            overflow: visible;
-        }
-
-        @keyframes royalGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; text-decoration: none; }
         .logo-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 1.5px solid var(--gold-muted);
+            transition: border-color 0.3s;
+        }
+        .logo-img:hover { border-color: var(--gold); }
+
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-english {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; font-weight: 700; color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .logo-hindi {
+            font-size: 0.82rem; color: var(--gold-muted); font-weight: 400;
+            letter-spacing: 0.04em; font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
         }
 
-        @keyframes logoRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .logo-img:hover {
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
-            border-color: rgba(255, 215, 0, 0.6);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-menu li {
-            display: inline-block;
-        }
+        /* ─── NAVIGATION STRUCTURE ─── */
+        .main-nav { flex-grow: 1; display: flex; justify-content: center; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; align-items: center; }
 
         .nav-button {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
             white-space: nowrap;
-            font-size: 0.95rem;
         }
 
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        .nav-button:not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
         }
 
-        .nav-button.active {
-            background: rgba(255, 215, 0, 0.2);
-            border-color: rgba(255, 215, 0, 0.4);
-            color: #FFD700;
+        /* Glowing Courses Button */
+        @keyframes coursePulseGlow {
+            0% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+            50% { box-shadow: 0 0 15px rgba(200,162,74,0.6); border-color: rgba(200,162,74,0.8); }
+            100% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+        }
+        
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            animation: coursePulseGlow 2.5s infinite;
+            font-weight: 600;
+        }
+        
+        .nav-button.courses-btn:hover {
+            background: rgba(200,162,74,0.2); color: #fff;
+            animation-play-state: paused;
         }
 
-        .nav-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+        /* Right-Aligned Login Button */
+        .nav-button.login-btn {
+            background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); font-weight: 600;
+        }
+        .nav-button.login-btn:hover {
+            background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-light);
         }
 
-        .nav-button:hover::before {
-            left: 100%;
-        }
-
-        /* Main Content */
+        /* ─── MAIN CONTENT ─── */
         .main-content {
-            margin-top: 120px;
-            padding: 2rem;
+            margin-top: 100px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 1;
             min-height: calc(100vh - 120px);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1180px; margin: 0 auto; }
 
-        /* Page Title */
+        /* Page Headers */
         .page-title {
             text-align: center;
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: royalGradient 3s ease-in-out infinite;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
+        .page-title span { color: var(--gold); }
 
         .page-subtitle {
             text-align: center;
-            font-size: 1.2rem;
-            color: #b8b8b8;
-            margin-bottom: 2rem;
-            max-width: 600px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 650px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.7;
         }
 
+        /* Certification Badge */
         .certification-badge {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         .certification-text {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #000000;
-            font-size: 1.3rem;
-            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.8rem 2.5rem;
+            background: rgba(200,162,74,0.06);
+            border: 1px solid rgba(200,162,74,0.3);
+            color: var(--gold-light);
+            font-size: 1.05rem;
+            font-weight: 600;
             border-radius: 50px;
-            position: relative;
-            overflow: hidden;
-            animation: certificationPulse 2s ease-in-out infinite alternate;
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+            box-shadow: var(--shadow-glow);
+            letter-spacing: 0.03em;
+        }
+        .certification-text::before, .certification-text::after {
+            content: '; font-size: 1.1em; opacity: 0.8;
         }
 
-        @keyframes certificationPulse {
-            0% { box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4); }
-            100% { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.7); }
-        }
-
-        .certification-text::before {
-            content: '';
-            margin-right: 0.5rem;
-            font-size: 1.2em;
-        }
-
-        .certification-text::after {
-            content: '';
-            margin-left: 0.5rem;
-            font-size: 1.2em;
-        }
-
-        /* Courses Grid */
+        /* ─── COURSES GRID ─── */
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             margin-bottom: 4rem;
         }
 
         .course-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
             padding: 2.5rem;
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .course-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .course-card:hover::before {
-            opacity: 1;
-        }
-
-        .course-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .course-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 20px;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .course-card:hover .course-icon {
-            transform: scale(1.1);
-            background: rgba(255, 215, 0, 0.2);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
-        }
-
-        .course-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(45deg, #00d4ff, #ff00ff, #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .certification-label {
-            display: inline-block;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #000000;
-            font-size: 0.8rem;
-            font-weight: bold;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            margin-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .certification-label::before {
-            content: '✓ ';
-            font-weight: bold;
-        }
-
-        .course-description {
-            color: #b8b8b8;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .course-features {
-            list-style: none;
-            margin-bottom: 2rem;
+            flex-direction: column;
             text-align: left;
         }
 
-        .course-features li {
-            padding: 0.3rem 0;
-            position: relative;
-            padding-left: 1.5rem;
-            color: #e0e0e0;
-            font-size: 0.9rem;
+        .course-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-5px);
         }
 
+        .course-card::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            border-radius: 3px 0 0 3px; opacity: 0; transition: opacity 0.3s;
+        }
+        .course-card:hover::after { opacity: 1; }
+
+        .course-content { position: relative; z-index: 2; flex-grow: 1; display: flex; flex-direction: column; }
+
+        .course-icon {
+            width: 70px; height: 70px;
+            margin-bottom: 1.5rem;
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.2);
+            border-radius: var(--radius-sm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .course-card:hover .course-icon {
+            transform: scale(1.1) rotate(-5deg);
+            background: rgba(200,162,74,0.15);
+        }
+
+        .course-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; font-weight: 700; color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .certification-label {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(200,162,74,0.1); color: var(--gold-light);
+            border: 1px solid rgba(200,162,74,0.3);
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
+            padding: 0.3rem 0.8rem; border-radius: 20px;
+            margin-bottom: 1.2rem; width: max-content;
+        }
+        .certification-label::before { content: '✓'; font-weight: bold; }
+
+        .course-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.8rem; line-height: 1.6; font-size: 0.95rem;
+        }
+
+        .course-features {
+            list-style: none; margin-bottom: 2.5rem; flex-grow: 1;
+        }
+        .course-features li {
+            padding: 0.4rem 0; padding-left: 1.4rem; position: relative;
+            color: var(--text-secondary); font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .course-features li:last-child {
+            color: var(--gold); font-weight: 600;
+            margin-top: 0.5rem; border-top: 1px solid rgba(200,162,74, 0.2); border-bottom: none;
+            padding-top: 0.8rem; padding-left: 1.8rem;
+        }
         .course-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #00ff88;
-            font-weight: bold;
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 5px; background: var(--text-muted); border-radius: 50%;
+        }
+        .course-features li:last-child::before {
+            content: '🏆'; background: none; width: auto; height: auto;
+            transform: none; top: 0.7rem; left: 0; font-size: 1.1em;
         }
 
         .start-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            border: none;
-            border-radius: 50px;
-            color: #000000;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-        }
-
-        .start-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
-            background: linear-gradient(45deg, #FFA500, #FFD700);
-        }
-
-        .start-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 0.85rem 1.8rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
+            border-radius: 10px; color: #1a1510; text-decoration: none;
+            font-size: 0.95rem; font-weight: 700;
+            transition: filter 0.25s, transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 4px 16px rgba(200,162,74,0.25);
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+        }
+        .start-button:hover {
+            filter: brightness(1.1); transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(200,162,74,0.4);
         }
 
-        .start-button:hover::before {
-            left: 100%;
-        }
-
-        /* Footer */
+        /* ─── FOOTER ─── */
         .footer {
-            margin-top: 4rem;
-            padding: 3rem 2rem 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 5rem; padding: 3rem 2rem 2rem;
+            background: var(--bg-mid); border-top: 1px solid var(--border);
+            position: relative; z-index: 1;
         }
-
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            max-width: 1180px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;
         }
-
         .footer-section h3 {
-            color: #00d4ff;
-            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold);
+            margin-bottom: 1rem; letter-spacing: 0.02em;
         }
-
         .footer-section p, .footer-section a {
-            color: #b8b8b8;
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: block;
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 0.5rem; display: block; transition: color 0.2s;
         }
+        .footer-section a:hover { color: var(--text-secondary); }
 
-        .footer-section a:hover {
-            color: #00d4ff;
-            transition: color 0.3s ease;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            align-items: center;
-        }
-
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+        
+        /* Free-Floating Social Links */
         .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.3s ease; padding: 0.25rem;
         }
-
-        .social-link i {
-            font-size: 26px;
-            color: #b8b8b8; 
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover i {
-            transform: translateY(-4px) scale(1.1);
-        }
-
+        .social-link i { font-size: 22px; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
         .social-link:hover.linkedin i { color: #0077B5; }
         .social-link:hover.instagram i { color: #E4405F; }
         .social-link:hover.telegram i { color: #229ED9; }
         .social-link:hover.whatsapp i { color: #25D366; }
 
         .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #808080;
+            max-width: 1180px; margin: 0 auto; text-align: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        .footer-bottom a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-bottom a:hover { color: var(--text-secondary); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 992px) {
+            .courses-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
         }
 
-        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
-            }
-
-            .logo-english {
-                font-size: 1.4rem;
-            }
-
-            .logo-hindi {
-                font-size: 0.95rem;
-            }
-
-            .logo-img {
-                width: 35px;
-                height: 35px;
-            }
-
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 0.8rem;
-            }
-
-            .nav-button {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-
-            .main-content {
-                margin-top: 180px;
-            }
-
-            .page-title {
-                font-size: 2.2rem;
-            }
-
-            .courses-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .course-card {
-                padding: 2rem;
-            }
-
-            .course-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 2rem;
-            }
+            /* Fix Header for mobile to prevent overlapping content */
+            .header { position: relative; background: rgba(13,15,26,1); }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            
+            .main-content { margin-top: 0; padding: 2rem 1.25rem; }
+            .page-title { font-size: 2.4rem; }
+            .course-card { padding: 1.8rem; }
+            .course-title { font-size: 1.6rem; }
         }
+
+        /* ─── FADE-IN ON LOAD ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .page-title { animation: fadeUp 0.6s ease both; }
+        .page-subtitle { animation: fadeUp 0.6s 0.1s ease both; }
+        .certification-badge { animation: fadeUp 0.6s 0.2s ease both; }
+        .course-card:nth-child(1) { animation: fadeUp 0.6s 0.3s ease both; }
+        .course-card:nth-child(2) { animation: fadeUp 0.6s 0.4s ease both; }
+        .course-card:nth-child(3) { animation: fadeUp 0.6s 0.5s ease both; }
+        .course-card:nth-child(4) { animation: fadeUp 0.6s 0.6s ease both; }
+        .course-card:nth-child(5) { animation: fadeUp 0.6s 0.7s ease both; }
     </style>
 </head>
 <body>
+
     <!-- Header -->
-    <header class="header">
+    <header class="header" id="mainHeader">
         <div class="nav-container">
-            <div class="logo">
-                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+            <a href="index.html" class="logo">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
                 <div class="logo-text">
                     <span class="logo-english">Tattva Yantrika</span>
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
                 </div>
-            </div>
-            <nav>
+            </a>
+            <nav class="main-nav">
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-button">Home</a></li>
-                    <li><a href="courses.html" class="nav-button active">Courses</a></li>
-                    <li><a href="login-navigator.htm" class="nav-button">Login to Course</a></li>
-                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
+                    <li><a href="index.html" class="nav-button"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="courses.html" class="nav-button courses-btn"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+                    <li><a href="contactus.htm" class="nav-button"><i class="fas fa-envelope"></i> Contact Us</a></li>
                 </ul>
             </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login to Course</a>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
+            
             <!-- Page Header -->
-            <h1 class="page-title">Our Courses</h1>
+            <h1 class="page-title">Our <span>Courses</span></h1>
             <p class="page-subtitle">
                 Master industry-leading software with our comprehensive courses designed by experts. 
                 Choose your path to engineering excellence.
@@ -569,6 +436,7 @@
 
             <!-- Courses Grid -->
             <div class="courses-grid">
+                
                 <!-- ANSYS Course -->
                 <div class="course-card">
                     <div class="course-content">
@@ -580,8 +448,8 @@
                             leading simulation software.
                         </p>
                         <ul class="course-features">
-                            <li>Structural & Thermal Analysis</li>
-                            <li>CFD & Fluid Dynamics</li>
+                            <li>Structural &amp; Thermal Analysis</li>
+                            <li>CFD &amp; Fluid Dynamics</li>
                             <li>Advanced Meshing Techniques</li>
                             <li>Real-world Project Experience</li>
                             <li>Official ANSYS Certification</li>
@@ -601,7 +469,7 @@
                         </p>
                         <ul class="course-features">
                             <li>Fluid Flow Analysis</li>
-                            <li>Heat & Mass Transfer</li>
+                            <li>Heat &amp; Mass Transfer</li>
                             <li>Turbulence Modeling</li>
                             <li>Aerodynamics Simulation</li>
                             <li>Official ANSYS CFD Certification</li>
@@ -622,8 +490,8 @@
                         </p>
                         <ul class="course-features">
                             <li>3D Parametric Modeling</li>
-                            <li>Assembly Design & Animation</li>
-                            <li>Technical Drawing & GD&T</li>
+                            <li>Assembly Design &amp; Animation</li>
+                            <li>Technical Drawing &amp; GD&amp;T</li>
                             <li>Surface Modeling</li>
                             <li>SolidWorks Professional Certification</li>
                         </ul>
@@ -642,8 +510,8 @@
                             with MATLAB's powerful platform.
                         </p>
                         <ul class="course-features">
-                            <li>Programming & Scripting</li>
-                            <li>Data Analysis & Visualization</li>
+                            <li>Programming &amp; Scripting</li>
+                            <li>Data Analysis &amp; Visualization</li>
                             <li>Signal Processing</li>
                             <li>Control Systems Design</li>
                             <li>MATLAB Certified Specialist</li>
@@ -665,13 +533,14 @@
                         <ul class="course-features">
                             <li>Advanced 3D Modeling</li>
                             <li>Aerospace Design Tools</li>
-                            <li>Surface & Wireframe Design</li>
-                            <li>Assembly & Kinematics</li>
+                            <li>Surface &amp; Wireframe Design</li>
+                            <li>Assembly &amp; Kinematics</li>
                             <li>CATIA V5 Professional Certification</li>
                         </ul>
                         <a href="coming-soon.htm" class="start-button">Start Now</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>
@@ -699,8 +568,8 @@
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: tattvayantrika@gmail.com</p>
-                <p>Phone: +91 8400259994, 9997279515</p>
+                <p>tattvayantrika@gmail.com</p>
+                <p>+91 8400259994 &nbsp;|&nbsp; 9997279515</p>
                 <div class="social-links">
                     <a href="#" class="social-link linkedin" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
@@ -718,34 +587,33 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="privacy-policy.htm">Privacy Policy</a>  | <a href="terms-of-service.htm">Terms of Service</a></p>
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. &nbsp;|&nbsp; <a href="privacy-policy.htm">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-of-service.htm">Terms of Service</a></p>
         </div>
     </footer>
 
     <script>
+        // Header shadow on scroll (desktop only)
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth > 768) {
+                header.classList.toggle('scrolled', window.scrollY > 10);
+            }
+        });
+
         // Add smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const href = this.getAttribute('href');
+                if(href === '#') return; // Skip empty hashes
+                
+                const target = document.querySelector(href);
                 if (target) {
+                    e.preventDefault();
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
                 }
-            });
-        });
-
-        // Add hover effects for course cards
-        const courseCards = document.querySelectorAll('.course-card');
-        courseCards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
             });
         });
     </script>
