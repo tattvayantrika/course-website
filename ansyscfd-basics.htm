@@ -3,628 +3,708 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANSYS CFD Courses - Tattva Yantrika</title>
+    <title>Syllabus: ANSYS CFD Basics - Tattva Yantrika</title>
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --accent:         #3a7bd5;
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Smoother, professional deep blue/slate gradient (less robotic/neon) */
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f2027 100%);
-            background-attachment: fixed;
-            color: #f8fafc;
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
             overflow-x: hidden;
+            padding-bottom: 50px;
         }
 
-        /* Header Styles */
+        /* ─── Subtle background texture ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.2rem 2rem;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            transition: all 0.3s ease;
-            min-height: 80px;
+            transition: box-shadow 0.3s;
         }
+
+        .header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
+            padding: 0.75rem 2rem;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            cursor: default; 
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            line-height: 1.3;
-            padding: 2px 0;
-        }
-
-        .logo-english {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #FFD700, #FBBF24);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo-hindi {
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, #DAA520, #B8860B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 4px;
-            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
-            padding: 2px 0;
-            overflow: visible;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; text-decoration: none; }
+        
         .logo-img {
-            width: 60px;
-            height: 60px;
-            transition: transform 0.3s ease;
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 0; outline: none;
+            transition: filter 0.3s;
+        }
+        .logo-img:hover { filter: brightness(1.2); }
+
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-english {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; font-weight: 700; color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .logo-hindi {
+            font-size: 0.82rem; color: var(--gold-muted); font-weight: 400;
+            letter-spacing: 0.04em; font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
         }
 
-        .logo-img:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-menu li {
-            display: inline-block;
-        }
+        .main-nav { flex-grow: 1; display: flex; justify-content: center; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; align-items: center; }
 
         .nav-button {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            font-weight: 500;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            white-space: nowrap;
         }
 
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        .nav-button:not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
         }
 
-        .nav-button.active {
-            background: rgba(255, 215, 0, 0.1);
-            border-color: rgba(255, 215, 0, 0.3);
-            color: #FFD700;
+        @keyframes coursePulseGlow {
+            0% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+            50% { box-shadow: 0 0 15px rgba(200,162,74,0.6); border-color: rgba(200,162,74,0.8); }
+            100% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
         }
+        
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            animation: coursePulseGlow 2.5s infinite;
+            font-weight: 600;
+        }
+        .nav-button.courses-btn:hover { background: rgba(200,162,74,0.2); color: #fff; animation-play-state: paused; }
 
-        /* Main Content */
+        .nav-button.login-btn {
+            background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); font-weight: 600;
+        }
+        .nav-button.login-btn:hover { background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-light); }
+
+        /* ─── MAIN CONTENT ─── */
         .main-content {
-            margin-top: 120px;
-            padding: 2rem;
+            margin-top: 100px;
+            padding: 2.5rem 2rem;
             min-height: calc(100vh - 120px);
+            position: relative;
+            z-index: 1;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        .container { max-width: 900px; margin: 0 auto; } /* Narrower container for better syllabus reading */
 
-        /* Page Title */
-        .page-title {
+        /* ─── SYLLABUS HERO ─── */
+        .syllabus-hero {
             text-align: center;
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .page-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #cbd5e1;
             margin-bottom: 3rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, rgba(200,162,74,0.08) 0%, transparent 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-glow);
         }
 
-        /* Courses Grid - Elegant Professional Design */
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 4rem;
-        }
-
-        .course-card {
-            background: rgba(30, 41, 59, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 2.5rem;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .course-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-        
-        /* Advanced course highlight - Clean Gold */
-        .course-card.advanced {
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(30, 41, 59, 0.4) 100%);
-        }
-
-        .course-card.advanced::after {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(45deg, #FFD700, #F59E0B);
-            color: #000;
-            font-size: 0.8rem;
-            font-weight: bold;
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
-        }
-
-        .course-content {
-            position: relative;
-            z-index: 2;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .level-tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            align-self: flex-start;
-        }
-
-        .course-title {
-            font-size: 1.8rem;
+        .syllabus-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .syllabus-title span { color: var(--gold); }
+
+        .syllabus-goal {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.7;
         }
 
-        .course-duration {
-            font-size: 1rem;
-            color: #94a3b8;
-            margin-bottom: 1.5rem;
+        /* ─── COURSE META INFO ─── */
+        .course-meta {
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-tag {
+            display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .course-duration i {
-            color: #FFD700;
-        }
-
-        /* PRICE STYLING - Retained format, refined aesthetics */
-        .course-price {
-            margin-bottom: 2rem;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .course-price-only {
-            color: #F87171;
-            font-size: 0.85rem;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .course-price-original {
-            color: #64748b;
-            font-size: 1.2rem;
-            font-weight: 500;
-            text-decoration: line-through;
-            margin-right: 0.5rem;
-            display: inline-block;
-        }
-
-        .current-price-group {
-            display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            margin-top: 0.2rem;
-        }
-
-        .course-price-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            color: #ffffff;
-        }
-
-        .course-price-rupee {
-            font-size: 1.4rem;
-            color: #ffffff;
-            font-weight: 600;
-            margin-right: 2px;
-        }
-
-        .course-price-weekly {
-            color: #94a3b8;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(200,162,74,0.3);
+            border-radius: 50px;
+            color: var(--gold-light);
             font-size: 0.95rem;
-            font-weight: 500;
+            font-weight: 600;
+        }
+        .meta-tag i { color: var(--gold); }
+
+        .enroll-btn-hero {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
+            border-radius: 10px; color: #1a1510; text-decoration: none;
+            font-size: 1.1rem; font-weight: 700;
+            transition: filter 0.25s, transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 4px 16px rgba(200,162,74,0.25);
+        }
+        .enroll-btn-hero:hover {
+            filter: brightness(1.1); transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(200,162,74,0.4);
         }
 
-        .course-features {
-            list-style: none;
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
-
-        .course-features li {
-            padding: 0.6rem 0;
+        /* ─── TIMELINE / SYLLABUS STRUCTURE ─── */
+        .timeline {
             position: relative;
-            padding-left: 1.8rem;
-            color: #e2e8f0;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            margin: 4rem 0;
+            padding-left: 2rem;
         }
 
-        .course-features li::before {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
+        /* The vertical line */
+        .timeline::before {
+            content: '';
             position: absolute;
+            top: 0;
             left: 0;
-            top: 0.7rem;
-            color: #10B981;
-            font-size: 0.9rem;
-        }
-        
-        .course-features li.key-feature {
-            color: #ffffff;
-            font-weight: 600;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gold), rgba(200,162,74,0.1));
+            border-radius: 3px;
         }
 
-        .course-features li.key-feature::before {
-            content: '\f058';
-            color: #FFD700;
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5rem;
         }
 
-        .button-group {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
+        /* The dots on the line */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.45rem; /* Positioning over the vertical line */
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--bg-deep);
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 10px rgba(200,162,74,0.5);
+            z-index: 2;
         }
-        
-        .start-button, .detail-button {
-            display: inline-block;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
+
+        .week-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
             transition: all 0.3s ease;
-            width: 100%;
+        }
+        .week-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+            transform: translateX(5px);
         }
 
-        .start-button {
-            background: #FFD700;
-            color: #0f172a;
-        }
-
-        .start-button:hover {
-            background: #F59E0B;
-            transform: translateY(-2px);
-        }
-        
-        .detail-button {
-            background: transparent;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .detail-button:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 4rem;
-            padding: 3rem 2rem 2rem;
-            background: #0f172a;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-            color: #f8fafc;
-            margin-bottom: 1.2rem;
-            font-size: 1.1rem;
-        }
-
-        .footer-section p, .footer-section a {
-            color: #94a3b8;
-            text-decoration: none;
-            margin-bottom: 0.8rem;
-            display: block;
-            font-size: 0.95rem;
-        }
-
-        .footer-section a:hover {
-            color: #FFD700;
-            transition: color 0.3s ease;
-        }
-
-        .social-links {
+        .week-header {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
             align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
         }
 
-        .social-link {
+        .week-badge {
+            font-family: 'DM Sans', sans-serif;
+            background: rgba(200,162,74,0.15);
+            color: var(--gold-light);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .week-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .lesson-list {
+            list-style: none;
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        .lesson-item:last-child { margin-bottom: 0; }
+
+        .lesson-icon {
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            color: var(--gold);
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        .lesson-type {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-right: 5px;
+        }
+
+        /* ─── CERTIFICATE SECTION ─── */
+        .certificate-section {
+            margin-top: 5rem;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+
+        .certificate-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .certificate-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .cert-thumb-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 12px;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(200,162,74,0.2), transparent);
+            border: 1px solid rgba(200,162,74,0.4);
+            transition: all 0.4s ease;
+        }
+        .cert-thumb-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(200,162,74,0.3);
+            border-color: var(--gold);
+        }
+
+        .cert-thumb {
+            display: block;
+            max-width: 100%;
+            width: 400px; /* Keep it small on the page */
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .cert-overlay {
+            position: absolute;
+            inset: 10px; /* matches padding of container */
+            border-radius: 8px;
+            background: rgba(13, 15, 26, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(3px);
+        }
+        .cert-thumb-container:hover .cert-overlay {
+            opacity: 1;
+        }
+        .cert-overlay i {
+            font-size: 2.5rem;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+        }
+        .cert-overlay span {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        /* ─── LIGHTBOX MODAL ─── */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(10, 12, 22, 0.95);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(200,162,74,0.3);
+            border: 2px solid var(--gold-muted);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: var(--text-secondary);
+            font-size: 45px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 10000;
+        }
+        .close:hover,
+        .close:focus {
+            color: var(--gold);
             text-decoration: none;
-            transition: all 0.3s ease;
         }
 
-        .social-link i {
-            font-size: 22px;
-            color: #94a3b8; 
-            transition: all 0.3s ease;
+        /* ─── FOOTER ─── */
+        .footer {
+            margin-top: 5rem; padding: 3rem 2rem 2rem;
+            background: var(--bg-mid); border-top: 1px solid var(--border);
+            position: relative; z-index: 1;
         }
-
-        .social-link:hover i {
-            transform: translateY(-3px);
+        .footer-content {
+            max-width: 1180px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;
         }
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold);
+            margin-bottom: 1rem; letter-spacing: 0.02em;
+        }
+        .footer-section p, .footer-section a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 0.5rem; display: block; transition: color 0.2s;
+        }
+        .footer-section a:hover { color: var(--text-secondary); }
 
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+        
+        .social-link {
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.3s ease; padding: 0.25rem;
+        }
+        .social-link i { font-size: 22px; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
         .social-link:hover.linkedin i { color: #0077B5; }
         .social-link:hover.instagram i { color: #E4405F; }
         .social-link:hover.telegram i { color: #229ED9; }
         .social-link:hover.whatsapp i { color: #25D366; }
 
         .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: #64748b;
-            font-size: 0.9rem;
+            max-width: 1180px; margin: 0 auto; text-align: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.85rem;
         }
-        
-        .footer-bottom a {
-            color: #94a3b8;
-            text-decoration: none;
-        }
+        .footer-bottom a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-bottom a:hover { color: var(--text-secondary); }
 
-        .footer-bottom a:hover {
-            color: #ffffff;
-        }
-
-        /* Mobile Responsive */
+        /* ─── RESPONSIVE ─── */
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
-            }
-            .main-content {
-                margin-top: 180px;
-            }
-            .page-title {
-                font-size: 2.2rem;
-            }
-            .courses-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .course-card {
-                padding: 2rem;
-            }
+            .header { position: relative; background: rgba(13,15,26,1); }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            
+            .main-content { margin-top: 0; padding: 2rem 1.25rem; }
+            .syllabus-title { font-size: 2.2rem; }
+            .timeline { padding-left: 1rem; }
+            .timeline::before { left: 0; }
+            .timeline-item::before { left: -0.45rem; width: 14px; height: 14px; }
+            .week-card { padding: 1.5rem; }
+            .week-title { font-size: 1.3rem; }
+            .cert-thumb { width: 100%; }
         }
+
+        /* ─── FADE-IN ON LOAD ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .syllabus-hero { animation: fadeUp 0.6s ease both; }
+        .timeline-item:nth-child(1) { animation: fadeUp 0.6s 0.2s ease both; }
+        .timeline-item:nth-child(2) { animation: fadeUp 0.6s 0.3s ease both; }
+        .timeline-item:nth-child(3) { animation: fadeUp 0.6s 0.4s ease both; }
+        .timeline-item:nth-child(4) { animation: fadeUp 0.6s 0.5s ease both; }
+        .certificate-section { animation: fadeUp 0.6s 0.6s ease both; }
     </style>
 </head>
 <body>
-    <header class="header">
+
+    <!-- Header -->
+    <header class="header" id="mainHeader">
         <div class="nav-container">
-            <div class="logo" role="banner" aria-label="Tattva Yantrika">
-                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+            <a href="index.html" class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
                 <div class="logo-text">
                     <span class="logo-english">Tattva Yantrika</span>
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
                 </div>
-            </div>
-            <nav aria-label="Main Navigation">
+            </a>
+            <nav class="main-nav" aria-label="Main Navigation">
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-button">Home</a></li>
-                    <li><a href="courses.html" class="nav-button active" aria-current="page">Courses</a></li>
-                    <li><a href="login-navigator.htm" class="nav-button">Login to Course</a></li>
+                    <li><a href="courses.html" class="nav-button courses-btn active" aria-current="page">Courses</a></li>
                     <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
                 </ul>
             </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login to Course</a>
+            </div>
         </div>
     </header>
 
     <main class="main-content">
         <div class="container">
-            <h1 class="page-title">ANSYS CFD Programs</h1>
-            <p class="page-subtitle">
-                Master Computational Fluid Dynamics. Choose your path from basic flow concepts to advanced multiphase and thermal physics simulations.
-            </p>
             
-            <div class="courses-grid">
+            <!-- Syllabus Hero -->
+            <div class="syllabus-hero">
+                <h1 class="syllabus-title">ANSYS CFD <span>Basics</span></h1>
+                <p class="syllabus-goal">
+                    Your first step into Computational Fluid Dynamics. In just 4 weeks, build ultimate confidence in the software interface, master basic meshing logic, and successfully simulate simple internal flows.
+                </p>
                 
-                <!-- Basics Level -->
-                <section class="course-card" aria-labelledby="cfd-basics">
-                    <div class="course-content">
-                        <span class="level-tag">Foundation</span>
-                        <h2 id="cfd-basics" class="course-title">CFD Basics</h2>
-                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 4 Weeks Program</p>
-                        
-                        <div class="course-price">
-                            <span class="course-price-only">Limited Offer</span>
-                            <div>
-                                <span class="course-price-original">₹6,999</span>
-                                <span class="course-price-rupee">₹</span>
-                                <span class="course-price-value">2,499</span>
-                            </div>
-                            <div class="current-price-group">
-                                <span class="course-price-weekly">Just ₹624 / week</span>
-                            </div>
-                        </div>
-                        
-                        <ul class="course-features">
-                            <li>2 Videos & 1 PDF per week</li>
-                            <li>Intro to SpaceClaim & Geometry Basics</li>
-                            <li>Meshing Best Practices & Quality Checks</li>
-                            <li>Fluent UI Setup for Internal Flows</li>
-                            <li class="key-feature">Practice: Venturimeter Simulation</li>
-                        </ul>
-                        
-                        <div class="button-group">
-                            <a href="ansyscfdbeginnersignup.htm" class="start-button" role="button">Enroll Now</a>
-                            <a href="#details-basics" class="detail-button" role="button">View Syllabus</a>
-                        </div>
-                    </div>
-                </section>
+                <div class="course-meta">
+                    <span class="meta-tag"><i class="fas fa-video"></i> 2 Videos per week</span>
+                    <span class="meta-tag"><i class="fas fa-file-alt"></i> 1 Theory Guide &amp; Hands-on Lab</span>
+                    <span class="meta-tag"><i class="fas fa-language"></i> English &amp; Hindi</span>
+                    <span class="meta-tag"><i class="fas fa-calendar-alt"></i> 4 Weeks</span>
+                </div>
 
-                <!-- Intermediate Level -->
-                <section class="course-card" aria-labelledby="cfd-intermediate">
-                    <div class="course-content">
-                        <span class="level-tag">Professional</span>
-                        <h2 id="cfd-intermediate" class="course-title">CFD Intermediate</h2>
-                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 4 Weeks Program</p>
-                        
-                        <div class="course-price">
-                            <span class="course-price-only">Most Popular Choice</span>
-                            <div>
-                                <span class="course-price-original">₹12,999</span>
-                                <span class="course-price-rupee">₹</span>
-                                <span class="course-price-value">5,999</span>
-                            </div>
-                            <div class="current-price-group">
-                                <span class="course-price-weekly">Just ₹1,499 / week</span>
-                            </div>
-                        </div>
-                        
-                        <ul class="course-features">
-                            <li>2 Videos & 2 PDFs per week</li>
-                            <li><strong>1 Live Session</strong> Fortnightly</li>
-                            <li>Internal vs. External Flow Dynamics</li>
-                            <li>Advanced Meshing (Inflation Layers & Sizing)</li>
-                            <li>Transient Flow Setup & Post-Processing</li>
-                            <li class="key-feature">Practice: Flow Over a Bullet</li>
-                        </ul>
-                        
-                        <div class="button-group">
-                            <a href="signup.htm" class="start-button" role="button">Enroll Now</a>
-                            <a href="#details-intermediate" class="detail-button" role="button">View Syllabus</a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Advanced Level -->
-                <section class="course-card advanced" aria-labelledby="cfd-advanced">
-                    <div class="course-content">
-                        <span class="level-tag">Expert</span>
-                        <h2 id="cfd-advanced" class="course-title">CFD Advanced</h2>
-                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 6 Weeks Program</p>
-                        
-                        <div class="course-price">
-                            <span class="course-price-only">Complete Mastery</span>
-                            <div>
-                                <span class="course-price-original">₹24,999</span>
-                                <span class="course-price-rupee">₹</span>
-                                <span class="course-price-value">11,999</span>
-                            </div>
-                            <div class="current-price-group">
-                                <span class="course-price-weekly">Just ₹1,999 / week</span>
-                            </div>
-                        </div>
-                        
-                        <ul class="course-features">
-                            <li>2 Videos & 2 PDFs per week</li>
-                            <li><strong>4 Live Sessions</strong> Total</li>
-                            <li>Complex Geometry & High-Fidelity Meshing</li>
-                            <li>Thermal Mixing & Heat Exchangers</li>
-                            <li>Multiphase Simulation & Intro to UDFs</li>
-                            <li class="key-feature">Fortnightly Practice Projects</li>
-                            <li class="key-feature">Data Validation & Professional Presentation</li>
-                        </ul>
-                        
-                        <div class="button-group">
-                            <a href="signup.htm" class="start-button" role="button">Enroll Now</a>
-                            <a href="#details-advanced" class="detail-button" role="button">View Syllabus</a>
-                        </div>
-                    </div>
-                </section>
-                
+                <a href="ansyscfdbeginnersignup.htm" class="enroll-btn-hero">Enroll in Course</a>
             </div>
+
+            <!-- Syllabus Timeline -->
+            <div class="timeline">
+                
+                <!-- Week 1 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 1</span>
+                            <h2 class="week-title">Fundamentals &amp; Geometry Preparation</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> What is CFD? Where it is used &amp; Intuitive Governing Equations (Continuity &amp; Momentum conceptually).</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Introduction to SpaceClaim Basics &amp; Geometry Import.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-book-open"></i></div>
+                                <div><span class="lesson-type">Revision Guide:</span> Types of Flow (Laminar vs. Turbulent) &amp; Conceptual Theory Cheat Sheet.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 2</span>
+                            <h2 class="week-title">The Art of Meshing</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> What is a Mesh, Why it Matters, and Introduction to the Meshing Interface.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Understanding Mesh Quality (Skewness, Orthogonality) and How to Check It.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div><span class="lesson-type">Hands-on Lab:</span> Meshing Best Practices &amp; Quality Guidelines Checklist.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 3</span>
+                            <h2 class="week-title">Software Setup &amp; First Simulation</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> Introduction to the ANSYS Fluent UI &amp; Workflow.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Step-by-Step Simulation Example: 90-Degree Pipe Flow.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-book-open"></i></div>
+                                <div><span class="lesson-type">Revision Guide:</span> Standard Operating Procedure for Setting Up Internal Flows.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="timeline-item">
+                    <div class="week-card">
+                        <div class="week-header">
+                            <span class="week-badge">Week 4</span>
+                            <h2 class="week-title">Results &amp; Practical Application</h2>
+                        </div>
+                        <ul class="lesson-list">
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 1:</span> Post-Processing Basics (Contours, Vectors, Report Generation).</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-play"></i></div>
+                                <div><span class="lesson-type">Video 2:</span> Practice Project Walkthrough: Venturimeter Flow Simulation.</div>
+                            </li>
+                            <li class="lesson-item">
+                                <div class="lesson-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div><span class="lesson-type">Hands-on Lab:</span> Venturimeter Project Specifications &amp; Expected Results validation.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Certificate Section -->
+            <div class="certificate-section">
+                <h2 class="certificate-title">Official <span>Certification</span></h2>
+                <p class="certificate-subtitle">Upon successful completion of the course, you will receive an industry-recognized certificate validating your foundational skills in ANSYS CFD.</p>
+                
+                <div class="cert-thumb-container" onclick="openCertModal()">
+                    <!-- Using a placeholder tailored to the requested 2000x1414 aspect ratio. Replace src with your actual certificate image path -->
+                    <img src="Sample-Certificate.png" alt="Sample Course Certificate" class="cert-thumb" id="certThumbImage">
+                    <div class="cert-overlay">
+                        <i class="fas fa-search-plus"></i>
+                        <span>View Sample Certificate</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
+    <!-- Lightbox Modal for Certificate -->
+    <div id="certModal" class="modal">
+        <span class="close" onclick="closeCertModal()">&times;</span>
+        <!-- This image source will be updated dynamically via JS to match the thumbnail's source -->
+        <img class="modal-content" id="fullCertImage" alt="Full Size Certificate">
+    </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -636,7 +716,7 @@
                 <a href="courses.html">All Courses</a>
                 <a href="courses.html">Pricing</a>
                 <a href="#about">About Us</a>
-                <a href="#careers">Careers</a>
+                <a href="careers.html">Careers</a>
             </div>
             <div class="footer-section">
                 <h3>Support</h3>
@@ -648,24 +728,57 @@
                 <p>Email: tattvayantrika@gmail.com</p>
                 <p>Phone: +91 8400259994, 9997279515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link instagram" aria-label="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link telegram" aria-label="Telegram">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="privacy-policy.htm">Privacy Policy</a> | <a href="terms-of-service.htm">Terms of Service</a></p>
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. &nbsp;|&nbsp; <a href="privacy-policy.htm">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-of-service.htm">Terms of Service</a></p>
         </div>
     </footer>
+
+    <script>
+        // Header shadow on scroll (desktop only)
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth > 768) {
+                header.classList.toggle('scrolled', window.scrollY > 10);
+            }
+        });
+
+        // Certificate Lightbox Logic
+        const modal = document.getElementById('certModal');
+        const fullImg = document.getElementById('fullCertImage');
+        const thumbImg = document.getElementById('certThumbImage');
+
+        function openCertModal() {
+            // Set the high-res image source to be the same as the thumbnail (or replace with a high-res specific URL if needed)
+            fullImg.src = thumbImg.src; 
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeCertModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        }
+
+        // Close modal when clicking outside the image
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeCertModal();
+            }
+        }
+        
+        // Close modal on Escape key press
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && modal.classList.contains('show')) {
+                closeCertModal();
+            }
+        });
+    </script>
 </body>
 </html>
