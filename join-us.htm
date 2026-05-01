@@ -5,270 +5,373 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Careers at Tattva Yantrika - Join the Revolution</title>
     <link rel="icon" type="image/png" href="icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        /* --- INHERITED STYLES FROM HOME PAGE --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
-            background-attachment: fixed;
-            color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --accent:         #3a7bd5;
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --red:            #c94040;
+            --red-soft:       rgba(201,64,64,0.12);
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
         }
-        
-        /* Header Styles */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* ─── Subtle background texture ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.2rem 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
+            transition: box-shadow 0.3s;
         }
+
+        .header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
+            padding: 0.75rem 2rem;
         }
-        .logo { display: flex; align-items: center; gap: 0.8rem; }
-        .logo-text { display: flex; flex-direction: column; align-items: center; line-height: 1.3; }
+
+        .logo { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; text-decoration: none; }
+        
+        /* Explicitly removed border as requested */
+        .logo-img {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 0;
+            outline: none;
+            transition: filter 0.3s;
+        }
+        .logo-img:hover { filter: brightness(1.2); }
+
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
         .logo-english {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; font-weight: 700; color: var(--gold);
+            letter-spacing: 0.02em;
         }
         .logo-hindi {
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 4px;
+            font-size: 0.82rem; color: var(--gold-muted); font-weight: 400;
+            letter-spacing: 0.04em; font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
         }
-        .logo-img { width: 65px; height: 65px; border-radius: 50%; }
-        .nav-menu { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+
+        /* ─── NAVIGATION STRUCTURE ─── */
+        .main-nav { flex-grow: 1; display: flex; justify-content: center; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; align-items: center; }
+
         .nav-button {
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .nav-button:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-        .project-btn {
-            background: linear-gradient(45deg, #FF416C, #FF4B2B);
-            border: none;
-            font-weight: bold;
-        }
-
-        /* --- NEW CAREERS PAGE STYLES --- */
-        .main-content { margin-top: 100px; padding: 2rem; min-height: 80vh; }
-        .container { max-width: 1200px; margin: 0 auto; }
-
-        /* Hero Section */
-        .career-hero {
-            text-align: center;
-            padding: 4rem 1rem;
-            margin-bottom: 3rem;
-        }
-        .career-title {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00d4ff, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-        .career-subtitle {
-            font-size: 1.2rem;
-            color: #b8b8b8;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Why Join Us Grid */
-        .perks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 5rem;
-        }
-        .perk-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        .perk-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: #00d4ff;
-        }
-        .perk-icon {
-            font-size: 2.5rem;
-            color: #FFD700;
-            margin-bottom: 1rem;
-        }
-        .perk-title { font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem; }
-        .perk-desc { color: #aaa; font-size: 0.95rem; }
-
-        /* Job Listings */
-        .section-header {
-            font-size: 2.5rem;
-            color: #fff;
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .section-header::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: #00d4ff;
-            margin: 10px auto;
-            border-radius: 2px;
-        }
-
-        .job-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.2));
-            border-radius: 25px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            border-left: 5px solid #00d4ff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            transition: all 0.3s ease;
-        }
-        .job-card:hover { box-shadow: 0 10px 30px rgba(0, 212, 255, 0.15); }
-        
-        .job-info h3 { font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem; }
-        .job-tags { display: flex; gap: 1rem; margin-bottom: 1rem; }
-        .tag {
-            background: rgba(0, 212, 255, 0.1);
-            color: #00d4ff;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .job-desc { color: #ccc; max-width: 600px; margin-bottom: 1rem; }
-        .apply-btn {
-            padding: 0.8rem 2rem;
-            background: transparent;
-            border: 2px solid #FFD700;
-            color: #FFD700;
-            border-radius: 50px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
             white-space: nowrap;
         }
-        .apply-btn:hover { background: #FFD700; color: #000; }
 
-        /* Hiring Process Timeline */
-        .process-container {
-            margin: 4rem 0;
+        .nav-button:not(.project-btn):not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
+        }
+
+        /* Glowing Courses Button */
+        @keyframes coursePulseGlow {
+            0% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+            50% { box-shadow: 0 0 15px rgba(200,162,74,0.6); border-color: rgba(200,162,74,0.8); }
+            100% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+        }
+        
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            animation: coursePulseGlow 2.5s infinite;
+            font-weight: 600;
+        }
+        .nav-button.courses-btn:hover { background: rgba(200,162,74,0.2); color: #fff; animation-play-state: paused; }
+
+        .nav-button.project-btn {
+            background: var(--red-soft);
+            color: #e07070;
+            border-color: rgba(201,64,64,0.3);
+            font-weight: 600;
+        }
+        .nav-button.project-btn:hover { background: rgba(201,64,64,0.2); border-color: rgba(201,64,64,0.6); }
+
+        /* Right-Aligned Login Button */
+        .nav-button.login-btn {
+            background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); font-weight: 600;
+        }
+        .nav-button.login-btn:hover { background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-light); }
+
+        /* ─── MAIN CONTENT ─── */
+        .main-content {
+            margin-top: 90px;
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 1;
+            min-height: calc(100vh - 120px);
+        }
+
+        .container { max-width: 1180px; margin: 0 auto; }
+
+        /* ─── HERO SECTION ─── */
+        .career-hero { text-align: center; padding: 4rem 1rem; margin-bottom: 2rem; }
+        .career-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem; font-weight: 700; color: var(--text-primary);
+            margin-bottom: 1rem; letter-spacing: -0.02em;
+        }
+        .career-title span { color: var(--gold); }
+        .career-subtitle {
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 750px; margin: 0 auto; line-height: 1.7;
+        }
+
+        /* ─── PERKS GRID ─── */
+        .perks-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem; margin-bottom: 5rem;
+        }
+        .perk-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 2.5rem 2rem; border-radius: var(--radius-lg);
+            text-align: center; transition: all 0.3s ease;
+        }
+        .perk-card:hover {
+            transform: translateY(-8px); border-color: var(--border-hover);
+            box-shadow: var(--shadow-glow);
+        }
+        .perk-icon { font-size: 2.5rem; color: var(--gold); margin-bottom: 1.2rem; }
+        .perk-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--text-primary); margin-bottom: 0.8rem; }
+        .perk-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+        /* ─── SECTION HEADERS ─── */
+        .section-header {
+            font-family: 'Playfair Display', serif; font-size: 2.5rem;
+            color: var(--text-primary); margin-bottom: 3rem; text-align: center;
             position: relative;
         }
-        .process-step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 2rem;
-            background: rgba(255,255,255,0.02);
-            padding: 1.5rem;
-            border-radius: 15px;
+        .section-header::after {
+            content: ''; display: block; width: 60px; height: 3px;
+            background: var(--gold); margin: 15px auto 0; border-radius: 2px;
         }
-        .step-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.1);
-            margin-right: 1.5rem;
-            line-height: 1;
-        }
-        .step-content h4 { color: #00d4ff; font-size: 1.3rem; margin-bottom: 0.5rem; }
-        .step-content p { color: #aaa; }
 
-        /* Footer Copied Styles */
-        .footer {
-            margin-top: 4rem;
-            padding: 3rem 2rem 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        /* ─── JOB CARDS ─── */
+        .job-card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-left: 5px solid var(--gold); border-radius: var(--radius-lg);
+            padding: 2.5rem; margin-bottom: 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 2rem; transition: all 0.3s ease;
         }
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            /* Center the icons vertically if they wrap */
-            align-items: center;
+        .job-card:hover {
+            border-color: var(--border-hover); box-shadow: var(--shadow-glow);
+            transform: translateY(-4px); border-left-color: var(--gold-light);
+        }
+        
+        .job-info h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text-primary); margin-bottom: 0.8rem; }
+        .job-tags { display: flex; gap: 0.8rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+        .tag {
+            background: rgba(200,162,74,0.08); color: var(--gold-light);
+            border: 1px solid rgba(200,162,74,0.3); padding: 0.35rem 0.9rem;
+            border-radius: 20px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em;
+        }
+        .job-desc { color: var(--text-secondary); max-width: 650px; margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
+        .job-bullets { list-style: none; color: var(--text-muted); font-size: 0.9rem; }
+        .job-bullets li { margin-bottom: 0.4rem; display: flex; align-items: center; gap: 8px; }
+        .job-bullets li i { color: var(--gold); font-size: 0.8rem; }
+        
+        /* Apply Button matches the cert-button glow */
+        .apply-btn {
+            display: inline-flex; align-items: center; gap: 8px; padding: 0.85rem 2.2rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
+            border: none; border-radius: 10px; color: #1a1510;
+            text-decoration: none; font-size: 1rem; font-weight: 700;
+            transition: filter 0.25s, transform 0.2s, box-shadow 0.25s;
+            box-shadow: 0 4px 16px rgba(200,162,74,0.25); white-space: nowrap;
+        }
+        .apply-btn:hover {
+            filter: brightness(1.1); transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(200,162,74,0.4);
+        }
+
+        /* ─── HIRING PROCESS ─── */
+        .process-container { margin: 3rem 0 5rem; position: relative; }
+        .process-step {
+            display: flex; align-items: flex-start; margin-bottom: 1.5rem;
+            background: var(--bg-card); padding: 2rem;
+            border-radius: var(--radius-lg); border: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+        .process-step:hover { border-color: rgba(255,255,255,0.15); }
+        .step-number {
+            font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700;
+            color: rgba(200,162,74,0.15); margin-right: 2rem; line-height: 1; min-width: 60px;
+        }
+        .step-content h4 { color: var(--gold-light); font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .step-content p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+
+        /* ─── CTA SECTION ─── */
+        #apply-form {
+            text-align: center; margin-top: 4rem;
+            background: linear-gradient(135deg, rgba(200,162,74,0.05), transparent);
+            padding: 3.5rem 2rem; border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+        }
+        #apply-form h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 1rem; }
+        #apply-form p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+        .email-link {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 1.5rem; color: var(--gold); text-decoration: none; font-weight: 600;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .email-link:hover { transform: translateY(-3px); color: var(--gold-light); }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            margin-top: 5rem; padding: 3rem 2rem 2rem;
+            background: var(--bg-mid); border-top: 1px solid var(--border);
+            position: relative; z-index: 1;
         }
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            max-width: 1180px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;
         }
-        .nav-button i {
-    margin-right: 8px;
-}
-        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #808080; }
-        .footer-section h3 { color: #00d4ff; margin-bottom: 1rem; }
-        .footer-section p, .footer-section a { color: #b8b8b8; text-decoration: none; display: block; margin-bottom: 0.5rem; }
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold);
+            margin-bottom: 1rem; letter-spacing: 0.02em;
+        }
+        .footer-section p, .footer-section a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 0.5rem; display: block; transition: color 0.2s;
+        }
+        .footer-section a:hover { color: var(--text-secondary); }
 
-        @media (max-width: 768px) {
-            .career-title { font-size: 2.5rem; }
-            .job-card { flex-direction: column; align-items: flex-start; text-align: left; }
-            .apply-btn { width: 100%; text-align: center; }
-            .nav-container { flex-direction: column; gap: 1rem; }
-            .nav-menu { flex-wrap: wrap; justify-content: center; }
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+        
+        /* Free-Floating Social Links */
+        .social-link {
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.3s ease; padding: 0.25rem;
         }
+        .social-link i { font-size: 22px; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
+        .social-link:hover.linkedin i { color: #0077B5; }
+        .social-link:hover.instagram i { color: #E4405F; }
+        .social-link:hover.telegram i { color: #229ED9; }
+        .social-link:hover.whatsapp i { color: #25D366; }
+
+        .footer-bottom {
+            max-width: 1180px; margin: 0 auto; text-align: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            /* Mobile header fixes to stop overlap */
+            .header { position: relative; background: rgba(13,15,26,1); }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            
+            .main-content { margin-top: 0; padding: 2rem 1.25rem; }
+            .career-title { font-size: 2.4rem; }
+            .job-card { flex-direction: column; align-items: flex-start; text-align: left; padding: 2rem 1.5rem; }
+            .apply-btn { width: 100%; justify-content: center; }
+            .process-step { flex-direction: column; }
+            .step-number { margin-bottom: 1rem; }
+            .email-link { font-size: 1.2rem; }
+        }
+
+        /* ─── FADE-IN ON LOAD ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .career-hero { animation: fadeUp 0.6s ease both; }
+        .perks-grid { animation: fadeUp 0.6s 0.1s ease both; }
+        .job-card:nth-of-type(1) { animation: fadeUp 0.6s 0.2s ease both; }
+        .job-card:nth-of-type(2) { animation: fadeUp 0.6s 0.3s ease both; }
+        .job-card:nth-of-type(3) { animation: fadeUp 0.6s 0.4s ease both; }
     </style>
 </head>
 <body>
 
-    <!-- Header (Same as Index) -->
-    <header class="header">
+    <!-- Header -->
+    <header class="header" id="mainHeader">
         <div class="nav-container">
-            <div class="logo">
-                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/ffd700?text=TY';">
+            <a href="index.html" class="logo">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
                 <div class="logo-text">
                     <span class="logo-english">Tattva Yantrika</span>
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
                 </div>
-            </div>
-            <nav>
+            </a>
+            <nav class="main-nav">
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-button"><i class="fas fa-home"></i> Home</a>
-                    <li><a href="courses.html" class="nav-button"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+                    <li><a href="index.html" class="nav-button"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="courses.html" class="nav-button courses-btn"><i class="fas fa-graduation-cap"></i> Courses</a></li>
                     <li><a href="project-support.html" class="nav-button project-btn"><i class="fas fa-tools"></i> Fix My Project</a></li>
                     <li><a href="contactus.htm" class="nav-button"><i class="fas fa-envelope"></i> Contact Us</a></li>
                 </ul>
             </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
         </div>
     </header>
 
@@ -277,7 +380,7 @@
             
             <!-- Hero Section -->
             <section class="career-hero">
-                <h1 class="career-title">Build the Future of Engineering</h1>
+                <h1 class="career-title">Build the <span>Future</span> of Engineering</h1>
                 <p class="career-subtitle">
                     Don't just study engineering—apply it. Join Tattva Yantrika as a partner. 
                     Work on real client projects, build an elite portfolio, and earn while you learn.
@@ -303,7 +406,7 @@
                 </div>
                 <div class="perk-card">
                     <i class="fas fa-clock perk-icon"></i>
-                    <h3 class="perk-title">Remote & Flexible</h3>
+                    <h3 class="perk-title">Remote &amp; Flexible</h3>
                     <p class="perk-desc">Work from your college or home. No fixed hours—deadlines matter, not timestamps.</p>
                 </div>
             </div>
@@ -323,33 +426,54 @@
                     <p class="job-desc">
                         Expert in ANSYS or SolidWorks? We need you to troubleshoot client simulation errors, validate FEA results, and create clean CAD models.
                     </p>
-                    <ul style="list-style: none; color: #aaa; margin-top: 0.5rem; font-size: 0.9rem;">
-                        <li><i class="fas fa-check" style="color:#00d4ff; margin-right:5px"></i> Resolve mesh & solver errors</li>
-                        <li><i class="fas fa-check" style="color:#00d4ff; margin-right:5px"></i> Optimize CAD geometries</li>
-                        <li><i class="fas fa-check" style="color:#00d4ff; margin-right:5px"></i> Create project reports</li>
+                    <ul class="job-bullets">
+                        <li><i class="fas fa-check"></i> Resolve mesh &amp; solver errors</li>
+                        <li><i class="fas fa-check"></i> Optimize CAD geometries</li>
+                        <li><i class="fas fa-check"></i> Create project reports</li>
                     </ul>
                 </div>
                 <a href="https://forms.gle/A918zB75pdgcEAMo9" class="apply-btn"><i class="fas fa-file-pen"></i> Apply Now</a>
             </div>
 
             <!-- Position 2 -->
-            <div class="job-card" style="border-left-color: #ff00ff;">
+            <div class="job-card">
                 <div class="job-info">
                     <h3>Technical Content Strategist</h3>
                     <div class="job-tags">
-                        <span class="tag" style="color:#ff00ff; background:rgba(255,0,255,0.1)">YouTube</span>
-                        <span class="tag" style="color:#ff00ff; background:rgba(255,0,255,0.1)">Education</span>
+                        <span class="tag">YouTube</span>
+                        <span class="tag">Education</span>
                     </div>
                     <p class="job-desc">
                         Have a knack for teaching? Create engaging 5-10 min tutorial videos solving complex engineering problems for our channel.
                     </p>
-                    <ul style="list-style: none; color: #aaa; margin-top: 0.5rem; font-size: 0.9rem;">
-                        <li><i class="fas fa-check" style="color:#ff00ff; margin-right:5px"></i> Script & record tutorials</li>
-                        <li><i class="fas fa-check" style="color:#ff00ff; margin-right:5px"></i> Design catchy thumbnails</li>
-                        <li><i class="fas fa-check" style="color:#ff00ff; margin-right:5px"></i> Manage video SEO</li>
+                    <ul class="job-bullets">
+                        <li><i class="fas fa-check"></i> Script &amp; record tutorials</li>
+                        <li><i class="fas fa-check"></i> Design catchy thumbnails</li>
+                        <li><i class="fas fa-check"></i> Manage video SEO</li>
                     </ul>
                 </div>
-                <a href="https://forms.gle/A918zB75pdgcEAMo9" class="apply-btn" style="border-color:#ff00ff; color:#ff00ff;"><i class="fas fa-file-pen"></i>Apply Now</a>
+                <a href="https://forms.gle/A918zB75pdgcEAMo9" class="apply-btn"><i class="fas fa-file-pen"></i> Apply Now</a>
+            </div>
+
+            <!-- Position 3 (NEW) -->
+            <div class="job-card">
+                <div class="job-info">
+                    <h3>LinkedIn Outreach Strategist</h3>
+                    <div class="job-tags">
+                        <span class="tag">Remote</span>
+                        <span class="tag">Part-Time</span>
+                        <span class="tag">Performance Based</span>
+                    </div>
+                    <p class="job-desc">
+                        Master of B2B networking? Help us connect with engineering students and professionals globally to expand our training and project support services.
+                    </p>
+                    <ul class="job-bullets">
+                        <li><i class="fas fa-check"></i> Target lead generation & networking</li>
+                        <li><i class="fas fa-check"></i> B2B outreach & partnership building</li>
+                        <li><i class="fas fa-check"></i> Content strategy & engagement on LinkedIn</li>
+                    </ul>
+                </div>
+                <a href="https://forms.gle/A918zB75pdgcEAMo9" class="apply-btn"><i class="fas fa-file-pen"></i> Apply Now</a>
             </div>
 
             <!-- Hiring Process -->
@@ -358,7 +482,7 @@
                 <div class="process-step">
                     <div class="step-number">01</div>
                     <div class="step-content">
-                        <h4>Application & Portfolio</h4>
+                        <h4>Application &amp; Portfolio</h4>
                         <p>Fill the form below. <strong>Crucial:</strong> Attach screenshots/PDFs of your best 3 simulations. We hire based on proof of work, not just grades.</p>
                     </div>
                 </div>
@@ -379,13 +503,13 @@
             </div>
 
             <!-- Simple Application Section -->
-            <div id="apply-form" style="text-align: center; margin-top: 4rem; background: rgba(0,0,0,0.2); padding: 3rem; border-radius: 20px;">
-                <h2 style="margin-bottom: 1rem;">Ready to Join?</h2>
-                <p style="color: #ccc; margin-bottom: 2rem;">Send your Resume and Portfolio Link to:</p>
-                <a href="mailto:careers@tattvayantrika.com" style="font-size: 1.5rem; color: #FFD700; text-decoration: none; font-weight: bold;">
+            <div id="apply-form">
+                <h2>Ready to Join?</h2>
+                <p>Send your Resume and Portfolio Link to:</p>
+                <a href="mailto:careers@tattvayantrika.com" class="email-link">
                     <i class="fas fa-envelope"></i> tattvayantrika@gmail.com
                 </a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; color: #888;">Subject Line: [Role Name] - [Your Name]</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">Subject Line: [Role Name] - [Your Name]</p>
             </div>
 
         </div>
@@ -400,24 +524,17 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="courses.html">All Courses</a>
-                <a href="careers.html" style="color: #FFD700;">We Are Hiring!</a>
+                <a href="careers.html" style="color: var(--gold-light); font-weight: 600;">We Are Hiring!</a>
             </div>
             <div class="footer-section">
                 <h3>Contact</h3>
-                <p>Email: tattvayantrika@gmail.com</p>
-                <p>Phone: +91 8400259994,9997279515</p>
+                <p>tattvayantrika@gmail.com</p>
+                <p>+91 8400259994 &nbsp;|&nbsp; 9997279515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link instagram" aria-label="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link telegram" aria-label="Telegram">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
-                        <i class="fab fa-whatsapp"></i>
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
@@ -426,5 +543,14 @@
         </div>
     </footer>
 
+    <script>
+        // Header shadow on scroll (desktop only)
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth > 768) {
+                header.classList.toggle('scrolled', window.scrollY > 10);
+            }
+        });
+    </script>
 </body>
 </html>
