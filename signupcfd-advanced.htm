@@ -672,7 +672,10 @@
         verifyEmailButton.addEventListener('click', async (e) => {
             e.preventDefault();
             const email = emailInput.value;
-            const password = 'TattvaPass_' + Math.random().toString(36).substring(2, 12); 
+            
+            // FIX: Use a consistent password based on the email instead of a random one.
+            // This allows us to log returning users back in to re-verify them.
+            const password = "Tattva_SecretGate_" + email; 
 
             if (!emailInput.checkValidity() || !fullNameInput.checkValidity()) {
                  verificationMessage.textContent = 'Please fill in a valid Name and Email address.';
@@ -683,8 +686,23 @@
             setLoading(verifyEmailButton, true, 'Verifying...');
 
             try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                let userCredential;
+                
+                try {
+                    // Step 1: Try to create a new user
+                    userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                } catch (authError) {
+                    // Step 2: If the user already exists, catch the error and log them in instead
+                    if (authError.code === 'auth/email-already-in-use') {
+                        userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    } else {
+                        throw authError; // Re-throw if it's a different error
+                    }
+                }
+
                 const user = userCredential.user;
+                
+                // Step 3: Send the verification link (works seamlessly for both new and returning users)
                 await user.sendEmailVerification();
                 
                 verificationMessage.textContent = 'Verification link sent! Check your spam/inbox.';
@@ -694,6 +712,7 @@
                 emailInput.disabled = true;
                 fullNameInput.disabled = true;
 
+                // Step 4: Your exact original polling logic remains unchanged
                 if (intervalId) clearInterval(intervalId);
                 intervalId = setInterval(async () => {
                     await user.reload();
@@ -713,12 +732,13 @@
                 console.error("Firebase Error:", error.code, error.message);
                 
                 let errorMessage = 'An internal Firebase error occurred.';
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'Email is already registered. Please log in or use a different email.';
-                } else if (error.code === 'auth/invalid-email') {
+                // We removed the 'already-in-use' error message here since we handle it silently above
+                if (error.code === 'auth/invalid-email') {
                     errorMessage = 'Invalid email format.';
                 } else if (error.code === 'auth/unauthorized-domain') {
                     errorMessage = 'Authentication Error: Your domain is not authorized in Firebase settings.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Legacy test account detected. Please use a different email.';
                 }
                 
                 alert(`Error: ${errorMessage}`);
