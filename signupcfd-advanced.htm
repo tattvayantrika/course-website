@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll: ANSYS CFD Advanced - Tattva Yantrika</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Firebase Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    
+    <style>
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* Subtle background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: box-shadow 0.3s;
+        }
+        .header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.75rem 2rem;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; text-decoration: none; }
+        .logo-img {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 0; outline: none;
+            transition: filter 0.3s;
+        }
+        .logo-img:hover { filter: brightness(1.2); }
+
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-english {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; font-weight: 700; color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .logo-hindi {
+            font-size: 0.82rem; color: var(--gold-muted); font-weight: 400;
+            letter-spacing: 0.04em; font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+        }
+
+        .main-nav { flex-grow: 1; display: flex; justify-content: center; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; align-items: center; }
+
+        .nav-button {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            white-space: nowrap;
+        }
+        .nav-button:not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
+        }
+
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            font-weight: 600;
+        }
+        .nav-button.courses-btn:hover { background: rgba(200,162,74,0.2); color: #fff; }
+
+        .nav-button.login-btn {
+            background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); font-weight: 600;
+        }
+        .nav-button.login-btn:hover { background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-light); }
+
+        /* ─── MAIN CONTENT & FORM ─── */
+        .main-content {
+            margin-top: 110px;
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 3rem 2.5rem;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: var(--shadow-card);
+            transition: border-color 0.3s;
+        }
+        .form-card:hover { border-color: rgba(200,162,74,0.2); box-shadow: var(--shadow-glow); }
+
+        .page-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .page-title span { color: var(--gold); }
+        
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Form Elements */
+        .form-group { margin-bottom: 1.5rem; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        
+        .form-group input:not([type="radio"]):not([type="checkbox"]),
+        .form-group select {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: 0 0 10px rgba(200,162,74,0.2);
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .form-group input:disabled,
+        .form-group select:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: rgba(0,0,0,0.2);
+        }
+        
+        .form-group select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%23c8a24a%22%20d%3D%22M10%204H2l4%204z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.2rem center;
+            background-size: 12px;
+            padding-right: 2.5rem;
+        }
+        
+        .form-group select option { background-color: var(--bg-mid); color: #ffffff; }
+        
+        /* Verification Button */
+        .email-verify-group {
+            display: flex; gap: 1rem; align-items: stretch;
+        }
+        .email-verify-group input { flex-grow: 1; }
+        
+        .action-button {
+            padding: 0.85rem 1.5rem;
+            white-space: nowrap;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
+            color: #1a1510;
+            border: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(200,162,74,0.2);
+        }
+        .action-button:hover:not(:disabled) {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200,162,74,0.35);
+        }
+        .action-button:disabled {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+        
+        .verification-message { margin-top: 0.6rem; font-size: 0.9rem; color: #4ade80; font-weight: 500; }
+        .message-error { color: #f87171; }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 2px solid rgba(26,21,16,0.3);
+            border-top: 2px solid #1a1510;
+            border-radius: 50%;
+            width: 1.2rem; height: 1.2rem;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { visibility: hidden; }
+
+        /* Radio & Checkbox */
+        .radio-group, .checkbox-group {
+            display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 0.5rem;
+        }
+        .radio-group label, .checkbox-group label {
+            display: flex; align-items: center; font-weight: 500;
+            cursor: pointer; color: var(--text-secondary);
+        }
+        .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+            margin-right: 0.6rem; width: auto; accent-color: var(--gold);
+            transform: scale(1.1);
+        }
+        
+        /* Conditional Fields Block */
+        #conditional-form-part {
+            opacity: 0.4;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        #conditional-form-part.unlocked {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .section-heading {
+            color: var(--gold-light);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(200,162,74,0.15);
+            padding-bottom: 0.5rem;
+        }
+
+        #student-fields, #working-pro-fields {
+            margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed rgba(255,255,255,0.05);
+        }
+
+        /* Final Submit Button */
+        .submit-button {
+            display: block; width: 100%; margin-top: 2.5rem;
+            padding: 1.2rem; font-size: 1.1rem;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            margin-top: 5rem; padding: 3rem 2rem 2rem;
+            background: var(--bg-mid); border-top: 1px solid var(--border);
+            position: relative; z-index: 1;
+        }
+        .footer-content {
+            max-width: 1180px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;
+        }
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold);
+            margin-bottom: 1rem; letter-spacing: 0.02em;
+        }
+        .footer-section p, .footer-section a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 0.5rem; display: block; transition: color 0.2s;
+        }
+        .footer-section a:hover { color: var(--text-secondary); }
+
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+        .social-link {
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.3s ease; padding: 0.25rem;
+        }
+        .social-link i { font-size: 22px; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
+        .social-link:hover.linkedin i { color: #0077B5; }
+        .social-link:hover.instagram i { color: #E4405F; }
+        .social-link:hover.telegram i { color: #229ED9; }
+        .social-link:hover.whatsapp i { color: #25D366; }
+
+        .footer-bottom {
+            max-width: 1180px; margin: 0 auto; text-align: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        .footer-bottom a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-bottom a:hover { color: var(--text-secondary); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .header { position: relative; background: rgba(13,15,26,1); }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            
+            .main-content { margin-top: 0; padding: 1.5rem 1rem; }
+            .form-card { padding: 2rem 1.5rem; }
+            .page-title { font-size: 2.2rem; }
+            .email-verify-group { flex-direction: column; align-items: stretch; }
+            #verifyEmailButton { width: 100%; }
+        }
+        
+        /* Fade-in Animation */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .form-card { animation: fadeUp 0.6s ease both; }
+    </style>
+</head>
+<body>
+    <header class="header" id="mainHeader">
+        <div class="nav-container">
+            <a href="index.html" class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
+                <div class="logo-text">
+                    <span class="logo-english">Tattva Yantrika</span>
+                    <span class="logo-hindi">तत्त्व यांत्रिक</span>
+                </div>
+            </a>
+            <nav class="main-nav" aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-button">Home</a></li>
+                    <li><a href="courses.html" class="nav-button">Courses</a></li>
+                    <li><a href="ansyscfdbeginnersignup.htm" class="nav-button courses-btn active" aria-current="page">Sign Up</a></li>
+                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="form-card">
+            <h1 class="page-title">Enroll in <span>CFD Advanced</span></h1>
+            <p class="page-subtitle">Complete your initial email verification to unlock the full enrollment application.</p>
+            
+            <form id="signupForm">
+                
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-Mail Address</label>
+                    <div class="email-verify-group">
+                        <input type="email" id="email" name="email" required placeholder="john@example.com">
+                        <button type="button" id="verifyEmailButton" class="action-button" disabled>
+                            <span class="button-text">Verify Email</span>
+                        </button>
+                    </div>
+                    <p class="verification-message" id="verificationMessage" aria-live="polite"></p>
+                </div>
+                
+                <input type="password" id="password" name="password" style="display: none;">
+
+                <!-- LOCKED FORM SECTION -->
+                <div id="conditional-form-part">
+                    
+                    <h2 class="section-heading">Application Details</h2>
+
+                    <div class="form-group">
+                        <label for="phone">Phone No. (WhatsApp Enabled Only)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 9876543210" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>You are a:</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="userType" value="student" id="radioStudent"> Student
+                            </label>
+                            <label>
+                                <input type="radio" name="userType" value="workingPro" id="radioWorkingPro"> Working Professional
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Student Specific Fields -->
+                    <div id="student-fields" style="display: none;">
+                        <div class="form-group">
+                            <label>Program Level:</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="programLevel" value="btech"> B.Tech</label>
+                                <label><input type="radio" name="programLevel" value="mtech"> M.Tech</label>
+                                <label><input type="radio" name="programLevel" value="phd"> PhD</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="btech-branch-group" style="display: none;">
+                            <label for="btechBranch">Branch:</label>
+                            <select id="btechBranch" name="btechBranch">
+                                <option value="" selected>-- Select Your Branch --</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Civil">Civil</option>
+                                <option value="Chemical">Chemical</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="other-branch-group" style="display: none;">
+                            <label for="otherBranch">Specify Other Branch:</label>
+                            <input type="text" id="otherBranch" name="otherBranch">
+                        </div>
+
+                        <div class="form-group" id="mtech-specialization-group" style="display: none;">
+                            <label for="mtechSpecialization">M.Tech Specialization:</label>
+                            <input type="text" id="mtechSpecialization" name="mtechSpecialization">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="collegeName">College / University Name</label>
+                            <input type="text" id="collegeName" name="collegeName">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="graduationYear">Year of Graduation</label>
+                            <input type="number" id="graduationYear" name="graduationYear" min="2024" max="2030" placeholder="e.g., 2026">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rollNumber">Roll Number</label>
+                            <input type="text" id="rollNumber" name="rollNumber">
+                        </div>
+                    </div>
+
+                    <!-- Professional Specific Fields -->
+                    <div id="working-pro-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="orgName">Organization Name</label>
+                            <input type="text" id="orgName" name="orgName">
+                        </div>
+                        <div class="form-group">
+                            <label for="designation">Designation</label>
+                            <input type="text" id="designation" name="designation">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="howDidYouKnow">How did you hear about us?</label>
+                        <select id="howDidYouKnow" name="howDidYouKnow">
+                            <option value="" selected disabled>-- Select an option --</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="Word of Mouth">Word of Mouth</option>
+                            <option value="Seminar">Seminar</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Social Media">Social Media</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label for="termsCheckbox">
+                            <input type="checkbox" id="termsCheckbox" name="terms">
+                            I have read and agree to the <a href="terms-of-service.htm" style="color: var(--gold-light); margin-left: 4px;">Terms &amp; Conditions</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="paymentButton" class="action-button submit-button" disabled>
+                        <span class="button-text">Submit &amp; Proceed to Payment</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Tattva Yantrika</h3>
+                <p>Leading provider of professional engineering software training. We empower engineers and designers with industry-standard skills.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="courses.html">All Courses</a>
+                <a href="courses.html">Pricing</a>
+                <a href="#about">About Us</a>
+                <a href="careers.html">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <a href="contactus.htm">Help Center</a>
+                <a href="contactus.htm">Contact Support</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 84002 59994, 99972 79515</p>
+                <div class="social-links">
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="privacy-policy.htm">Privacy Policy</a> | <a href="terms-of-service.htm">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth > 768) header.classList.toggle('scrolled', window.scrollY > 10);
+        });
+
+        // --- FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDv4uGTCMi0G1V75T850Uok7oDgjpgbS6g", 
+            authDomain: "course-website-authentication.firebaseapp.com",
+            projectId: "course-website-authentication",
+            storageBucket: "course-website-authentication.firebasestorage.app",
+            messagingSenderId: "713645432109",
+            appId: "1:713645432109:web:811bb84eb35beb7111c7a4",
+            measurementId: "G-VF1BBTRK6C"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        
+        // --- GOOGLE APPS SCRIPT URL ---
+        // REPLACE THIS URL WITH YOUR NEW APPS SCRIPT URL FOR THE "CFD ADVANCED" SPREADSHEET
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxoLoN8_YmVbgVKoeMIRuKEbomzCWFHSOxMPxLfsk_j6QbYi5sdVNtNrF98gBsnlMu8Tg/exec';
+
+        const form = document.getElementById('signupForm');
+        const paymentButton = document.getElementById('paymentButton');
+        const fullNameInput = document.getElementById('fullName');
+        const emailInput = document.getElementById('email');
+        const verifyEmailButton = document.getElementById('verifyEmailButton');
+        const verificationMessage = document.getElementById('verificationMessage');
+        const conditionalFormPart = document.getElementById('conditional-form-part');
+        const termsCheckbox = document.getElementById('termsCheckbox');
+
+        let isEmailVerified = false; 
+        let intervalId = null; 
+        
+        const userTypeRadios = form.querySelectorAll('input[name="userType"]');
+        const studentFields = document.getElementById('student-fields');
+        const workingProFields = document.getElementById('working-pro-fields');
+        const programLevelRadios = form.querySelectorAll('input[name="programLevel"]');
+        const btechBranchSelect = document.getElementById('btechBranch');
+        const otherBranchGroup = document.getElementById('other-branch-group');
+        const btechBranchGroup = document.getElementById('btech-branch-group');
+        const mtechSpecializationGroup = document.getElementById('mtech-specialization-group');
+        
+        function setLoading(button, isLoading, text) {
+            const span = button.querySelector('.button-text') || button;
+            if (isLoading) {
+                span.innerHTML = `<span class="loading-text">${text}</span><span class="spinner"></span>`;
+                button.disabled = true;
+            } else {
+                span.textContent = text || span.textContent;
+                button.disabled = false;
+            }
+        }
+
+        function toggleConditionalFieldsAccess(isVerified) {
+            const inputs = conditionalFormPart.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (!['otherBranch', 'mtechSpecialization'].includes(input.id)) { 
+                    input.required = isVerified;
+                }
+                input.disabled = !isVerified;
+            });
+            termsCheckbox.required = isVerified;
+            termsCheckbox.disabled = !isVerified;
+            
+            if (isVerified) {
+                conditionalFormPart.classList.add('unlocked');
+            } else {
+                conditionalFormPart.classList.remove('unlocked');
+            }
+            toggleUserTypeFields();
+        }
+
+        function updateVerifyEmailButtonState() {
+            const isNameValid = fullNameInput.checkValidity();
+            const isEmailValid = emailInput.checkValidity();
+            verifyEmailButton.disabled = !(isNameValid && isEmailValid && !isEmailVerified);
+        }
+        
+        function updatePaymentButtonState() {
+            const isTermsChecked = termsCheckbox.checked;
+            paymentButton.disabled = !(form.checkValidity() && isTermsChecked && isEmailVerified);
+        }
+
+        // FIREBASE EMAIL VERIFICATION
+        verifyEmailButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = 'TattvaPass_' + Math.random().toString(36).substring(2, 12); 
+
+            if (!emailInput.checkValidity() || !fullNameInput.checkValidity()) {
+                 verificationMessage.textContent = 'Please fill in a valid Name and Email address.';
+                 verificationMessage.classList.add('message-error');
+                 return;
+            }
+
+            setLoading(verifyEmailButton, true, 'Verifying...');
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                await user.sendEmailVerification();
+                
+                verificationMessage.textContent = 'Verification link sent! Check your spam/inbox.';
+                verificationMessage.classList.remove('message-error');
+                
+                verifyEmailButton.style.display = 'none';
+                emailInput.disabled = true;
+                fullNameInput.disabled = true;
+
+                if (intervalId) clearInterval(intervalId);
+                intervalId = setInterval(async () => {
+                    await user.reload();
+                    if (user.emailVerified) {
+                        clearInterval(intervalId);
+                        isEmailVerified = true;
+                        verificationMessage.textContent = 'Email Verified! Application form unlocked.';
+                        toggleConditionalFieldsAccess(true); 
+                        updatePaymentButtonState();
+                    } else {
+                        verificationMessage.textContent = 'Waiting for verification... Click the link in your email to continue.';
+                    }
+                }, 3000); 
+
+            } catch (error) {
+                setLoading(verifyEmailButton, false, 'Verify Email');
+                console.error("Firebase Error:", error.code, error.message);
+                
+                let errorMessage = 'An internal Firebase error occurred.';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'Email is already registered. Please log in or use a different email.';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email format.';
+                } else if (error.code === 'auth/unauthorized-domain') {
+                    errorMessage = 'Authentication Error: Your domain is not authorized in Firebase settings.';
+                }
+                
+                alert(`Error: ${errorMessage}`);
+                verificationMessage.textContent = errorMessage;
+                verificationMessage.classList.add('message-error');
+            }
+        });
+        
+        // GOOGLE SHEET SUBMISSION
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (paymentButton.disabled) return;
+
+            setLoading(paymentButton, true, 'Submitting Data...');
+
+            const randomPassword = 'TY' + Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('password').value = randomPassword; 
+
+            const formData = new FormData(form);
+            
+            // Map data accurately to match the exact headers in your NEW Google Sheet
+            const data = {
+                'Full Name': fullNameInput.value, 
+                'Email': emailInput.value,
+                'Password': randomPassword,
+                'Phone': formData.get('phone') || '',
+                'User Type': formData.get('userType') || '',
+                'Program Level': formData.get('programLevel') || '',
+                'B.Tech Branch': formData.get('btechBranch') || '',
+                'Other Branch': formData.get('otherBranch') || '',
+                'M.Tech Specialization': formData.get('mtechSpecialization') || '',
+                'College/University': formData.get('collegeName') || '',
+                'Graduation Year': formData.get('graduationYear') || '',
+                'Roll Number': formData.get('rollNumber') || '',
+                'Organization Name': formData.get('orgName') || '',
+                'Designation': formData.get('designation') || '',
+                'How Did You Know': formData.get('howDidYouKnow') || '',
+                'Terms Accepted': termsCheckbox.checked ? 'Yes' : 'No'
+            };
+
+            try {
+                if(GAS_URL === 'PASTE_YOUR_NEW_CFD_BASICS_APPS_SCRIPT_URL_HERE') {
+                    alert('Developer Note: Please configure your new GAS_URL to enable spreadsheet submission.');
+                    setLoading(paymentButton, false, 'Error: Setup Required');
+                    return;
+                }
+
+                await fetch(GAS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                setLoading(paymentButton, false, 'Redirecting...');
+                alert('Success! Your application has been recorded. Proceeding to Payment Gateway.');
+                window.location.href = 'https://www.your-payment-link.com'; // <-- ADD YOUR CFD ADVANCED PAYMENT LINK HERE
+
+            } catch (error) {
+                setLoading(paymentButton, false, 'Submit & Proceed');
+                console.error('Submission Error:', error);
+                alert('Error submitting application. Please try again.');
+            }
+        });
+        
+        // Form Logic
+        form.addEventListener('input', () => {
+            updateVerifyEmailButtonState();
+            updatePaymentButtonState(); 
+        });
+        termsCheckbox.addEventListener('change', updatePaymentButtonState);
+
+        function toggleUserTypeFields() {
+            const userType = document.querySelector('input[name="userType"]:checked')?.value;
+            const isStudent = userType === 'student';
+
+            studentFields.style.display = isStudent ? 'block' : 'none';
+            workingProFields.style.display = isStudent ? 'none' : 'block';
+            
+            workingProFields.querySelectorAll('input').forEach(input => input.required = !isStudent);
+            if (isStudent) toggleProgramLevelFields(true);
+            else toggleProgramLevelFields(false);
+        }
+
+        function toggleProgramLevelFields(enable = true) {
+            const programLevel = enable ? document.querySelector('input[name="programLevel"]:checked')?.value : null;
+            const isBTech = programLevel === 'btech';
+            const isMTech = programLevel === 'mtech';
+            const studentInputs = studentFields.querySelectorAll('input, select');
+            
+            if (!enable || !programLevel) {
+                 studentInputs.forEach(input => {
+                     if (!['otherBranch', 'mtechSpecialization'].includes(input.id)) input.required = false;
+                 });
+            } else {
+                 studentInputs.forEach(input => {
+                      if (!['btechBranch', 'mtechSpecialization', 'otherBranch'].includes(input.id)) {
+                           input.required = true;
+                      }
+                 });
+            }
+
+            btechBranchGroup.style.display = isBTech ? 'block' : 'none';
+            mtechSpecializationGroup.style.display = isMTech ? 'block' : 'none';
+            otherBranchGroup.style.display = 'none';
+
+            btechBranchGroup.querySelector('select').required = isBTech;
+            mtechSpecializationGroup.querySelector('input').required = isMTech;
+
+            if (isBTech && btechBranchSelect.value === 'Others') {
+                otherBranchGroup.style.display = 'block';
+            }
+        }
+
+        function toggleOtherBranchField() {
+            const otherBranchInput = otherBranchGroup.querySelector('input');
+            if (btechBranchSelect.value === 'Others') {
+                otherBranchGroup.style.display = 'block';
+                otherBranchInput.required = true;
+            } else {
+                otherBranchGroup.style.display = 'none';
+                otherBranchInput.required = false;
+            }
+        }
+
+        userTypeRadios.forEach(radio => radio.addEventListener('change', toggleUserTypeFields));
+        programLevelRadios.forEach(radio => radio.addEventListener('change', () => {
+            toggleProgramLevelFields();
+            toggleOtherBranchField(); 
+        }));
+        btechBranchSelect.addEventListener('change', toggleOtherBranchField);
+        
+        toggleConditionalFieldsAccess(false); 
+        updateVerifyEmailButtonState();
+        
+    </script>
+</body>
+</html>
