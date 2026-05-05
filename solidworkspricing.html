@@ -3,251 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolidWorks Courses - Tattva Yantrika</title>
+    <title>SolidWorks Mastery Programs - Tattva Yantrika</title>
     <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        /* ALL CSS REMAINS THE SAME AS THE ANSYS PAGE */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --accent:         #3a7bd5;
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e3f 25%, #151f42 50%, #0d2f5a 75%, #4a2c7a 100%);
-            background-attachment: fixed;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
             overflow-x: hidden;
+            padding-bottom: 50px;
         }
 
+        /* ─── Subtle background texture ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.2rem 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            transition: all 0.3s ease;
-            min-height: 80px;
+            transition: box-shadow 0.3s;
         }
+
+        .header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
+            padding: 0.75rem 2rem;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            cursor: default; 
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            line-height: 1.3;
-            padding: 2px 0;
-        }
-
-        .logo-english {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: royalGradient 3s ease-in-out infinite;
-        }
-
-        .logo-hindi {
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 4px;
-            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
-            padding: 2px 0;
-            overflow: visible;
-        }
-
-        @keyframes royalGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; text-decoration: none; }
+        
         .logo-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 215, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 5px;
-            transition: all 0.3s ease;
-            animation: logoRotate 8s linear infinite;
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 0; outline: none;
+            transition: filter 0.3s;
+        }
+        .logo-img:hover { filter: brightness(1.2); }
+
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-english {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; font-weight: 700; color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .logo-hindi {
+            font-size: 0.82rem; color: var(--gold-muted); font-weight: 400;
+            letter-spacing: 0.04em; font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
         }
 
-        @keyframes logoRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .logo-img:hover {
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
-            border-color: rgba(255, 215, 0, 0.6);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-menu li {
-            display: inline-block;
-        }
+        .main-nav { flex-grow: 1; display: flex; justify-content: center; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; align-items: center; }
 
         .nav-button {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
             white-space: nowrap;
-            font-size: 0.95rem;
-            font-weight: 500;
         }
 
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        .nav-button:not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
         }
 
-        .nav-button.active {
-            background: rgba(255, 215, 0, 0.2);
-            border-color: rgba(255, 215, 0, 0.4);
-            color: #FFD700;
+        @keyframes coursePulseGlow {
+            0% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+            50% { box-shadow: 0 0 15px rgba(200,162,74,0.6); border-color: rgba(200,162,74,0.8); }
+            100% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
         }
-
-        .nav-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+        
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            animation: coursePulseGlow 2.5s infinite;
+            font-weight: 600;
         }
+        .nav-button.courses-btn:hover { background: rgba(200,162,74,0.2); color: #fff; animation-play-state: paused; }
 
-        .nav-button:hover::before {
-            left: 100%;
+        .nav-button.login-btn {
+            background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); font-weight: 600;
         }
+        .nav-button.login-btn:hover { background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-light); }
 
-        /* Main Content */
+        /* ─── MAIN CONTENT ─── */
         .main-content {
-            margin-top: 120px;
-            padding: 2rem;
+            margin-top: 100px;
+            padding: 2.5rem 2rem;
             min-height: calc(100vh - 120px);
+            position: relative;
+            z-index: 1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1180px;
             margin: 0 auto;
         }
 
-        /* Page Title */
         .page-title {
             text-align: center;
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: royalGradient 3s ease-in-out infinite;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
+        .page-title span { color: var(--gold); }
 
         .page-subtitle {
             text-align: center;
-            font-size: 1.2rem;
-            color: #b8b8b8;
-            margin-bottom: 3rem;
-            max-width: 800px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 750px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.7;
         }
 
-        /* Courses Grid - Used for Levels */
+        /* ─── LANGUAGE BADGE ─── */
+        .language-badge-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        .language-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 2rem;
+            background: rgba(200,162,74,0.1);
+            border: 1px solid rgba(200,162,74,0.4);
+            border-radius: 50px;
+            color: var(--gold-light);
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+            box-shadow: var(--shadow-glow);
+            animation: badgePulse 3s infinite alternate;
+        }
+
+        .language-badge i { font-size: 1.2rem; }
+
+        @keyframes badgePulse {
+            0% { box-shadow: 0 0 15px rgba(200,162,74,0.1); border-color: rgba(200,162,74,0.3); }
+            100% { box-shadow: 0 0 25px rgba(200,162,74,0.4); border-color: rgba(200,162,74,0.7); }
+        }
+
+        /* ─── COURSES GRID ─── */
         .courses-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
             margin-bottom: 4rem;
         }
 
         .course-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
             padding: 2.5rem;
             position: relative;
-            overflow: hidden;
             transition: all 0.3s ease;
-            text-align: center;
+            text-align: left;
             display: flex;
             flex-direction: column;
         }
 
         .course-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--border-hover);
         }
         
-        /* Advanced course highlight */
         .course-card.advanced {
-            border-color: #FFD700;
-            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(200, 162, 74, 0.4);
+            background: linear-gradient(180deg, rgba(200, 162, 74, 0.05) 0%, var(--bg-card) 100%);
         }
 
-        .course-card::before {
-            content: '';
+        .course-card.advanced::after {
+            content: 'MOST POPULAR';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .course-card:hover::before {
-            opacity: 1;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, var(--gold), var(--gold-light));
+            color: #1a1510;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(200, 162, 74, 0.3);
         }
 
         .course-content {
@@ -260,412 +261,380 @@
         
         .level-tag {
             display: inline-block;
-            background: linear-gradient(45deg, #00d4ff, #ff00ff);
-            color: #000000;
-            font-size: 0.9rem;
-            font-weight: bold;
-            padding: 0.5rem 1rem;
+            background: rgba(200, 162, 74, 0.1);
+            border: 1px solid rgba(200, 162, 74, 0.2);
+            color: var(--gold-light);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.3rem 1rem;
             border-radius: 20px;
             margin-bottom: 1.5rem;
             letter-spacing: 1px;
             text-transform: uppercase;
+            align-self: flex-start;
         }
 
         .course-title {
-            font-size: 2rem;
-            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            background: linear-gradient(45deg, #FFD700, #FFA500); 
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .course-title.advanced {
-            font-size: 2.2rem;
+            color: var(--text-primary);
         }
 
         .course-duration {
-            font-size: 1.1rem;
-            color: #00ff88;
-            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
+        .course-duration i { color: var(--gold); }
 
         /* PRICE STYLING */
         .course-price {
             margin-bottom: 2rem;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .course-price-only {
-            color: #b8b8b8;
-            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
             margin-bottom: 0.3rem;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .course-price-original {
-            color: #888;
-            font-size: 1.2rem;
-            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 500;
             text-decoration: line-through;
             margin-right: 0.5rem;
             display: inline-block;
         }
 
         .current-price-group {
-            display: flex; /* To put the weekly price on the same line as the main price */
-            align-items: flex-end;
+            display: flex;
+            align-items: baseline;
             gap: 0.5rem;
+            margin-top: 0.2rem;
         }
 
         .course-price-value {
-            font-size: 2.5rem; 
-            font-weight: 900;
+            font-size: 2.8rem;
+            font-weight: 700;
             letter-spacing: -1px;
-            display: inline-block;
-            background: linear-gradient(45deg, #FFD700, #FF8C00); 
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
         }
 
         .course-price-rupee {
-            font-size: 1.2rem;
-            color: #FFD700;
-            font-weight: 700;
-            vertical-align: middle;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-right: 2px;
         }
 
         .course-price-weekly {
-            color: #00ff88; 
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.4rem; 
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: rgba(200, 162, 74, 0.08);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            display: inline-block;
+            width: max-content;
         }
-        /* END PRICE STYLING */
-
 
         .course-features {
             list-style: none;
-            margin-top: 1rem;
             margin-bottom: 2rem;
-            text-align: left;
             flex-grow: 1;
         }
 
         .course-features li {
             padding: 0.5rem 0;
             position: relative;
-            padding-left: 1.5rem;
-            color: #e0e0e0;
-            font-size: 1rem;
+            padding-left: 1.8rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .course-features li::before {
-            content: '✓';
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             position: absolute;
             left: 0;
-            color: #00ff88;
-            font-weight: bold;
+            top: 0.6rem;
+            color: var(--gold-muted);
+            font-size: 0.85rem;
         }
         
-        /* Highlight for the key feature of each level */
         .course-features li.key-feature {
-            color: #FFD700;
-            font-weight: bold;
-            margin-top: 0.5rem;
-            border-top: 1px solid rgba(255, 215, 0, 0.3);
-            padding-top: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 600;
         }
-
-        .course-features li.key-feature::before {
-            content: '⭐';
-            position: absolute;
-            left: 0;
-            color: #FFD700;
-            font-weight: bold;
-        }
+        .course-features li.key-feature::before { content: '\f058'; color: var(--gold); }
 
         .button-group {
             margin-top: auto;
             display: flex;
-            gap: 1rem;
-            justify-content: center;
-            padding-top: 1rem;
+            flex-direction: column;
+            gap: 0.8rem;
         }
         
         .start-button, .detail-button {
             display: inline-block;
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 50px;
+            padding: 0.85rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
             text-decoration: none;
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 0.95rem;
+            font-weight: 700;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            white-space: nowrap;
+            width: 100%;
         }
 
         .start-button {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            color: #000000;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
+            color: #1a1510;
+            border: none;
+            box-shadow: 0 4px 16px rgba(200,162,74,0.25);
         }
-
         .start-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
-            background: linear-gradient(45deg, #FFA500, #FFD700);
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(200,162,74,0.4);
         }
         
         .detail-button {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
         }
-        
         .detail-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+            background: var(--bg-card-hover);
+            border-color: var(--gold-muted);
         }
 
-        /* Footer */
+        /* ─── FOOTER ─── */
         .footer {
-            margin-top: 4rem;
-            padding: 3rem 2rem 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 5rem; padding: 3rem 2rem 2rem;
+            background: var(--bg-mid); border-top: 1px solid var(--border);
+            position: relative; z-index: 1;
         }
-
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            max-width: 1180px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;
         }
-
         .footer-section h3 {
-            color: #00d4ff;
-            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold);
+            margin-bottom: 1rem; letter-spacing: 0.02em;
         }
-
         .footer-section p, .footer-section a {
-            color: #b8b8b8;
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: block;
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 0.5rem; display: block; transition: color 0.2s;
         }
+        .footer-section a:hover { color: var(--text-secondary); }
 
-        .footer-section a:hover {
-            color: #00d4ff;
-            transition: color 0.3s ease;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+        
         .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.3s ease; padding: 0.25rem;
         }
-
-        .social-link:hover {
-            background: #00d4ff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-        }
+        .social-link i { font-size: 22px; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
+        .social-link:hover.linkedin i { color: #0077B5; }
+        .social-link:hover.instagram i { color: #E4405F; }
+        .social-link:hover.telegram i { color: #229ED9; }
+        .social-link:hover.whatsapp i { color: #25D366; }
 
         .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #808080;
+            max-width: 1180px; margin: 0 auto; text-align: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.85rem;
+        }
+        .footer-bottom a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-bottom a:hover { color: var(--text-secondary); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .header { position: relative; background: rgba(13,15,26,1); }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            
+            .main-content { margin-top: 0; padding: 2rem 1.25rem; }
+            .page-title { font-size: 2.4rem; }
+            .language-badge { font-size: 0.9rem; padding: 0.6rem 1.5rem; }
+            .courses-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .course-card { padding: 2rem 1.5rem; }
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
-            }
-            .main-content {
-                margin-top: 180px;
-            }
-            .page-title {
-                font-size: 2.2rem;
-            }
-            .courses-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .course-card {
-                padding: 2rem;
-            }
-            .button-group {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-            .start-button, .detail-button {
-                width: 100%;
-            }
-            .course-price-value {
-                font-size: 2rem;
-            }
-            .course-price-original {
-                font-size: 1rem;
-            }
+        /* ─── FADE-IN ON LOAD ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
+        .page-title { animation: fadeUp 0.6s ease both; }
+        .page-subtitle { animation: fadeUp 0.6s 0.1s ease both; }
+        .language-badge-container { animation: fadeUp 0.6s 0.15s ease both; }
+        .course-card:nth-of-type(1) { animation: fadeUp 0.6s 0.2s ease both; }
+        .course-card:nth-of-type(2) { animation: fadeUp 0.6s 0.3s ease both; }
+        .course-card:nth-of-type(3) { animation: fadeUp 0.6s 0.4s ease both; }
     </style>
 </head>
 <body>
-    <header class="header">
+
+    <!-- Header -->
+    <header class="header" id="mainHeader">
         <div class="nav-container">
-            <div class="logo" role="banner" aria-label="Tattva Yantrika">
-                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+            <a href="index.html" class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img"
+                     onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
                 <div class="logo-text">
                     <span class="logo-english">Tattva Yantrika</span>
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
                 </div>
-            </div>
-            <nav aria-label="Main Navigation">
+            </a>
+            <nav class="main-nav" aria-label="Main Navigation">
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-button">Home</a></li>
-                    <li><a href="courses.html" class="nav-button active" aria-current="page">Courses</a></li>
-                    <li><a href="#go-to-course" class="nav-button">Go to Course</a></li>
-                    <li><a href="#contact" class="nav-button">Contact Us</a></li>
+                    <li><a href="courses.html" class="nav-button courses-btn active" aria-current="page">Courses</a></li>
+                    <li><a href="contactus.htm" class="nav-button">Contact Us</a></li>
                 </ul>
             </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login to Course</a>
+            </div>
         </div>
     </header>
 
     <main class="main-content">
         <div class="container">
-            <h1 class="page-title">SolidWorks Mastery Programs</h1>
+            <h1 class="page-title">SolidWorks <span>Mastery</span> Programs</h1>
             <p class="page-subtitle">
-                Unlock your design potential with our comprehensive SolidWorks courses, from fundamental sketching to advanced surfacing and assembly.
+                Unlock your design potential with our comprehensive SolidWorks courses, from fundamental sketching to advanced surfacing, assembly, and motion analysis.
             </p>
+
+            <div class="language-badge-container">
+                <div class="language-badge">
+                    <i class="fas fa-language"></i> Course Language: Both English &amp; Hindi
+                </div>
+            </div>
             
             <div class="courses-grid">
                 
-                <section class="course-card" aria-labelledby="basic-solidworks">
+                <!-- Basics Level -->
+                <section class="course-card" aria-labelledby="sw-basics">
                     <div class="course-content">
                         <span class="level-tag">Foundation</span>
-                        <h2 id="basic-solidworks" class="course-title">SolidWorks Basic</h2>
-                        <p class="course-duration">5 Weeks</p>
+                        <h2 id="sw-basics" class="course-title">SolidWorks Basic</h2>
+                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 5 Weeks Program</p>
                         
                         <div class="course-price">
-                            <span class="course-price-only">Limited Offer!</span>
+                            <span class="course-price-only">Limited Offer</span>
                             <div>
-                                <span class="course-price-original">₹4,999</span>
+                                <span class="course-price-original">₹5,999</span>
                                 <span class="course-price-rupee">₹</span>
-                                <span class="course-price-value">1,799</span>
+                                <span class="course-price-value">2,499</span>
                             </div>
                             <div class="current-price-group">
-                                <span class="course-price-weekly">(Only ₹360 per week)</span>
+                                <span class="course-price-weekly">Just ₹499 / week</span>
                             </div>
                         </div>
                         
                         <ul class="course-features">
-                            <li>Recorded Tutorial Videos</li>
-                            <li>Self-Paced Learning Model</li>
-                            <li>Access to PDF Notes</li>
-                            <li class="key-feature">Hands-on Part Modeling Exercises</li>
+                            <li>Basic Level Sketching &amp; Geometry Setup</li>
+                            <li>Basics of Feature Modeling</li>
+                            <li>Assembly Basics (Standard Mates, Bottom-Up)</li>
+                            <li>Basics of Technical Drawing Generation</li>
+                            <li class="key-feature">Extensive Hands-on Practice</li>
                         </ul>
                         
                         <div class="button-group">
-                            <a href="#details-basic" class="detail-button" role="button">View Details</a>
                             <a href="#enroll-basic" class="start-button" role="button">Enroll Now</a>
+                            <a href="#details-basic" class="detail-button" role="button">View Syllabus</a>
                         </div>
                     </div>
                 </section>
 
-                <section class="course-card" aria-labelledby="intermediate-solidworks">
+                <!-- Intermediate Level -->
+                <section class="course-card" aria-labelledby="sw-intermediate">
                     <div class="course-content">
                         <span class="level-tag">Professional</span>
-                        <h2 id="intermediate-solidworks" class="course-title">SolidWorks Intermediate</h2>
-                        <p class="course-duration">7 Weeks</p>
+                        <h2 id="sw-intermediate" class="course-title">SolidWorks Intermediate</h2>
+                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 7 Weeks Program</p>
                         
                         <div class="course-price">
-                            <span class="course-price-only">Limited Offer!</span>
+                            <span class="course-price-only">Most Popular Choice</span>
                             <div>
-                                <span class="course-price-original">₹10,999</span>
+                                <span class="course-price-original">₹14,999</span>
                                 <span class="course-price-rupee">₹</span>
-                                <span class="course-price-value">5,499</span>
+                                <span class="course-price-value">6,799</span>
                             </div>
                             <div class="current-price-group">
-                                <span class="course-price-weekly">(Only ₹785 per week)</span>
+                                <span class="course-price-weekly">Just ₹971 / week</span>
                             </div>
                         </div>
                         
                         <ul class="course-features">
-                            <li>Recorded Tutorial Videos</li>
-                            <li>Self-Paced Learning Model</li>
-                            <li>Access to PDF Notes</li>
-                            <li>Advanced Assembly & Drawing Practices</li>
-                            <li class="key-feature">Doubt Solving Sessions (Weekly)</li>
+                            <li>Advanced Sketching (Equation Curves, Splines)</li>
+                            <li>Advanced Features (Thread, Flex, Combine, Indents)</li>
+                            <li>Advanced Assembly (Mechanical Mates, Top-Down)</li>
+                            <li>Advanced Drawings, BOMs &amp; Custom Sheets</li>
+                            <li class="key-feature">Sheet Metal &amp; Weldments (Basics)</li>
                         </ul>
                         
                         <div class="button-group">
-                            <a href="#details-intermediate" class="detail-button" role="button">View Details</a>
                             <a href="#enroll-intermediate" class="start-button" role="button">Enroll Now</a>
+                            <a href="#details-intermediate" class="detail-button" role="button">View Syllabus</a>
                         </div>
                     </div>
                 </section>
 
-                <section class="course-card advanced" aria-labelledby="advanced-solidworks">
+                <!-- Advanced Level -->
+                <section class="course-card advanced" aria-labelledby="sw-advanced">
                     <div class="course-content">
                         <span class="level-tag">Expert</span>
-                        <h2 id="advanced-solidworks" class="course-title advanced">SolidWorks Advanced</h2>
-                        <p class="course-duration">9 Weeks</p>
+                        <h2 id="sw-advanced" class="course-title">SolidWorks Advanced</h2>
+                        <p class="course-duration"><i class="fa-regular fa-clock"></i> 9 Weeks Program</p>
                         
                         <div class="course-price">
-                            <span class="course-price-only">Limited Offer!</span>
+                            <span class="course-price-only">Complete Mastery</span>
                             <div>
-                                <span class="course-price-original">₹21,999</span>
+                                <span class="course-price-original">₹22,999</span>
                                 <span class="course-price-rupee">₹</span>
-                                <span class="course-price-value">10,999</span>
+                                <span class="course-price-value">10,499</span>
                             </div>
                             <div class="current-price-group">
-                                <span class="course-price-weekly">(Only ₹1,222 per week)</span>
+                                <span class="course-price-weekly">Just ₹1,166 / week</span>
                             </div>
                         </div>
                         
                         <ul class="course-features">
-                            <li>Recorded Tutorial Videos</li>
-                            <li>Access to PDF Notes / SolidWorks Updates</li>
-                            <li>Complex Surfacing & Sheet Metal Designs</li>
-                            <li>Doubt Sessions (Weekly)</li>
-                            <li class="key-feature">Project / Design Guidance (Live)</li>
-                            <li class="key-feature">Portfolio Building & Interview Prep</li>
+                            <li>Complete Revision: Sketch, Part, Assembly, Drawing</li>
+                            <li>Advanced Tools for Sheet Metal &amp; Weldments</li>
+                            <li>Complex Surfacing &amp; Motion Study</li>
+                            <li>Photorealistic Rendering &amp; Presentation Skills</li>
+                            <li class="key-feature">Basics of FEA Analysis inside SolidWorks</li>
                         </ul>
                         
                         <div class="button-group">
-                            <a href="#details-advanced" class="detail-button" role="button">View Details</a>
                             <a href="#enroll-advanced" class="start-button" role="button">Enroll Now</a>
+                            <a href="#details-advanced" class="detail-button" role="button">View Syllabus</a>
                         </div>
                     </div>
                 </section>
@@ -683,57 +652,63 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <a href="courses.html">All Courses</a>
-                <a href="#pricing">Pricing</a>
+                <a href="courses.html">Pricing</a>
                 <a href="#about">About Us</a>
-                <a href="#careers">Careers</a>
+                <a href="careers.html">Careers</a>
             </div>
             <div class="footer-section">
                 <h3>Support</h3>
-                <a href="#help">Help Center</a>
-                <a href="#contact">Contact Support</a>
-                <a href="#faq">FAQ</a>
-                <a href="#community">Community</a>
+                <a href="contactus.htm">Help Center</a>
+                <a href="contactus.htm">Contact Support</a>
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: info@tattvayantrika.com</p>
-                <p>Phone: +91 98765 43210</p>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994, 9997279515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link" aria-label="Facebook">📘</a>
-                    <a href="#" class="social-link" aria-label="Twitter">🐦</a>
-                    <a href="#" class="social-link" aria-label="YouTube">📺</a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">💼</a>
-                    <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. &nbsp;|&nbsp; <a href="privacy-policy.htm">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-of-service.htm">Terms of Service</a></p>
         </div>
     </footer>
 
     <script>
+        // Header shadow on scroll (desktop only)
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth > 768) {
+                header.classList.toggle('scrolled', window.scrollY > 10);
+            }
+        });
+
+        // Add smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const href = this.getAttribute('href');
+                if(href === '#') return; // Skip empty hashes
+                
+                const target = document.querySelector(href);
                 if (target) {
+                    e.preventDefault();
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
                 }
-            });
-        });
-
-        const courseCards = document.querySelectorAll('.course-card');
-        courseCards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
             });
         });
     </script>
