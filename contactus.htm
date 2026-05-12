@@ -5,190 +5,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Tattva Yantrika</title>
     <link rel="icon" type="image/png" href="icon.png">
-    <!-- ADDED: Font Awesome for social media icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-deep:        #0d0f1a;
+            --bg-mid:         #121627;
+            --bg-card:        rgba(255,255,255,0.04);
+            --bg-card-hover:  rgba(255,255,255,0.07);
+            --border:         rgba(255,255,255,0.08);
+            --border-hover:   rgba(202,160,90,0.4);
+            --gold:           #c8a24a;
+            --gold-light:     #e2c07a;
+            --gold-muted:     #a07e35;
+            --accent:         #3a7bd5;
+            --text-primary:   #f0ede8;
+            --text-secondary: #9e9b94;
+            --text-muted:     #5e5c57;
+            --radius-lg:      20px;
+            --radius-sm:      10px;
+            --shadow-glow:    0 0 30px rgba(200,162,74,0.15);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1e1e3f 25%, #151f42 50%, #0d2f5a 75%, #4a2c7a 100%);
-            background-attachment: fixed;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.65;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* Header Styles - Copied from previous files */
+        /* ─── Subtle background texture ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 0%, rgba(58,123,213,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(200,162,74,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.2rem 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(25px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0;
+            background: rgba(13,15,26,0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            transition: all 0.3s ease;
-            min-height: 80px;
+            transition: box-shadow 0.3s;
         }
+        .header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
 
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
+            padding: 0.75rem 2rem;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            cursor: default; 
-        }
-
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            line-height: 1.3;
-        }
-
-        .logo-english {
-            font-size: 1.8rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            background-size: 200% 200%;
-            animation: royalGradient 3s ease-in-out infinite;
-        }
-        
-        @keyframes royalGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .logo-hindi {
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, #DAA520, #B8860B, #CD853F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 4px;
-            font-family: 'Devanagari Sangam MN', 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.9rem; flex-shrink: 0; text-decoration: none; }
         .logo-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 215, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 5px;
-            transition: all 0.3s ease;
-            animation: logoRotate 8s linear infinite;
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 0; outline: none;
+            transition: filter 0.3s;
+        }
+        .logo-img:hover { filter: brightness(1.2); }
+
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-english {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; font-weight: 700; color: var(--gold);
+            letter-spacing: 0.02em;
+        }
+        .logo-hindi {
+            font-size: 0.82rem; color: var(--gold-muted); font-weight: 400;
+            letter-spacing: 0.04em; font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
         }
 
-        @keyframes logoRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            align-items: center;
-        }
+        .main-nav { flex-grow: 1; display: flex; justify-content: center; }
+        .nav-menu { display: flex; list-style: none; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; align-items: center; }
 
         .nav-button {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.875rem; font-weight: 500;
+            border: 1px solid transparent;
+            transition: color 0.25s, border-color 0.25s, background 0.25s, box-shadow 0.25s;
+            white-space: nowrap;
         }
-
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        .nav-button:not(.courses-btn):not(.login-btn):hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+            border-color: var(--border);
         }
-
         .nav-button.active {
-            background: rgba(255, 215, 0, 0.2);
-            border-color: rgba(255, 215, 0, 0.4);
-            color: #FFD700;
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.1);
+            border-color: rgba(200,162,74,0.3);
         }
 
-        /* Main Content */
+        @keyframes coursePulseGlow {
+            0% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+            50% { box-shadow: 0 0 15px rgba(200,162,74,0.6); border-color: rgba(200,162,74,0.8); }
+            100% { box-shadow: 0 0 5px rgba(200,162,74,0.15); border-color: rgba(200,162,74,0.3); }
+        }
+        .nav-button.courses-btn {
+            color: var(--gold-light);
+            background: rgba(200,162,74,0.08);
+            border: 1px solid rgba(200,162,74,0.5);
+            animation: coursePulseGlow 2.5s infinite;
+            font-weight: 600;
+        }
+        .nav-button.courses-btn:hover { background: rgba(200,162,74,0.2); color: #fff; animation-play-state: paused; }
+
+        .nav-button.login-btn {
+            background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); font-weight: 600;
+        }
+        .nav-button.login-btn:hover { background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold-light); }
+
+        /* ─── MAIN CONTENT ─── */
         .main-content {
             flex-grow: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
             padding: 2rem;
-            margin-top: 100px;
+            margin-top: 110px;
+            position: relative;
+            z-index: 1;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1180px;
+            width: 100%;
             margin: 0 auto;
         }
-        
+
         .page-title {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
+        .page-title span { color: var(--gold); }
 
         .page-subtitle {
-            font-size: 1.2rem;
-            color: #b8b8b8;
-            margin-bottom: 4rem;
-            max-width: 800px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3.5rem;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.7;
         }
 
-        /* Contact Section */
+        /* ─── CONTACT GRID ─── */
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
             gap: 3rem;
-            background: rgba(10, 10, 30, 0.5);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            padding: 3rem;
-            text-align: left;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 3.5rem;
+            box-shadow: var(--shadow-card);
         }
 
+        /* Left Side: Contact Info */
         .contact-info-section h2 {
+            font-family: 'Playfair Display', serif;
             font-size: 2rem;
-            color: #00d4ff;
-            margin-bottom: 2rem;
+            color: var(--gold);
+            margin-bottom: 2.5rem;
         }
         
         .contact-item {
@@ -198,50 +209,56 @@
             margin-bottom: 2.5rem;
             transition: transform 0.3s ease;
         }
-        
         .contact-item:hover {
             transform: translateX(10px);
         }
         
         .contact-icon {
-            font-size: 2.5rem;
-            width: 60px;
-            height: 60px;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(200, 162, 74, 0.1);
+            border: 1px solid rgba(200, 162, 74, 0.3);
+            color: var(--gold-light);
+            transition: all 0.3s ease;
+        }
+        .contact-item:hover .contact-icon {
+            background: rgba(200, 162, 74, 0.2);
+            box-shadow: 0 0 15px rgba(200, 162, 74, 0.3);
         }
         
-        .icon-phone { color: #00ff88; }
-        .icon-email { color: #FFD700; }
-        
+        .icon-phone-whatsapp { color: #4ade80; border-color: rgba(74, 222, 128, 0.3); background: rgba(74, 222, 128, 0.1); }
+        .contact-item:hover .icon-phone-whatsapp { background: rgba(74, 222, 128, 0.2); box-shadow: 0 0 15px rgba(74, 222, 128, 0.3); }
+
         .contact-details a {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
             text-decoration: none;
             display: block;
+            margin-bottom: 0.2rem;
             transition: color 0.3s ease;
         }
-        
         .contact-details a:hover {
-            background: linear-gradient(45deg, #00d4ff, #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--gold);
         }
         
         .contact-details span {
-            font-size: 1rem;
-            color: #b8b8b8;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
-        /* Contact Form */
+        /* Right Side: Contact Form */
         .contact-form-section h2 {
+            font-family: 'Playfair Display', serif;
             font-size: 2rem;
-            color: #FFD700;
+            color: var(--text-primary);
             margin-bottom: 2rem;
         }
         
@@ -252,11 +269,12 @@
         .contact-form input,
         .contact-form textarea {
             width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: #fff;
+            padding: 1rem 1.2rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
             font-size: 1rem;
             transition: all 0.3s ease;
         }
@@ -264,163 +282,155 @@
         .contact-form input:focus,
         .contact-form textarea:focus {
             outline: none;
-            border-color: #FFD700;
-            background: rgba(255, 215, 0, 0.1);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            border-color: var(--gold);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 15px rgba(200, 162, 74, 0.15);
         }
         
         .contact-form textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 140px;
         }
         
         .submit-btn {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #000;
+            display: inline-block;
+            width: 100%;
+            padding: 1.1rem 2rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1a1510;
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
             border: none;
-            border-radius: 50px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            background: linear-gradient(45deg, #FFD700, #FFA500);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(200,162,74,0.25);
         }
-        
-        .submit-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 0 8px 25px rgba(200,162,74,0.4);
+        }
+        .submit-btn:disabled {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: none;
         }
 
+        #form-message {
+            margin-top: 1rem;
+            font-weight: 500;
+            text-align: center;
+            transition: color 0.3s;
+        }
 
-        /* Footer */
+        /* ─── FOOTER ─── */
         .footer {
             margin-top: auto;
             padding: 3rem 2rem 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-mid);
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+            width: 100%;
         }
-
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: left;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            max-width: 1180px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.5rem; margin-bottom: 2.5rem;
         }
-
         .footer-section h3 {
-            color: #00d4ff;
-            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold);
+            margin-bottom: 1rem; letter-spacing: 0.02em;
         }
-
-        /* ADDED: Styles for social media links */
         .footer-section p, .footer-section a {
-            color: #b8b8b8;
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            display: block;
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+            margin-bottom: 0.5rem; display: block; transition: color 0.2s;
         }
+        .footer-section a:hover { color: var(--text-secondary); }
 
-        .footer-section a:hover {
-            color: #00d4ff;
-            transition: color 0.3s ease;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            align-items: center;
-        }
-
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; align-items: center; }
+        
         .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.3s ease; padding: 0.25rem;
         }
-
-        .social-link i {
-            font-size: 26px;
-            color: #b8b8b8; 
-            transition: all 0.3s ease;
-        }
-        
-        .social-link:hover i {
-            transform: translateY(-4px) scale(1.1);
-        }
-        
+        .social-link i { font-size: 22px; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover i { transform: scale(1.15) translateY(-3px); }
         .social-link:hover.linkedin i { color: #0077B5; }
         .social-link:hover.instagram i { color: #E4405F; }
         .social-link:hover.telegram i { color: #229ED9; }
         .social-link:hover.whatsapp i { color: #25D366; }
-        
+
         .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #808080;
+            max-width: 1180px; margin: 0 auto; text-align: center;
+            padding-top: 1.5rem; border-top: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.85rem;
         }
-        
+        .footer-bottom a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .footer-bottom a:hover { color: var(--text-secondary); }
+
+        /* ─── RESPONSIVE ─── */
         @media (max-width: 992px) {
             .contact-grid {
                 grid-template-columns: 1fr;
+                gap: 4rem;
             }
         }
         
         @media (max-width: 768px) {
-             .header {
-                 position: relative;
-              }
-               .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 0;
-            }
-            .main-content {
-                margin-top: 2rem;
-                padding: 1rem;
-            }
-            .contact-grid {
-                padding: 2rem;
-            }
-            .page-title {
-                font-size: 2.2rem;
-            }
+            .header { position: relative; background: rgba(13,15,26,1); }
+            .nav-container { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+            .main-nav { width: 100%; display: flex; justify-content: center; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+            .nav-actions { width: 100%; display: flex; justify-content: center; margin-top: 0.2rem; }
+            .nav-button { padding: 0.45rem 0.85rem; font-size: 0.82rem; }
+            
+            .main-content { margin-top: 0; padding: 2rem 1.25rem; }
+            .contact-grid { padding: 2.5rem 1.5rem; }
+            .page-title { font-size: 2.4rem; }
+            .contact-info-section h2, .contact-form-section h2 { font-size: 1.8rem; }
         }
+
+        /* ─── FADE-IN ON LOAD ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .page-title { animation: fadeUp 0.6s ease both; }
+        .page-subtitle { animation: fadeUp 0.6s 0.1s ease both; }
+        .contact-grid { animation: fadeUp 0.6s 0.2s ease both; }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" id="mainHeader">
         <div class="nav-container">
-            <div class="logo" role="banner" aria-label="Tattva Yantrika">
-                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img">
+            <a href="index.html" class="logo" role="banner" aria-label="Tattva Yantrika">
+                <img src="LOGO-removebg-preview.png" alt="Tattva Yantrika Logo" class="logo-img" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1a1a2e/c8a24a?text=TY';">
                 <div class="logo-text">
                     <span class="logo-english">Tattva Yantrika</span>
                     <span class="logo-hindi">तत्त्व यांत्रिक</span>
                 </div>
-            </div>
-            <nav aria-label="Main Navigation">
+            </a>
+            <nav class="main-nav" aria-label="Main Navigation">
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-button">Home</a></li>
-                    <li><a href="courses.html" class="nav-button">Courses</a></li>
-                    <li><a href="login-navigator.htm" class="nav-button">Login to Course</a></li>
+                    <li><a href="courses.html" class="nav-button courses-btn">Courses</a></li>
                     <li><a href="contactus.htm" class="nav-button active" aria-current="page">Contact Us</a></li>
                 </ul>
             </nav>
+            <div class="nav-actions">
+                <a href="login-navigator.htm" class="nav-button login-btn"><i class="fas fa-sign-in-alt"></i> Login to Course</a>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <h1 class="page-title">Get In Touch</h1>
+            <h1 class="page-title">Get In <span>Touch</span></h1>
             <p class="page-subtitle">
                 Have a question, a project idea, or need support? We're here to help. Reach out to us via phone, email, or the contact form below.
             </p>
@@ -431,26 +441,26 @@
                     <h2>Direct Contact</h2>
                     
                     <div class="contact-item">
-                        <div class="contact-icon icon-phone">📱</div>
+                        <div class="contact-icon icon-phone-whatsapp"><i class="fab fa-whatsapp"></i></div>
                         <div class="contact-details">
-                            <a href="tel:+918400259994">+91 84002 59994</a>
-                            <span>Available for call &amp; WhatsApp</span>
+                            <a href="https://wa.me/918400259994">+91 84002 59994</a>
+                            <span>Available for Call &amp; WhatsApp</span>
                         </div>
                     </div>
                     
                     <div class="contact-item">
-                        <div class="contact-icon icon-phone">📞</div>
+                        <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
                          <div class="contact-details">
                             <a href="tel:+919997279515">+91 99972 79515</a>
-                            <span>Available for call &amp; general inquiries</span>
+                            <span>Available for General Inquiries</span>
                         </div>
                     </div>
 
                     <div class="contact-item">
-                        <div class="contact-icon icon-email">✉️</div>
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                          <div class="contact-details">
                             <a href="mailto:tattvayantrika@gmail.com">tattvayantrika@gmail.com</a>
-                            <span>For support and business inquiries</span>
+                            <span>For Support &amp; Business Inquiries</span>
                         </div>
                     </div>
                 </div>
@@ -460,20 +470,20 @@
                     <h2>Send Us a Message</h2>
                     <form class="contact-form" id="contactForm" action="https://formspree.io/f/mrbykakl" method="POST">
                         <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            <input type="text" id="name" name="name" placeholder="Your Full Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            <input type="email" id="email" name="email" placeholder="Your Email Address" required>
                         </div>
                         <div class="form-group">
                             <input type="text" id="subject" name="subject" placeholder="Subject" required>
                         </div>
                         <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                            <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
                         </div>
                         <button type="submit" class="submit-btn">Send Message</button>
                     </form>
-                    <p id="form-message" style="margin-top: 1rem; color: #00ff88; transition: color 0.3s;"></p>
+                    <p id="form-message"></p>
                 </div>
             </div>
         </div>
@@ -481,7 +491,6 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <!-- MODIFIED: Replaced old footer with the new, consistent one -->
         <div class="footer-content">
             <div class="footer-section">
                 <h3>About Tattva Yantrika</h3>
@@ -489,56 +498,54 @@
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <a href="courses.html">ANSYS Course</a>
-                <a href="courses.html">SolidWorks Course</a>
-                <a href="about.html">About Us</a>
+                <a href="courses.html">ANSYS Courses</a>
+                <a href="courses.html">SolidWorks Courses</a>
+                <a href="careers.html">Careers</a>
             </div>
             <div class="footer-section">
                 <h3>Support</h3>
-                <a href="#help">Help Center</a>
+                <a href="contactus.htm">Help Center</a>
                 <a href="contactus.htm">Contact Support</a>
-                <a href="#faq">FAQ</a>
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>Email: info@tattvayantrika.com</p>
-                <p>Phone: +91 98765 43210</p>
+                <p>tattvayantrika@gmail.com</p>
+                <p>+91 84002 59994 &nbsp;|&nbsp; 99972 79515</p>
                 <div class="social-links">
-                    <a href="#" class="social-link linkedin" aria-label="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link instagram" aria-label="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link telegram" aria-label="Telegram">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
+                    <a href="#" class="social-link linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link telegram" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 Tattva Yantrika. All rights reserved. | <a href="privacy-policy.htm">Privacy Policy</a> | <a href="terms-of-service.htm">Terms of Service</a></p>
+            <p>&copy; 2025 Tattva Yantrika. All rights reserved. &nbsp;|&nbsp; <a href="privacy-policy.htm">Privacy Policy</a> &nbsp;|&nbsp; <a href="terms-of-service.htm">Terms of Service</a></p>
         </div>
     </footer>
 
     <script>
-        // Updated script to handle form submission with Formspree using AJAX
+        // Header shadow on scroll (desktop only)
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            if(window.innerWidth > 768) {
+                header.classList.toggle('scrolled', window.scrollY > 10);
+            }
+        });
+
+        // Formspree AJAX Submission
         const contactForm = document.getElementById('contactForm');
         const formMessage = document.getElementById('form-message');
         const submitBtn = contactForm.querySelector('.submit-btn');
 
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent the default page reload on submission
+            e.preventDefault(); 
 
             const formData = new FormData(contactForm);
             const formAction = contactForm.action;
             
-            // Give user feedback
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
+            submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Sending...';
             formMessage.textContent = ''; 
 
             fetch(formAction, {
@@ -549,20 +556,17 @@
                 }
             }).then(response => {
                 if (response.ok) {
-                    formMessage.style.color = '#00ff88'; // Green for success
+                    formMessage.style.color = '#4ade80'; // Success green
                     formMessage.textContent = `Thank you! Your message has been sent successfully.`;
                     contactForm.reset();
                 } else {
-                    // Handle server-side errors
-                    formMessage.style.color = '#ff4d4d'; // Red for error
-                    formMessage.textContent = 'Oops! There was a problem. Please try again.';
+                    formMessage.style.color = '#f87171'; // Error red
+                    formMessage.textContent = 'Oops! There was a problem submitting your form. Please try again.';
                 }
             }).catch(error => {
-                // Handle network errors
-                formMessage.style.color = '#ff4d4d'; // Red for error
+                formMessage.style.color = '#f87171';
                 formMessage.textContent = 'Oops! A network error occurred. Please try again.';
             }).finally(() => {
-                // Re-enable the button
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Message';
                 
@@ -575,4 +579,3 @@
     </script>
 </body>
 </html>
-
