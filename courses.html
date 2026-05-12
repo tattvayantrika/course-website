@@ -203,7 +203,7 @@
             letter-spacing: 0.03em;
         }
         .certification-text::before, .certification-text::after {
-            content: '; font-size: 1.1em; opacity: 0.8;
+            content: '✨'; font-size: 1.1em; opacity: 0.8;
         }
 
         /* ─── COURSES GRID ─── */
@@ -315,6 +315,52 @@
             box-shadow: 0 8px 24px rgba(200,162,74,0.4);
         }
 
+        /* ─── COMING SOON OVERLAY STYLES ─── */
+        .course-card.coming-soon {
+            cursor: default;
+            position: relative;
+        }
+        .course-card.coming-soon:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            border-color: rgba(200, 162, 74, 0.3);
+        }
+        .course-card.coming-soon .course-content {
+            filter: blur(2.5px);
+            opacity: 0.7;
+            pointer-events: none;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+        .course-card.coming-soon:hover .course-content {
+            filter: blur(1.5px);
+            opacity: 0.9;
+        }
+        .coming-soon-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            background: rgba(13, 15, 26, 0.35);
+            border-radius: var(--radius-lg);
+            pointer-events: none;
+        }
+        .coming-soon-text {
+            background: linear-gradient(135deg, var(--gold), var(--gold-muted));
+            color: #1a1510;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(200,162,74,0.4);
+            transform: rotate(-5deg);
+            border: 2px solid rgba(255,255,255,0.2);
+            letter-spacing: 0.02em;
+        }
+
         /* ─── FOOTER ─── */
         .footer {
             margin-top: 5rem; padding: 3rem 2rem 2rem;
@@ -375,6 +421,7 @@
             .page-title { font-size: 2.4rem; }
             .course-card { padding: 1.8rem; }
             .course-title { font-size: 1.6rem; }
+            .coming-soon-text { font-size: 1.4rem; padding: 0.6rem 2rem; }
         }
 
         /* ─── FADE-IN ON LOAD ─── */
@@ -408,7 +455,7 @@
             <nav class="main-nav">
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-button"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="courses.html" class="nav-button courses-btn"><i class="fas fa-graduation-cap"></i> Courses</a></li>
+                    <li><a href="courses.html" class="nav-button courses-btn active"><i class="fas fa-graduation-cap"></i> Courses</a></li>
                     <li><a href="contactus.htm" class="nav-button"><i class="fas fa-envelope"></i> Contact Us</a></li>
                 </ul>
             </nav>
@@ -500,7 +547,10 @@
                 </div>
 
                 <!-- MATLAB Course -->
-                <div class="course-card">
+                <div class="course-card coming-soon">
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text">Starting Soon</span>
+                    </div>
                     <div class="course-content">
                         <div class="course-icon">📊</div>
                         <h2 class="course-title">MATLAB Mastery</h2>
@@ -521,7 +571,10 @@
                 </div>
 
                 <!-- CATIA Course -->
-                <div class="course-card">
+                <div class="course-card coming-soon">
+                    <div class="coming-soon-overlay">
+                        <span class="coming-soon-text">Starting Soon</span>
+                    </div>
                     <div class="course-content">
                         <div class="course-icon">✈️</div>
                         <h2 class="course-title">CATIA Excellence</h2>
@@ -557,19 +610,17 @@
                 <a href="courses.html">All Courses</a>
                 <a href="courses.html">Pricing</a>
                 <a href="#about">About Us</a>
-                <a href="#careers">Careers</a>
+                <a href="careers.html">Careers</a>
             </div>
             <div class="footer-section">
                 <h3>Support</h3>
-                <a href="#help">Help Center</a>
-                <a href="#contact">Contact Support</a>
-                <a href="#faq">FAQ</a>
-                <a href="#community">Community</a>
+                <a href="contactus.htm">Help Center</a>
+                <a href="contactus.htm">Contact Support</a>
             </div>
             <div class="footer-section">
                 <h3>Connect With Us</h3>
-                <p>tattvayantrika@gmail.com</p>
-                <p>+91 8400259994 &nbsp;|&nbsp; 9997279515</p>
+                <p>Email: tattvayantrika@gmail.com</p>
+                <p>Phone: +91 8400259994, 9997279515</p>
                 <div class="social-links">
                     <a href="#" class="social-link linkedin" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
