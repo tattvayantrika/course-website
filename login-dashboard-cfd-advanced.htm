@@ -123,7 +123,7 @@
 
         /* ─── COURSE DASHBOARD (ACCORDION) ─── */
         #course-dashboard {
-            width: 100%; max-width: 1000px; display: none;
+            width: 100%; max-width: 1200px; display: none;
             opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease;
         }
         #course-dashboard.visible { display: block; opacity: 1; transform: translateY(0); }
@@ -158,11 +158,61 @@
         .accordion-item.active .accordion-content { padding: 0 2rem 2rem 2rem; max-height: 2500px; } /* sufficiently large max-height */
 
         /* Video Grid */
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-        .video-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
-        .video-card h3 { font-size: 1rem; color: var(--text-primary); padding: 1rem; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.5);}
-        .iframe-container { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 1.75rem; margin-top: 1.5rem; }
+        .video-card {
+            background: rgba(0,0,0,0.35); border: 1px solid var(--border);
+            border-radius: var(--radius-sm); overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .video-card:hover { border-color: var(--border-hover); box-shadow: 0 8px 30px rgba(200,162,74,0.1); }
+        .video-card-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.9rem 1.1rem; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.5);
+            gap: 0.75rem;
+        }
+        .video-card-header h3 { font-size: 0.95rem; color: var(--text-primary); margin: 0; flex: 1; line-height: 1.4; }
+        .fullscreen-btn {
+            flex-shrink: 0; background: rgba(200,162,74,0.12); border: 1px solid rgba(200,162,74,0.3);
+            color: var(--gold); border-radius: 6px; padding: 0.4rem 0.7rem; cursor: pointer;
+            font-size: 0.8rem; display: inline-flex; align-items: center; gap: 5px;
+            transition: all 0.25s; white-space: nowrap; font-family: 'DM Sans', sans-serif; font-weight: 600;
+        }
+        .fullscreen-btn:hover { background: rgba(200,162,74,0.25); border-color: var(--gold); color: var(--gold-light); transform: scale(1.04); }
+        .iframe-container { position: relative; padding-bottom: 58%; height: 0; }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        /* ─── VIDEO MODAL ─── */
+        #video-modal {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.92); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center; padding: 1.5rem;
+            animation: modalFadeIn 0.25s ease;
+        }
+        #video-modal.open { display: flex; }
+        @keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-inner {
+            position: relative; width: 100%; max-width: 1200px;
+            background: #0a0c18; border: 1px solid rgba(200,162,74,0.3);
+            border-radius: var(--radius-lg); overflow: hidden;
+            box-shadow: 0 0 80px rgba(200,162,74,0.12), 0 40px 80px rgba(0,0,0,0.8);
+            animation: modalSlideIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes modalSlideIn { from { transform: scale(0.94) translateY(20px); } to { transform: scale(1) translateY(0); } }
+        .modal-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 1.4rem; background: rgba(200,162,74,0.06);
+            border-bottom: 1px solid rgba(200,162,74,0.2);
+        }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold-light); }
+        .modal-close {
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-secondary); border-radius: 8px; width: 36px; height: 36px;
+            cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .modal-close:hover { background: rgba(255,80,80,0.15); border-color: rgba(255,80,80,0.4); color: #fff; }
+        .modal-video-wrap { position: relative; padding-bottom: 56.25%; height: 0; }
+        .modal-video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         /* Resources Links */
         .resources-bar { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
@@ -196,6 +246,7 @@
             .accordion-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
             .acc-icon { align-self: flex-end; margin-top: -30px; }
             .video-grid { grid-template-columns: 1fr; }
+            .fullscreen-btn span { display: none; }
         }
         
         .spinner {
@@ -275,14 +326,24 @@
                 <div class="accordion-content">
                     <div class="video-grid">
                         <div class="video-card">
-                            <h3>Video 1: Advanced Refresher & Models</h3>
+                            <div class="video-card-header">
+                                <h3>Video 1: Advanced Refresher & Models</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
                                 <!-- REPLACE VIDEO_ID_HERE with your Google Drive Video ID -->
-                                <iframe src="https://drive.google.com/file/d/1EzTZJD_ss1MQqnIe9d0RxHZDUq_YkFy3/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/1EzTZJD_ss1MQqnIe9d0RxHZDUq_YkFy3/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="video-card">
-                            <h3>Video 2: Advanced SpaceClaim Features</h3>
+                            <div class="video-card-header">
+                                <h3>Video 2: Advanced SpaceClaim Features</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
                                 <!-- REPLACE VIDEO_ID_HERE with your Google Drive Video ID -->
                                 <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
@@ -312,15 +373,25 @@
                     </div>
                     <div class="video-grid" style="margin-top:0;">
                         <div class="video-card">
-                            <h3>Video 1: Advanced Mesh Methods</h3>
+                            <div class="video-card-header">
+                                <h3>Video 1: Advanced Mesh Methods</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="video-card">
-                            <h3>Video 2: Localized Refinement</h3>
+                            <div class="video-card-header">
+                                <h3>Video 2: Localized Refinement</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -344,15 +415,25 @@
                 <div class="accordion-content">
                     <div class="video-grid">
                         <div class="video-card">
-                            <h3>Video 1: Transient Flow Inputs</h3>
+                            <div class="video-card-header">
+                                <h3>Video 1: Transient Flow Inputs</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="video-card">
-                            <h3>Video 2: Transient Flow Examples</h3>
+                            <div class="video-card-header">
+                                <h3>Video 2: Transient Flow Examples</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -379,15 +460,25 @@
                     </div>
                     <div class="video-grid" style="margin-top:0;">
                         <div class="video-card">
-                            <h3>Video 1: Intro to Thermal Mixing</h3>
+                            <div class="video-card-header">
+                                <h3>Video 1: Intro to Thermal Mixing</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="video-card">
-                            <h3>Video 2: Heat Exchanger Simulation</h3>
+                            <div class="video-card-header">
+                                <h3>Video 2: Heat Exchanger Simulation</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -414,15 +505,25 @@
                     </div>
                     <div class="video-grid" style="margin-top:0;">
                         <div class="video-card">
-                            <h3>Video 1: Multiphase & Dynamic Meshing</h3>
+                            <div class="video-card-header">
+                                <h3>Video 1: Multiphase & Dynamic Meshing</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="video-card">
-                            <h3>Video 2: Intro to UDFs</h3>
+                            <div class="video-card-header">
+                                <h3>Video 2: Intro to UDFs</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -449,15 +550,25 @@
                     </div>
                     <div class="video-grid" style="margin-top:0;">
                         <div class="video-card">
-                            <h3>Video 1: Residuals & Flux Accuracy</h3>
+                            <div class="video-card-header">
+                                <h3>Video 1: Residuals & Flux Accuracy</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="video-card">
-                            <h3>Video 2: Presenting Results Professionally</h3>
+                            <div class="video-card-header">
+                                <h3>Video 2: Presenting Results Professionally</h3>
+                                <button class="fullscreen-btn" onclick="openVideoModal(this)" title="Watch fullscreen">
+                                    <i class="fas fa-expand"></i><span> Fullscreen</span>
+                                </button>
+                            </div>
                             <div class="iframe-container">
-                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay"></iframe>
+                                <iframe src="https://drive.google.com/file/d/VIDEO_ID_HERE/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -475,6 +586,21 @@
     <footer class="footer">
         <p>&copy; 2025 Tattva Yantrika. All rights reserved.</p>
     </footer>
+
+    <!-- FULLSCREEN VIDEO MODAL -->
+    <div id="video-modal" role="dialog" aria-modal="true" aria-label="Video Player">
+        <div class="modal-inner">
+            <div class="modal-header">
+                <span class="modal-title" id="modal-title">Video</span>
+                <button class="modal-close" onclick="closeVideoModal()" title="Close (Esc)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-video-wrap">
+                <iframe id="modal-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Header scroll
@@ -509,6 +635,43 @@
         const courseDashboard = document.getElementById('course-dashboard');
         const logoutBtn = document.getElementById('logoutBtn');
 
+        // --- FULLSCREEN VIDEO MODAL ---
+        const videoModal = document.getElementById('video-modal');
+        const modalIframe = document.getElementById('modal-iframe');
+        const modalTitle = document.getElementById('modal-title');
+
+        function openVideoModal(btn) {
+            const card = btn.closest('.video-card');
+            const iframe = card.querySelector('iframe');
+            const title = card.querySelector('h3').textContent;
+            let src = iframe.src;
+            // Ensure autoplay param is present for modal
+            if (!src.includes('autoplay=1')) {
+                src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+            }
+            modalIframe.src = src;
+            modalTitle.textContent = title;
+            videoModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            videoModal.classList.remove('open');
+            modalIframe.src = ''; // stop video
+            document.body.style.overflow = '';
+        }
+
+        // Close on backdrop click
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) closeVideoModal();
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeVideoModal();
+        });
+
+        // --- AUTH FORM SUBMIT ---
         authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('userEmail').value;
@@ -527,13 +690,12 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Login Success!
-                    // Hide Gate, Show Dashboard
+                    // Login Success! Hide Gate, Show Dashboard
                     loginGate.classList.add('hidden');
                     setTimeout(() => {
                         courseDashboard.classList.add('visible');
-                        logoutBtn.style.display = 'inline-flex'; // show logout
-                    }, 500); // Wait for fade out
+                        logoutBtn.style.display = 'inline-flex';
+                    }, 500);
                 } else {
                     // Login Failed
                     errorMsg.textContent = data.message || "Invalid Email or Password.";
